@@ -1,13 +1,6 @@
-# Static Site Base
+# Space Madness the Board Game the Computer Game
 
-This is the start for my web projects that tend to be static sites. This uses:
-- 11ty to generate static files
-- esbuild to compile JS/TS, and minify
-- light-server to run dev server
-- SCSS rarely ever used outside of imports
-- PostCSS css post processing
--- CSSnano minification
--- Autoprefixer prefixer
+This is a digital version of Space Madness the Board Game that is changed in a couple of way to take advantage of the fact the computer can manage much of the game and setup. There is an attempt at a somewhat unorthadox use of a serverless webRTC on the backend so that you can have up to 5 players online.
 
 ## To Run
 npm install
