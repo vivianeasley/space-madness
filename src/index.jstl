@@ -1,1 +1,7 @@
 <div>This is global data: ${siteData.name}</div>
+<div class="mission-cards-wrapper"></div>
+<div class="seperator"></div>
+<div class="crew-cards-wrapper"></div>
+<div class="phases-ui-wrapper">
+
+</div>

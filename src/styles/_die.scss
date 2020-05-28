@@ -1,0 +1,67 @@
+.view{
+    width:50px;
+    height:50px;
+    margin:10px;
+    perspective:600px;
+    position:absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    }
+    .dice{
+    width:50px;
+    height:50px;
+    position:relative;
+    transform-style:preserve-3d;
+    transition: transform 1s;
+    animation-delay: 2s;
+    }
+    .dice-front-view{
+    transform:rotateY(360deg);
+    }
+    .dice-right-view{
+    transform:rotateY(-90deg);
+    }
+    .dice-back-view{
+    transform:rotateY(180deg);
+    }
+    .dice-left-view{
+    transform:rotateY(90deg);
+    }
+    .dice-top-view{
+    transform:rotateX(-90deg);
+    }
+    .dice-bottom-view{
+    transform:rotateX(90deg);
+    }
+    .diceFace{
+    position:absolute;
+    width:50px;
+    height:50px;
+    line-height:50px;
+    border:2px solid #a00;
+    }
+    .front{
+    background-color:rgba(255,0,0,0.6);
+    transform:rotateY(0deg) translateZ(25px);
+    }
+    .right{
+    background-color:rgba(0,255,0,0.6);
+    transform:rotateY(90deg) translateZ(25px);
+    }
+    .back{
+    background-color:rgba(255,255,0,0.6);
+    transform:rotateY(180deg) translateZ(25px);
+    }
+    .left{
+    background-color:rgba(255,0,255,0.6);
+    transform:rotateY(-90deg) translateZ(25px);
+    }
+    .top{
+    background-color:rgba(0,255,255,0.6);
+    transform:rotateX(90deg) translateZ(25px);
+    }
+    .bottom{
+    background-color:rgba(0,0,255,0.6);
+    transform:rotateX(-90deg) translateZ(25px);
+    }

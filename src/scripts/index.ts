@@ -1,8 +1,23 @@
-import {checkMethods} from './modules/check-methods'
-import {abilityMethods} from './modules/ability-methods'
-import {data} from './modules/data-object'
 
-test(checkMethods)
-function test (checkMethods:object) {
-    console.log("test", checkMethods["lvlOneOver"]([5, 4, 6, 7]))
-}
+import { data } from './modules/data-object'
+import { renderDOM } from "./modules/renderDOM"
+
+
+
+
+renderDOM(data);
+
+
+// Write game loop logic here
+
+
+
+// import {checkMethods} from './modules/check-methods'
+// import {abilityMethods} from './modules/ability-methods'
+
+// test(checkMethods)
+// function test (checkMethods:object) {
+//     console.log("test", checkMethods["lvlOneOver"]([5, 4, 6, 7]));
+
+
+// }

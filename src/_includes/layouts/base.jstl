@@ -9,6 +9,14 @@
   <meta name="description" content="{{ renderData.description or description or metadata.description }}">
   <title>${title}</title>
   <link rel="stylesheet" href="/styles/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    let process = {
+      env: {
+        NODE_ENV: "production"
+      }
+    };
+  </script>
 </head>
 <body id="top" itemscope itemtype="http://schema.org/WebPage">
   ${content}
