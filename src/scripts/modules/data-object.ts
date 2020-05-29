@@ -14,66 +14,127 @@ export const data = {
       }
    },
     // Missions for different parts of the ship
-   "boardState": {
-      "weapons": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlOneOver",
-         "failCheck": "failLvlOne"
+   "missions": {
+      "lvlOne": {
+         "weapons": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "weapons",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlOneOver",
+            "failCheck": "failLvlOne"
+         },
+         "powerCore": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "power-core",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlOneUnder",
+            "failCheck": "failLvlOne"
+         },
+         "dockingBay": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "docking-bay",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlOneNum",
+            "failCheck": "failLvlOne"
+         },
       },
-      "bridge": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlTwoOver",
-         "failCheck": "failLvlTwo"
+      "lvlTwo": {
+         "bridge": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "weapons",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlTwoOver",
+            "failCheck": "failLvlTwo"
+         },
+         "messHall": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "weapons",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlTwoUnder",
+            "failCheck": "failLvlTwo"
+         },
+         "dormintory": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "weapons",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlTwoNum",
+            "failCheck": "failLvlTwo"
+         },
       },
-      "scienceBay": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlThreeOver",
-         "failCheck": "failLvlThree"
-      },
-      "powerCore": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlOneUnder",
-         "failCheck": "failLvlOne"
-      },
-      "messHall": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlTwoUnder",
-         "failCheck": "failLvlTwo"
-      },
-      "medicalBay": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlThreeUnder",
-         "failCheck": "failLvlThree"
-      },
-      "dockingBay": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlOneNum",
-         "failCheck": "failLvlOne"
-      },
-      "dormintory": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlTwoNum",
-         "failCheck": "failLvlTwo"
-      },
-      "engineRoom": {
-         "succeeded": false,
-         "failed": false,
-         "successCheck": "lvlThreeNum",
-         "failCheck": "failLvlThree"
+      "lvlThree": {
+         "scienceBay": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "weapons",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlThreeOver",
+            "failCheck": "failLvlThree"
+         },
+         "medicalBay": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "weapons",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlThreeUnder",
+            "failCheck": "failLvlThree"
+         },
+         "engineRoom": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "weapons",
+            "imgLayerFrame": "rule-greater-than",
+            "imgLayerTarget": undefined,
+            "targetNumber": 6,
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlThreeNum",
+            "failCheck": "failLvlThree"
+         }
       }
    },
    // Crew
    "crew": {
       "mrsRoboto": {
          "die": 1,
+         "rolling": false,
          "name": "Mrs. Roboto",
          "isSelected": false,
          "isActive": true,
@@ -89,6 +150,7 @@ export const data = {
       },
       "ambassadorAldren": {
          "die": 1,
+         "rolling": false,
          "name": "Ambassador Aldren",
          "isSelected": false,
          "isActive": true,
@@ -104,6 +166,7 @@ export const data = {
       },
       "lariLuckybeard": {
          "die": 1,
+         "rolling": false,
          "name": "Lari Luckybeard",
          "isSelected": false,
          "isActive": true,
@@ -119,6 +182,7 @@ export const data = {
       },
       "drJohnJohnson": {
          "die": 1,
+         "rolling": false,
          "name": "Dr. John Johnson",
          "isSelected": false,
          "isActive": true,
@@ -134,6 +198,7 @@ export const data = {
       },
       "subEnsignHammer": {
          "die": 1,
+         "rolling": false,
          "name": "Sub-ensign Hammer",
          "isSelected": false,
          "isActive": true,
@@ -149,6 +214,7 @@ export const data = {
       },
       "eliTheStowaway": {
          "die": 1,
+         "rolling": false,
          "name": "Eli the Stowaway",
          "isSelected": false,
          "isActive": true,
@@ -164,6 +230,7 @@ export const data = {
       },
       "pilotMoxyGoodwhistle": {
          "die": 1,
+         "rolling": false,
          "name": "Pilot Moxy Goodwhistle",
          "isSelected": false,
          "isActive": true,
@@ -179,6 +246,7 @@ export const data = {
       },
       "ltMojo": {
          "die": 1,
+         "rolling": false,
          "name": "Lt. Mojo",
          "isSelected": false,
          "isActive": true,

@@ -20,7 +20,7 @@
 </head>
 <body id="top" itemscope itemtype="http://schema.org/WebPage">
   ${content}
-  ${siteData.name}
+
   <script src="/scripts/index.js"></script>
 </body>
 </html>

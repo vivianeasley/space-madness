@@ -4,20 +4,34 @@ import { die } from './die'
 
 interface StateDataInterface {
     crew: any,
-    boardState: any,
+    missions: {
+        lvlOne:any,
+        lvlTwo:any,
+        lvlThree:any,
+    },
     players: any
  };
 
 export function characterCard (cardData:StateDataInterface, crewId:string) { //dataObject:object
     const { crew } = cardData;
     const crewData = crew[crewId];
+    const iterations = getRandNum(1, 3);
     function select () {
-        // updateState((data:any)=>{data.crew[crewId].isActive = false})
-        updateState((data:any)=>{
-            data.crew[crewId].isActive = !crewData.isActive;
-            data.crew[crewId].die = 5;
-        })
+        updateState((data:any)=>{data.crew[crewId].isSelected = !crewData.isActive})
 
+        //// for testing
+        // updateState((data:any)=>{
+        //     data.crew[crewId].isActive = !crewData.isActive;
+        //     data.crew[crewId].rolling = true;
+        //     data.crew[crewId].die = 5;
+        // })
+
+    }
+
+    function getRandNum(min:number, max:number) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     function getBkgrdImage () {
@@ -29,7 +43,7 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
     }
 
     return html`
-        ${die(crewData.die)}
+        ${ crewData.rolling ? die(crewData.die, iterations) : '' }
         <div class=${crewData.isSelected ? "crew-wrapper crew-selected" : "crew-wrapper"} onclick=${select}>
             <div class=${crewData.isActive ? "crew-wrapper-inner" : "crew-wrapper-inner crew-inactive"}>
                 <div class="crew-front">

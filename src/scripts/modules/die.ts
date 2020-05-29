@@ -1,6 +1,7 @@
 import { html } from 'lighterhtml';
 
-export function die (roll:number) {
+export function die (roll:number, iterations:number) {
+
     const sideDict = {
         1:"dice-front-view",
         2:"dice-right-view",
@@ -10,13 +11,13 @@ export function die (roll:number) {
         6:"dice-bottom-view"
     }
 
-    function sideClass () {
-        return `dice ${sideDict[roll]}`
+    function rollLength () {
+        return `animation-iteration-count: ${iterations};`;
     }
 
     return html`
         <div class="view">
-            <div class=${sideClass()}>
+            <div class="dice ${sideDict[roll]}" style=${rollLength()}>
                 <div class="diceFace front"></div>
                 <div class="diceFace right"></div>
                 <div class="diceFace back"></div>

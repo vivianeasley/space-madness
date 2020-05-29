@@ -1,0 +1,95 @@
+
+.mission-cards-wrapper {
+    text-align: center;
+}
+
+.mission-grid-cell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 350px;
+    height: 239px;
+}
+
+.mission-wrapper {
+    background-color: transparent;
+    width: 350px;
+    height: 239px;
+    position: relative;
+    perspective: 1000px;
+    margin-bottom: 3px;
+    border-radius: 6px;
+    border: 2px solid #000;
+    overflow: hidden;
+}
+
+.mission-selected {
+    opacity: 0.7
+}
+
+.mission-wrapper-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.mission-front,
+.mission-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+}
+
+.mission-front {
+    background-color: red;
+    background-image: linear-gradient(136deg, transparent 25%, #3d3d3d 25%, #3d3d3d 50%, transparent 50%, transparent 75%, #3d3d3d 75%, #3d3d3d 100%);
+    background-size: 57.58px 55.61px;
+}
+
+.mission-back {
+    background-color: #fff;
+    transform: rotateY(180deg);
+    z-index: 10;
+}
+
+.mission-inactive{
+    transform: rotateY(180deg);
+  }
+
+.layer-target-box,
+.mission-target-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.mission-target-num {
+    position: absolute;
+    top: 100px;
+    left: 198px;
+    z-index: 10;
+    font-size: 36px;
+    font-weight: 600;
+    width: 80px;
+    height: 53px;
+}
+
+.mission-bkgrd {
+    opacity: 0.4;
+    transition: opacity 150ms ease-in-out;
+}
+
+.mission-bkgrd:hover {
+    opacity: 1;
+}

@@ -2,6 +2,7 @@
 @import '_base-styles.scss';
 @import '_crew-card.scss';
 @import '_die.scss';
+@import '_mission-card.scss';
 
 $var: white;
 
@@ -16,4 +17,12 @@ body {
 .seperator {
   border: 1px solid #f1f1f1;
   margin: 10px 15px;
+}
+
+.level-one-column {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 350px;
+  height: 279px;
 }
