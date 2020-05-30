@@ -9,7 +9,8 @@ interface StateDataInterface {
         lvlTwo:any,
         lvlThree:any,
     },
-    players: any
+    gameUiData:any,
+    player:string
  };
 
 export function characterCard (cardData:StateDataInterface, crewId:string) { //dataObject:object
@@ -17,14 +18,14 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
     const crewData = crew[crewId];
     const iterations = getRandNum(1, 3);
     function select () {
-        updateState((data:any)=>{data.crew[crewId].isSelected = !crewData.isActive})
+        // updateState((data:any)=>{data.crew[crewId].isSelected = !crewData.isActive})
 
         //// for testing
-        // updateState((data:any)=>{
-        //     data.crew[crewId].isActive = !crewData.isActive;
-        //     data.crew[crewId].rolling = true;
-        //     data.crew[crewId].die = 5;
-        // })
+        updateState((data:any)=>{
+            data.crew[crewId].isActive = !crewData.isActive;
+            data.crew[crewId].rolling = true;
+            data.crew[crewId].die = 5;
+        })
 
     }
 

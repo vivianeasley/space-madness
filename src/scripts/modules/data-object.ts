@@ -1,17 +1,39 @@
 export const data = {
    // Players
-   "players": {
-      "active": 0,
+   "player": "Anonymous",
+   "gameUiData": {
+      "phaseChange": true,
+      "phase": 0,
+      "activeTurn": 0,
       "turnOrder": [
-         "robert"
+         "Anonymous"
       ],
-      "activeAbility": 0,
-      "turnOrderAbility": [
-         "robert"
+      "crewWithAbilities":[],
+      "currentCrewAbility": undefined,
+      "characterAbilities": {
+         "mrsRoboto": "",
+         "ambassadorAldren": "",
+         "lariLuckybeard": "",
+         "drJohnJohnson": "",
+         "subEnsignHammer": "",
+         "eliTheStowaway": "",
+         "pilotMoxyGoodwhistle": "",
+         "ltMojo": ""
+      },
+      "helpText": [
+         "Click on a mission card at the top of the page and then click the submit button in the bottom right.",
+         "Click on a crew card and then click the submit button in the bottom right.",
+         "To apply %%'s ability to a dice roll, click the die you would like to change and then click submit. You may also skip using this ability by clicking the skip button",
       ],
-      "robert": {
-         "crew": "mrsroboto"
+      "directions": [
+         "Choose a mission to attempt",
+         "Choose crew to attempt the mission",
+         "Apply ability to a crew's die",
+      ],
+      "players": {
+         "Anonymous": "mrsroboto"
       }
+
    },
     // Missions for different parts of the ship
    "missions": {
@@ -22,10 +44,11 @@ export const data = {
             "imgBkgrd": "weapons",
             "imgLayerFrame": "rule-greater-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 6,
+            "targetNumber": 15,
+            "targetRuleText": "Roll total greater than 15",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlOneOver",
+            "successCheck": "lvlThreeOver",
             "failCheck": "failLvlOne"
          },
          "powerCore": {
@@ -34,10 +57,11 @@ export const data = {
             "imgBkgrd": "power-core",
             "imgLayerFrame": "rule-greater-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 6,
+            "targetNumber": 10,
+            "targetRuleText": "Roll total greater than 10",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlOneUnder",
+            "successCheck": "lvlTwoOver",
             "failCheck": "failLvlOne"
          },
          "dockingBay": {
@@ -46,21 +70,64 @@ export const data = {
             "imgBkgrd": "docking-bay",
             "imgLayerFrame": "rule-greater-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 6,
+            "targetNumber": 5,
+            "targetRuleText": "Roll total greater than 5",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlOneNum",
+            "successCheck": "lvlOneOver",
             "failCheck": "failLvlOne"
          },
       },
       "lvlTwo": {
+         "scienceBay": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "science-bay",
+            "imgLayerFrame": "rule-roll-exactly",
+            "imgLayerTarget": "die-roll-one-two-three",
+            "targetNumber": undefined,
+            "targetRuleText": "Roll a 1, 2, and 3",
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlTwoOver",
+            "failCheck": "failLvlTwo"
+         },
+         "medicalBay": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "medical-bay",
+            "imgLayerFrame": "rule-roll-exactly",
+            "imgLayerTarget": "die-roll-four-five",
+            "targetNumber": undefined,
+            "targetRuleText": "Roll a 4, and 5",
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlTwoUnder",
+            "failCheck": "failLvlTwo"
+         },
+         "engineRoom": {
+            "isSelected": false,
+            "succeeded": false,
+            "imgBkgrd": "engine-room",
+            "imgLayerFrame": "rule-roll-exactly",
+            "imgLayerTarget": "die-roll-six",
+            "targetNumber": undefined,
+            "targetRuleText": "Roll a 6",
+            "imgBack": "die-roll-two-same",
+            "failed": false,
+            "successCheck": "lvlTwoNum",
+            "failCheck": "failLvlTwo"
+         }
+      },
+      "lvlThree": {
          "bridge": {
             "isSelected": false,
             "succeeded": false,
-            "imgBkgrd": "weapons",
-            "imgLayerFrame": "rule-greater-than",
+            "imgBkgrd": "bridge",
+            "imgLayerFrame": "rule-less-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 6,
+            "targetNumber": 4,
+            "targetRuleText": "Roll total less than 4",
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlTwoOver",
@@ -69,65 +136,29 @@ export const data = {
          "messHall": {
             "isSelected": false,
             "succeeded": false,
-            "imgBkgrd": "weapons",
-            "imgLayerFrame": "rule-greater-than",
+            "imgBkgrd": "mess-hall",
+            "imgLayerFrame": "rule-less-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 6,
+            "targetNumber": 7,
+            "targetRuleText": "Roll total less than 7",
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlTwoUnder",
             "failCheck": "failLvlTwo"
          },
-         "dormintory": {
+         "dormitory": {
             "isSelected": false,
             "succeeded": false,
-            "imgBkgrd": "weapons",
-            "imgLayerFrame": "rule-greater-than",
+            "imgBkgrd": "dormitory",
+            "imgLayerFrame": "rule-less-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 6,
+            "targetNumber": 10,
+            "targetRuleText": "Roll total less than 10",
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlTwoNum",
             "failCheck": "failLvlTwo"
          },
-      },
-      "lvlThree": {
-         "scienceBay": {
-            "isSelected": false,
-            "succeeded": false,
-            "imgBkgrd": "weapons",
-            "imgLayerFrame": "rule-greater-than",
-            "imgLayerTarget": undefined,
-            "targetNumber": 6,
-            "imgBack": "die-roll-two-same",
-            "failed": false,
-            "successCheck": "lvlThreeOver",
-            "failCheck": "failLvlThree"
-         },
-         "medicalBay": {
-            "isSelected": false,
-            "succeeded": false,
-            "imgBkgrd": "weapons",
-            "imgLayerFrame": "rule-greater-than",
-            "imgLayerTarget": undefined,
-            "targetNumber": 6,
-            "imgBack": "die-roll-two-same",
-            "failed": false,
-            "successCheck": "lvlThreeUnder",
-            "failCheck": "failLvlThree"
-         },
-         "engineRoom": {
-            "isSelected": false,
-            "succeeded": false,
-            "imgBkgrd": "weapons",
-            "imgLayerFrame": "rule-greater-than",
-            "imgLayerTarget": undefined,
-            "targetNumber": 6,
-            "imgBack": "die-roll-two-same",
-            "failed": false,
-            "successCheck": "lvlThreeNum",
-            "failCheck": "failLvlThree"
-         }
       }
    },
    // Crew

@@ -1,0 +1,55 @@
+.phases-wrapper {
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: grey;
+    padding: 10px 15px;
+    transition: transform 150ms ease-in;
+    border-top: 2px solid #FFFFFF
+}
+
+.phases-direction-text {
+    display: inline-block;
+    vertical-align: top;
+    color: #FFFFFF;
+}
+
+.phases-ui {
+    float: right;
+}
+
+.phases-tooltip-wrapper {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 2rem;
+    margin-right: 5px;
+}
+
+.tooltips {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltips span {
+    position: absolute;
+    width: 400px;
+    color: #000000;
+    background: #FFFFFF;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 6px;
+    padding: 10px 15px;
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+    line-height: 1.5rem;
+}
+
+.tooltips:hover span {
+    visibility: visible;
+    bottom: 30px;
+    margin-left: -30px;
+    z-index: 20;
+    opacity: 1;
+}

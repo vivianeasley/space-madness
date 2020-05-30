@@ -1,7 +1,6 @@
-<div>This is global data: ${siteData.name}</div>
+<div class="section-title">Missions:</div>
 <div class="mission-cards-wrapper"></div>
 <div class="seperator"></div>
+<div class="section-title">Crew:</div>
 <div class="crew-cards-wrapper"></div>
-<div class="phases-ui-wrapper">
-
-</div>
+<div class="phases-wrapper"></div>

@@ -8,7 +8,8 @@ interface StateDataInterface {
         lvlTwo:any,
         lvlThree:any,
     },
-    players: any
+    gameUiData:any,
+    player:string
  };
 
 export function missionCard (cardData:StateDataInterface, missionId:string, level:string) { //dataObject:object
@@ -17,7 +18,7 @@ export function missionCard (cardData:StateDataInterface, missionId:string, leve
 
     function select () {
         // updateState((data:any)=>{data.missions[level][missionId].isSelected = !missionData.isSelected})
-        updateState((data:any)=>{data.missions[level][missionId].failed = true})
+        updateState((data:any)=>{data.missions[level][missionId].succeeded = true})
 
         //// for testing
         // updateState((data:any)=>{
@@ -46,11 +47,13 @@ export function missionCard (cardData:StateDataInterface, missionId:string, leve
         <div class=${missionData.isSelected ? "mission-wrapper mission-selected" : "mission-wrapper"} onclick=${select}>
             <div class=${missionData.failed ? "mission-wrapper-inner" : "mission-wrapper-inner mission-inactive"}>
                 <div class="mission-back">
+                    <div class="mission-target-rule-text">Mission: ${missionData.targetRuleText}</div>
                     <img class="mission-bkgrd" src=${getBkgrdImage()} alt="">
                     <img class="layer-target-box" src=${getTargetFrame()} alt="">
                     ${getTarget()}
                 </div>
                 <div class="mission-front">
+                    <div class="mission-target-rule-text">Salvage: Roll two of a kind</div>
                     <img class="mission-bkgrd" src=${getBkgrdImage()} alt="">
                     <img class="layer-target-box" src="./images/missions/layer/rule-roll-exactly.png" alt="">
                     <img class="mission-target-img" src="./images/missions/layer/die-roll-two-same.png" alt="">
