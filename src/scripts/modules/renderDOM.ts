@@ -13,10 +13,10 @@ const phases = document.querySelector(".phases-wrapper");
 export function renderDOM (state:any) {
     const { crew, missions, gameUiData, player } = state;
     const { lvlOne, lvlTwo, lvlThree } = missions;
-    const { phase, activeTurn, turnOrder, directions, phaseChange } = gameUiData;
+    const { phase, activeTurn, turnOrder, directions, phaseChange, selectedCrew, currentCrewAbilityIndex } = gameUiData;
 
     render(missionCards, html`
-        <div class="level-column">
+        <div class=${ !isColumnEmptyCheck(lvlOne) ? "level-column" : "re-display-none"}>
             ${Object.keys(lvlOne).map((missionId, i) => {
                 if (lvlOne[missionId].succeeded) return html`<span></span>`;
                 return html`
@@ -43,9 +43,12 @@ export function renderDOM (state:any) {
        <div class="crew-grid-cell" data-i=${i}>${characterCard(state, crewId)}</div>
     `)}`);
 
-    if (phaseChange) {
-        render(phases, html`${phasesUi(state)}`);
 
+    render(phases, html`${phasesUi(state)}`);
+
+    // if (phaseChange) {
+
+    // if mojo have special text
         let directionsText = "Not currently your turn. Relax. Sit a spell.";
         if (turnOrder[activeTurn] === player) {
             directionsText = directions[phase];
@@ -53,18 +56,22 @@ export function renderDOM (state:any) {
 
         setTimeout(() => {
             new Typewriter(".phases-direction-text" , {
-                strings: directionsText,
-                delay: 50,
+                strings: directionsText.replace("%%", selectedCrew[currentCrewAbilityIndex]),
+                delay: 20,
                 autoStart: true,
                 });
         }, 1000);
 
-        updateState((state:any)=>{state.gameUiData.phaseChange = false}, false)
-    }
+    //     updateState((state:any)=>{state.gameUiData.phaseChange = false}, false)
+    // }
 
-
-
-
-
+    function isColumnEmptyCheck (lvlData:any) {
+        for (const prop in lvlData) {
+             if (lvlData[prop].succeeded === false) {
+                 return false;
+             }
+        }
+        return true;
+     }
 
 }

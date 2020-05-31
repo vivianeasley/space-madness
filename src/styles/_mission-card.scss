@@ -48,19 +48,19 @@
 }
 
 .mission-front {
-    background-color: red;
-    background-image: linear-gradient(136deg, transparent 25%, #3d3d3d 25%, #3d3d3d 50%, transparent 50%, transparent 75%, #3d3d3d 75%, #3d3d3d 100%);
-    background-size: 57.58px 55.61px;
+    background-color: #fff;
 }
 
 .mission-back {
-    background-color: #fff;
+    background-color: red;
     transform: rotateY(180deg);
     z-index: 10;
 }
 
-.mission-inactive{
+.mission-failed{
     transform: rotateY(180deg);
+    background-image: linear-gradient(136deg, transparent 25%, #3d3d3d 25%, #3d3d3d 50%, transparent 50%, transparent 75%, #3d3d3d 75%, #3d3d3d 100%);
+    background-size: 57.58px 55.61px;
   }
 
 .layer-target-box,

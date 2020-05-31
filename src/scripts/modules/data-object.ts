@@ -8,8 +8,12 @@ export const data = {
       "turnOrder": [
          "Anonymous"
       ],
-      "crewWithAbilities":[],
-      "currentCrewAbility": undefined,
+      "selectedDice": [],
+      "selectedCrew": [],
+      "selectedMissionLvl": undefined,
+      "selectedMissionId": undefined,
+      "currentCrewAbilityIndex": 0,
+      "mojoAbility": undefined,
       "characterAbilities": {
          "mrsRoboto": "",
          "ambassadorAldren": "",
@@ -28,7 +32,7 @@ export const data = {
       "directions": [
          "Choose a mission to attempt",
          "Choose crew to attempt the mission",
-         "Apply ability to a crew's die",
+         "Apply %%'s ability to a crew's die?",
       ],
       "players": {
          "Anonymous": "mrsroboto"
@@ -186,7 +190,7 @@ export const data = {
          "isSelected": false,
          "isActive": true,
          "abilityText": "Reroll any two die",
-         "ability": "rerollAll",
+         "ability": "rerollTwo",
          "drivesThemCrazy": [],
          "img": "ambassador-alden",
          "traits": [

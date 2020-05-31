@@ -3,7 +3,7 @@ import { data } from './modules/data-object'
 import { renderDOM } from "./modules/renderDOM"
 
 
-
+// set all triggers randomly
 
 renderDOM(data);
 

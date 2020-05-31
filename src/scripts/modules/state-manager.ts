@@ -2,7 +2,7 @@ import {data} from './data-object'
 import { produce } from "immer"
 import { renderDOM } from "./renderDOM"
 
-let lastState = [];
+export let lastState = [];
 lastState.push(data);
 
 export function updateState (updateFucnt:any, skipRender?:boolean) {

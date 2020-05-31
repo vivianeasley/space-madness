@@ -1,5 +1,7 @@
 import { html, svg } from 'lighterhtml';
 import { updateState } from './state-manager';
+import { abilityMethods } from './ability-methods';
+import { checkMethods } from './check-methods';
 
 interface StateDataInterface {
     crew: any,
@@ -15,11 +17,21 @@ interface StateDataInterface {
 
 export function phasesUi (stateData:StateDataInterface) {
     const { gameUiData } = stateData;
-    const { phase, helpText } = gameUiData;
+    const { phase,
+        helpText,
+        selectedCrew,
+        currentCrewAbilityIndex,
+        selectedMissionLvl,
+        selectedMissionId } = gameUiData;
+
+
 
     // set up selecting
     // remove disabled
     // prevent double click
+
+    // on crew submit generate chosen crew array & crew ability array under gameUI dat
+
     // start main game logic
     // add rules modal
     // fix mission selection bugs
@@ -28,18 +40,19 @@ export function phasesUi (stateData:StateDataInterface) {
 
     function submitButtons () {
         if (phase === 0) {
+            // if undefined
             return html`
             <div class="phases-ui">
-                <button disabled>Submit Mission</button>
+                <button onclick=${getMissionSubmit} >Submit Mission</button>
             </div>
             `
         } else if (phase === 1) {
             return html`
             <div class="phases-ui">
-                <button>Submit Crew</button>
+                <button onclick=${getCrewSubmit}>Submit Crew</button>
             </div>
             `
-        } else if (phase === 1) {
+        } else if (phase === 2) {
             return html`
             <div class="phases-ui">
                 <button>Skip</button>
@@ -53,14 +66,47 @@ export function phasesUi (stateData:StateDataInterface) {
     }
 
     function getMissionSubmit () {
-
+        if (selectedMissionLvl && selectedMissionId) {
+            updateState((data:any)=>{
+                data.gameUiData.phase++;
+                data.gameUiData.phaseChange = true;
+            });
+        } else {
+            alert("You must choose a least 1 mission card");
+        }
     }
 
     function getCrewSubmit () {
+        if (selectedCrew.length > 0) {
 
+            updateState((data:any)=>{
+                data.gameUiData.phase++;
+                data.gameUiData.phaseChange = true;
+                for (let i = 0; i < data.gameUiData.selectedCrew.length; i++) {
+                    data.crew[data.gameUiData.selectedCrew[i]].rolling = true;
+                    data.crew[data.gameUiData.selectedCrew[i]].die = (Math.floor(Math.random() * (6 - 1)) + 1);
+                }
+            });
+
+        } else {
+            alert("You must choose a least 3 crew to complete a mission");
+        }
     }
 
-    function getAbilityTarget () {
+    function useAbility () {
+
+        if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ltMojo") {
+            if (gameUiData.mojoAbility === undefined) {
+                alert("You must choose another crew member for mojo's ability");
+                return;
+            }
+            updateState((data:any)=>{data.gameUiData.currentCrewAbilityIndex++;});
+            return;
+        }
+
+        // use ability on selected die
+        // update numbers and currentCrewAbilityIndex on state
+
 
     }
 
@@ -70,7 +116,7 @@ export function phasesUi (stateData:StateDataInterface) {
 
     return html`
         <div class="phases-tooltip-wrapper">
-            <div class="tooltips">${helpIcon()}<span>${helpText[phase]} Need more help? Read the rules</span></div>
+            <div class="tooltips">${helpIcon()}<span>${helpText[phase].replace("%%", selectedCrew[currentCrewAbilityIndex])} Need more help? Read the rules</span></div>
         </div>
         <div class="phases-direction-text">
 

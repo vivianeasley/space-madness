@@ -12,49 +12,45 @@ interface StateDataInterface {
     player:string
  };
 
-export function missionCard (cardData:StateDataInterface, missionId:string, level:string) { //dataObject:object
-    const { missions } = cardData;
+export function missionCard (cardData:StateDataInterface, missionId:string, level:string) {
+    const { missions, gameUiData } = cardData;
     const missionData = missions[level][missionId];
+    const cardKeysArr =  Object.keys(missions[level]);
 
     function select () {
-        // updateState((data:any)=>{data.missions[level][missionId].isSelected = !missionData.isSelected})
-        updateState((data:any)=>{data.missions[level][missionId].succeeded = true})
-
-        //// for testing
-        // updateState((data:any)=>{
-        //     data.crew[missionId].isActive = !missionData.isActive;
-        //     data.crew[missionId].rolling = true;
-        //     data.crew[missionId].die = 5;
-        // })
-
-    }
-
-    function getBkgrdImage () {
-        return `./images/missions/bkgrd/${missionData.imgBkgrd}.jpg`;
-    }
-
-    function getTargetFrame () {
-        return `./images/missions/layer/${missionData.imgLayerFrame}.png`
+        if (gameUiData.phase === 0 && cardKeysArr[cardKeysArr.length - 1] === missionId) {
+            updateState((data:any)=>{
+                data.gameUiData.selectedMissionLvl = level;
+                data.gameUiData.selectedMissionId = missionId;
+            })
+        }
     }
 
     function getTarget () {
         if (missionData.imgLayerTarget) return html`<img class="mission-target-img" src="./images/missions/layer/${missionData.imgLayerTarget}.png" alt="">`;
         return html`<div class="mission-target-num">${missionData.targetNumber}<div>`;
+    }
 
+    function getSelectedBanner () {
+        if (missionId === gameUiData.selectedMissionId) {
+            return html`<div class="card-selected">SELECTED</div>`;
+        }
     }
 
     return html`
-        <div class=${missionData.isSelected ? "mission-wrapper mission-selected" : "mission-wrapper"} onclick=${select}>
-            <div class=${missionData.failed ? "mission-wrapper-inner" : "mission-wrapper-inner mission-inactive"}>
-                <div class="mission-back">
+        <div class="mission-wrapper" onclick=${select}>
+            <div class=${!missionData.failed ? "mission-wrapper-inner" : "mission-wrapper-inner mission-failed"}>
+                <div class="mission-front">
+                    ${getSelectedBanner()}
                     <div class="mission-target-rule-text">Mission: ${missionData.targetRuleText}</div>
-                    <img class="mission-bkgrd" src=${getBkgrdImage()} alt="">
-                    <img class="layer-target-box" src=${getTargetFrame()} alt="">
+                    <img class=${ cardKeysArr[cardKeysArr.length - 1] === missionId ? "mission-bkgrd" : ""} src="./images/missions/bkgrd/${missionData.imgBkgrd}.jpg" alt="">
+                    <img class="layer-target-box" src="./images/missions/layer/${missionData.imgLayerFrame}.png" alt="">
                     ${getTarget()}
                 </div>
-                <div class="mission-front">
+                <div class="mission-back">
+                    ${getSelectedBanner()}
                     <div class="mission-target-rule-text">Salvage: Roll two of a kind</div>
-                    <img class="mission-bkgrd" src=${getBkgrdImage()} alt="">
+                    <img class=${ cardKeysArr[cardKeysArr.length - 1] === missionId ? "mission-bkgrd" : ""} src="./images/missions/bkgrd/${missionData.imgBkgrd}.jpg" alt="">
                     <img class="layer-target-box" src="./images/missions/layer/rule-roll-exactly.png" alt="">
                     <img class="mission-target-img" src="./images/missions/layer/die-roll-two-same.png" alt="">
                 </div>

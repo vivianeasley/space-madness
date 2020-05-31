@@ -32,3 +32,17 @@ body {
   width: 350px;
   height: 279px;
 }
+
+.card-selected {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background-color: #1f00b3;
+  z-index: 10;
+  pointer-events: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+}

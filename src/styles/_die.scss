@@ -1,81 +1,101 @@
-.view{
-    width:50px;
-    height:50px;
-    margin:10px;
-    perspective:600px;
-    position:absolute;
+.view {
+    width: 70px;
+    height: 70px;
+    margin: 10px;
+    perspective: 600px;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 50;
-    }
-    .dice{
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.selected-die {
+    background: rgb(216, 216, 0);
+}
+
+.dice {
     width:50px;
     height:50px;
     position:relative;
     transform-style:preserve-3d;
     animation-iteration-count: 2;
-    }
-    .dice-front-view{
+}
+
+.dice-front-view {
     animation: spin 1.6s linear;
     transform:rotateY(360deg);
-    }
-    .dice-right-view{
+}
+
+.dice-right-view {
     animation: spin 1.6s linear;
     transform:rotateY(-90deg);
-    }
-    .dice-back-view{
+}
+
+.dice-back-view {
     animation: spin 1.6s linear;
     transform:rotateY(180deg);
-    }
-    .dice-left-view{
+}
+
+.dice-left-view {
     animation: spin 1.6s linear;
     transform:rotateY(90deg);
-    }
-    .dice-top-view{
+}
+
+.dice-top-view {
     animation: spin 1.6s linear;
     transform:rotateX(-90deg);
-    }
-    .dice-bottom-view{
+}
+
+.dice-bottom-view {
     animation: spin 1.6s linear;
     transform:rotateX(90deg);
-    }
-    .diceFace{
+}
+
+.diceFace {
     position:absolute;
     width:50px;
     height:50px;
     line-height:50px;
-    }
-    .front{
+}
+
+.front {
     background-image: url("../images/die/one.png");
     transform:rotateY(0deg) translateZ(25px);
-    }
-    .right{
+}
+
+.right {
     background-image: url("../images/die/two.png");
     transform:rotateY(90deg) translateZ(25px);
-    }
-    .back{
+}
+
+.back {
         background-image: url("../images/die/three.png");
     transform:rotateY(180deg) translateZ(25px);
-    }
-    .left{
+}
+
+.left {
     background-image: url("../images/die/four.png");
     transform:rotateY(-90deg) translateZ(25px);
-    }
-    .top{
+}
+
+.top {
     background-image: url("../images/die/five.png");
     transform:rotateX(90deg) translateZ(25px);
-    }
-    .bottom{
+}
+
+.bottom {
     background-image: url("../images/die/six.png");
     transform:rotateX(-90deg) translateZ(25px);
-    }
+}
 
-    @keyframes spin {
-        0% { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-        16% { transform: translateZ(-100px) rotateX(180deg) rotateY(180deg) rotateZ(0deg); }
-        33% { transform: translateZ(-100px) rotateX(360deg) rotateY(90deg) rotateZ(180deg); }
-        50% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-        66% { transform: translateZ(-100px) rotateX(180deg) rotateY(360deg) rotateZ(270deg); }
-        83% { transform: translateZ(-100px) rotateX(270deg) rotateY(180deg) rotateZ(180deg); }
-        100% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-    }
+@keyframes spin {
+    0% { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    16% { transform: translateZ(-100px) rotateX(180deg) rotateY(180deg) rotateZ(0deg); }
+    33% { transform: translateZ(-100px) rotateX(360deg) rotateY(90deg) rotateZ(180deg); }
+    50% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+    66% { transform: translateZ(-100px) rotateX(180deg) rotateY(360deg) rotateZ(270deg); }
+    83% { transform: translateZ(-100px) rotateX(270deg) rotateY(180deg) rotateZ(180deg); }
+    100% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}

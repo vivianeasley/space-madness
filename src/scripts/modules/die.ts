@@ -1,6 +1,6 @@
 import { html } from 'lighterhtml';
 
-export function die (roll:number, iterations:number) {
+export function die (roll:number, iterations:number, selected:boolean) {
 
     const sideDict = {
         1:"dice-front-view",
@@ -16,7 +16,7 @@ export function die (roll:number, iterations:number) {
     }
 
     return html`
-        <div class="view">
+        <div class=${selected ? "view selected-die" : "view"}>
             <div class="dice ${sideDict[roll]}" style=${rollLength()}>
                 <div class="diceFace front"></div>
                 <div class="diceFace right"></div>
