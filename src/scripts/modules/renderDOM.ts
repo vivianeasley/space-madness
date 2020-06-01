@@ -3,7 +3,7 @@ import { missionCard } from './mission-card';
 import { phasesUi } from './phases-ui';
 import { render, html } from 'lighterhtml';
 import Typewriter from 'typewriter-effect/dist/core';
-import { updateState } from './state-manager'
+
 
 
 const crewCards = document.querySelector(".crew-cards-wrapper");
@@ -48,10 +48,13 @@ export function renderDOM (state:any) {
 
     // if (phaseChange) {
 
-    // if mojo have special text
+    // if mojo have special
         let directionsText = "Not currently your turn. Relax. Sit a spell.";
         if (turnOrder[activeTurn] === player) {
             directionsText = directions[phase];
+        }
+        if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
+            directionsText = "Choose a crew for Mojo to copy their ability";
         }
 
         setTimeout(() => {

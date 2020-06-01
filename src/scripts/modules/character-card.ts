@@ -26,14 +26,13 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
                     data.gameUiData.selectedCrew.splice(data.gameUiData.selectedCrew.indexOf(crewId), 1);
                     data.crew[crewId].isSelected = false;
                 } else {
-                    data.gameUiData.selectedCrew.push(crewId); // manage toggle
+                    data.gameUiData.selectedCrew.push(crewId);
                     data.crew[crewId].isSelected = true;
                 }
 
             })
-        }
+        } else if (gameUiData.phase === 3) {
 
-        if (gameUiData.phase === 2) {
             if (gameUiData.selectedDice.includes(crewId)) {
                 updateState((data:any)=>{
                     data.gameUiData.selectedDice.splice(data.gameUiData.selectedDice.indexOf(crewId), 1);
@@ -41,31 +40,20 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
             } else {
                 if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ambassadorAldren" &&
                 gameUiData.selectedCrew.length < 2) {
+                    console.log("aldren")
                     updateState((data:any)=>{data.gameUiData.selectedDice.push(crewId);})
                 } else if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ltMojo") {
-                    // needs to handle changing of ability
-                    if (!gameUiData.mojoAbility) {
-                        updateState((data:any)=>{
-                            data.gameUiData.mojoAbility = crewId;
-                            data.gameUiData.selectedCrew.push(crewId); // only do this submit
-                        })
+                    console.log("mojo")
+                    updateState((data:any)=>{
+                        data.gameUiData.mojoAbility = crewId;
+                    })
 
-                    } else {
-                        updateState((data:any)=>{data.gameUiData.selectedDice.push(crewId);})
-                    }
                 } else {
+                    console.log("all other")
                     updateState((data:any)=>{data.gameUiData.selectedDice.push(crewId);})
                 }
             }
         }
-
-        //// for testing
-        // updateState((data:any)=>{
-        //     data.crew[crewId].isActive = !crewData.isActive;
-        //     data.crew[crewId].rolling = true;
-        //     data.crew[crewId].die = 5;
-        // })
-
     }
 
     function getSelectedBanner () {

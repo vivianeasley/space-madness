@@ -13,6 +13,7 @@ interface StateDataInterface {
  };
 
 export function missionCard (cardData:StateDataInterface, missionId:string, level:string) {
+
     const { missions, gameUiData } = cardData;
     const missionData = missions[level][missionId];
     const cardKeysArr =  Object.keys(missions[level]);

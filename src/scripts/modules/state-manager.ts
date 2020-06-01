@@ -10,6 +10,7 @@ export function updateState (updateFucnt:any, skipRender?:boolean) {
     if (!skipRender) {
         renderDOM(nextState);
     }
+    console.log(lastState)
     lastState.push(nextState);
     return true;
 }

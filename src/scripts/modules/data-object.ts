@@ -14,25 +14,19 @@ export const data = {
       "selectedMissionId": undefined,
       "currentCrewAbilityIndex": 0,
       "mojoAbility": undefined,
-      "characterAbilities": {
-         "mrsRoboto": "",
-         "ambassadorAldren": "",
-         "lariLuckybeard": "",
-         "drJohnJohnson": "",
-         "subEnsignHammer": "",
-         "eliTheStowaway": "",
-         "pilotMoxyGoodwhistle": "",
-         "ltMojo": ""
-      },
       "helpText": [
          "Click on a mission card at the top of the page and then click the submit button in the bottom right.",
          "Click on a crew card and then click the submit button in the bottom right.",
+         "Wait a second, dice are rolling",
          "To apply %%'s ability to a dice roll, click the die you would like to change and then click submit. You may also skip using this ability by clicking the skip button",
+         "Wait for game to manage prep for next round"
       ],
       "directions": [
          "Choose a mission to attempt",
          "Choose crew to attempt the mission",
+         "Rolling...",
          "Apply %%'s ability to a crew's die?",
+         "Clean up phase..."
       ],
       "players": {
          "Anonymous": "mrsroboto"
@@ -140,13 +134,13 @@ export const data = {
          "messHall": {
             "isSelected": false,
             "succeeded": false,
+            "failed": false,
             "imgBkgrd": "mess-hall",
             "imgLayerFrame": "rule-less-than",
             "imgLayerTarget": undefined,
             "targetNumber": 7,
             "targetRuleText": "Roll total less than 7",
             "imgBack": "die-roll-two-same",
-            "failed": false,
             "successCheck": "lvlTwoUnder",
             "failCheck": "failLvlTwo"
          },

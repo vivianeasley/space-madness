@@ -16,7 +16,7 @@ interface StateDataInterface {
 
 
 export function phasesUi (stateData:StateDataInterface) {
-    const { gameUiData } = stateData;
+    const { gameUiData, crew, missions } = stateData;
     const { phase,
         helpText,
         selectedCrew,
@@ -52,15 +52,15 @@ export function phasesUi (stateData:StateDataInterface) {
                 <button onclick=${getCrewSubmit}>Submit Crew</button>
             </div>
             `
-        } else if (phase === 2) {
+        } else if (phase === 3) {
             return html`
             <div class="phases-ui">
-                <button>Skip</button>
-                <button>Apply</button>
+                <button onclick=${skipAbilityTarget}>Skip</button>
+                <button onclick=${useAbility}>Apply</button>
             </div>
             `
         } else {
-            console.log("Phase number wrong", phase)
+            console.log("too many phases")
         }
 
     }
@@ -69,7 +69,6 @@ export function phasesUi (stateData:StateDataInterface) {
         if (selectedMissionLvl && selectedMissionId) {
             updateState((data:any)=>{
                 data.gameUiData.phase++;
-                data.gameUiData.phaseChange = true;
             });
         } else {
             alert("You must choose a least 1 mission card");
@@ -77,41 +76,197 @@ export function phasesUi (stateData:StateDataInterface) {
     }
 
     function getCrewSubmit () {
-        if (selectedCrew.length > 0) {
-
+        if (selectedCrew.length > 2) {
+            // must do a wait while rolling and then isMissionSucceeded() then move up a phase
             updateState((data:any)=>{
                 data.gameUiData.phase++;
-                data.gameUiData.phaseChange = true;
                 for (let i = 0; i < data.gameUiData.selectedCrew.length; i++) {
                     data.crew[data.gameUiData.selectedCrew[i]].rolling = true;
                     data.crew[data.gameUiData.selectedCrew[i]].die = (Math.floor(Math.random() * (6 - 1)) + 1);
                 }
             });
 
+            setTimeout(() => {
+                if (isMissionSucceeded()) {
+                    beginCleanUpPhase();
+                } else {
+                    updateState((data:any)=>{
+                        data.gameUiData.phase++;
+                    });
+                }
+
+            }, 2000);
         } else {
             alert("You must choose a least 3 crew to complete a mission");
         }
     }
 
     function useAbility () {
+        // if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex]) {
+        //     console.log("Error")
+        //     return
+        // }
 
         if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ltMojo") {
-            if (gameUiData.mojoAbility === undefined) {
+            if (!gameUiData.mojoAbility) {
                 alert("You must choose another crew member for mojo's ability");
-                return;
+            } else {
+                if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex + 1]) {
+                    console.log("cleanup phase")
+                    beginCleanUpPhase();
+                } else {
+                    updateState((data:any)=>{
+                        data.gameUiData.selectedCrew.push(gameUiData.mojoAbility);
+                        data.gameUiData.currentCrewAbilityIndex++;
+                        data.gameUiData.selectedDice = [];
+                    });
+                }
             }
-            updateState((data:any)=>{data.gameUiData.currentCrewAbilityIndex++;});
             return;
         }
 
-        // use ability on selected die
-        // update numbers and currentCrewAbilityIndex on state
+        if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ambassadorAldren") {
+            if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex + 1]) {
+                console.log("cleanup phase")
+                beginCleanUpPhase();
+            } else {
+                updateState((data:any)=>{
+                    for (let j = 0; j < data.gameUiData.selectedDice.length; j++) {
+                        data.crew[data.gameUiData.selectedDice[j]].die = Math.floor(Math.random() * (6 - 1 + 1) + 1);
+                    }
+                    data.gameUiData.currentCrewAbilityIndex++;
+                    data.gameUiData.selectedDice = [];
+                });
+            }
+            return;
+        }
 
+        if (gameUiData.selectedDice.length > 0) {
+            let newRoll = abilityMethods[crew[gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex]].ability](crew[gameUiData.selectedDice[0]].die);
+            if (newRoll > 6) newRoll = 6;
+            if (newRoll < 1) newRoll = 1;
+            if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex + 1]) {
+                console.log("cleanup phase")
+                beginCleanUpPhase();
+            } else {
+                updateState((data:any)=>{
+                    data.crew[data.gameUiData.selectedDice[0]].die = newRoll;
+                    data.gameUiData.currentCrewAbilityIndex++;
+                    data.gameUiData.selectedDice = [];
+                });
+            }
+
+        } else {
+            alert("You must select a die")
+        }
+    }
+
+    function skipAbilityTarget () {
+        if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex + 1]) {
+            console.log("cleanup phase")
+            beginCleanUpPhase();
+        } else {
+            updateState((data:any)=>{
+                data.gameUiData.currentCrewAbilityIndex++;
+                data.gameUiData.selectedDice = [];
+            });
+        }
 
     }
 
-    function cancelAbilityTarget () {
+    function beginCleanUpPhase () {
+        if (isMissionSucceeded()) {
+           // check if last mission and failed == false
+           // then win!
+            updateState((data:any)=>{
+                gameUiData.phase = 4;
 
+                // reset missions
+                if (data.missions[selectedMissionLvl][selectedMissionId].failed === true) {
+                    data.missions[selectedMissionLvl][selectedMissionId].falsed = false;
+                } else {
+                    data.missions[selectedMissionLvl][selectedMissionId].succeeded = true;
+                }
+                data.missions[selectedMissionLvl][selectedMissionId].isSelected = false;
+
+                // reset game ui data
+                data.gameUiData.currentCrewAbilityIndex = 0;
+                data.gameUiData.selectedDice = [];
+                data.gameUiData.selectedCrew = [];
+                data.gameUiData.selectedMissionLvl = undefined;
+                data.gameUiData.selectedMissionId = undefined;
+                data.gameUiData.currentCrewAbilityIndex = 0;
+                data.gameUiData.mojoAbility = undefined;
+
+                // resetCrew
+                for (let k = 0; k < selectedCrew.length; k++) {
+                    data.crew[selectedCrew[k]].die = 1;
+                    data.crew[selectedCrew[k]].rolling = false;
+                    data.crew[selectedCrew[k]].isSelected = false;
+                    data.crew[selectedCrew[k]].isActive = true;
+
+                }
+            });
+
+        } else if (!missions[selectedMissionLvl][selectedMissionId].failed) {
+            updateState((data:any)=>{
+                gameUiData.phase = 4;
+
+                // reset missions
+                data.missions[selectedMissionLvl][selectedMissionId].failed = true;
+                data.missions[selectedMissionLvl][selectedMissionId].isSelected = false;
+
+                // reset game ui data
+                data.gameUiData.currentCrewAbilityIndex = 0;
+                data.gameUiData.selectedDice = [];
+                data.gameUiData.selectedCrew = [];
+                data.gameUiData.selectedMissionLvl = undefined;
+                data.gameUiData.selectedMissionId = undefined;
+                data.gameUiData.currentCrewAbilityIndex = 0;
+                data.gameUiData.mojoAbility = undefined;
+
+                // resetCrew
+                for (let k = 0; k < selectedCrew.length; k++) {
+                    data.crew[selectedCrew[k]].die = 1;
+                    data.crew[selectedCrew[k]].rolling = false;
+                    data.crew[selectedCrew[k]].isSelected = false;
+                    data.crew[selectedCrew[k]].isActive = false;
+
+                }
+            });
+            console.log("you failed the mission")
+        } else {
+            // if failed game loss!
+            console.log("You lost the game!")
+        }
+
+        setTimeout(() => {
+            updateState((data:any)=>{
+                data.gameUiData.phase = 0;
+            });
+        }, 3000);
+    }
+
+    function isMissionSucceeded () {
+        let rollsArr = [];
+        let missionSuccess = false;
+        for (const prop in crew) {
+            if (crew[prop].die) rollsArr.push(crew[prop].die);
+        }
+        if (missions[selectedMissionLvl][selectedMissionId].failed && phase === 3) {
+            if (checkMethods[missions[selectedMissionLvl][selectedMissionId].failCheck](rollsArr)) {
+                console.log("you recovered from a fail!")
+                missionSuccess = true;
+                return missionSuccess;
+            }
+        } else {
+            if (checkMethods[missions[selectedMissionLvl][selectedMissionId].successCheck](rollsArr)) {
+                console.log("you succeeded!")
+                missionSuccess = true;
+                return missionSuccess;
+            }
+        }
+        return missionSuccess;
     }
 
     return html`
