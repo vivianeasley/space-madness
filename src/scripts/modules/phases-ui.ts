@@ -11,7 +11,7 @@ interface StateDataInterface {
         lvlThree:any,
     },
     gameUiData:any,
-    player:string
+    player:any
  };
 
 
@@ -95,7 +95,7 @@ export function phasesUi (stateData:StateDataInterface) {
                     });
                 }
 
-            }, 2000);
+            }, 3000);
         } else {
             alert("You must choose a least 3 crew to complete a mission");
         }
@@ -200,6 +200,17 @@ export function phasesUi (stateData:StateDataInterface) {
 
                 // resetCrew
                 for (let k = 0; k < selectedCrew.length; k++) {
+                    // work out this mess
+                    for (let l = 0; l < data.crew[selectedCrew[k]].triggers.length; l++) {
+                        for (let m = 0; m < selectedCrew.length; m++) {
+                            if (selectedCrew[k] !== selectedCrew[m]) {
+                                if (data.crew[selectedCrew[k]].traits.includes(data.crew[selectedCrew[k]].triggers[l])) {
+                                    console.log(data.crew[selectedCrew[k]].triggers[l])
+                                    data.crew[selectedCrew[k]].revealedTriggers.push(data.crew[selectedCrew[k]].triggers[l])
+                                }
+                            }
+                        }
+                    }
                     data.crew[selectedCrew[k]].die = 1;
                     data.crew[selectedCrew[k]].rolling = false;
                     data.crew[selectedCrew[k]].isSelected = false;

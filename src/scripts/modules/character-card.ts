@@ -10,16 +10,18 @@ interface StateDataInterface {
         lvlThree:any,
     },
     gameUiData:any,
-    player:string
+    player:any
  };
 
 export function characterCard (cardData:StateDataInterface, crewId:string) { //dataObject:object
-    const { crew, gameUiData } = cardData;
+    const { crew, gameUiData, player } = cardData;
     const crewData = crew[crewId];
     const iterations = Math.floor(Math.random() * (3 - 1)) + 1;
     const isDieSelected = gameUiData.selectedDice.includes(crewId);
 
+
     function select () {
+
         if (gameUiData.phase === 1) {
             updateState((data:any)=>{
                 if (data.crew[crewId].isSelected === true) {
@@ -71,6 +73,41 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
 
     }
 
+    function setTraits () {
+        if (crewId === player.crew) {
+            return html`${crewData.triggers.map((trigger, i) => {
+                return html`
+                    <div class="trigger partially-known-trigger" data-i=${i}>${getTriggerOwner(trigger)}</div>
+                `})
+            }`
+        }
+        return html`${crewData.triggers.map((trigger, i) => {
+                if (crewData.revealedTriggers.includes(trigger)) {
+                    return html`
+                        <div class="trigger known-trigger" data-i=${i}>${trigger} - ${getTriggerOwner(trigger)}</div>
+                    `
+                }
+                return html`
+                    <div class="trigger unknown-trigger" data-i=${i}><img src="./images/icons/sight-disabled-black.png" alt="Hidden madness trigger icon"></div>
+                `
+            })
+        }`
+
+        function getTriggerOwner (triggerTrait) {
+            for (const prop in crew) {
+                if (crew[prop].traits.includes(triggerTrait)) {
+                    return crew[prop].name;
+                }
+            }
+        }
+
+    }
+
+    // <div class="trigger unknown-trigger"><img src="./images/icons/sight-disabled-black.png" alt="Hidden madness trigger icon"></div>
+    // <div class="trigger known-trigger">Compulsive Liar - Moxy Goodwistle</div>
+    // <div class="trigger partially-known-trigger">Moxy Goodwistle</div>
+
+
     return html`
         ${ crewData.rolling ? die(crewData.die, iterations, isDieSelected) : '' }
         <div class="crew-wrapper" onclick=${select}>
@@ -117,9 +154,7 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
             </div>
         </div>
         <div style="text-align: left">
-            <div class="trigger unknown-trigger"><img src="./images/icons/sight-disabled-black.png" alt="Hidden madness trigger icon"></div>
-            <div class="trigger known-trigger">Compulsive Liar - Moxy Goodwistle</div>
-            <div class="trigger partially-known-trigger">Moxy Goodwistle</div>
+            ${setTraits()}
         </div>
     `;
 }

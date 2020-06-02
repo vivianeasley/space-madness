@@ -50,7 +50,7 @@ export function renderDOM (state:any) {
 
     // if mojo have special
         let directionsText = "Not currently your turn. Relax. Sit a spell.";
-        if (turnOrder[activeTurn] === player) {
+        if (turnOrder[activeTurn] === player.name) {
             directionsText = directions[phase];
         }
         if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {

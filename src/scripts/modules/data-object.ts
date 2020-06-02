@@ -1,6 +1,9 @@
 export const data = {
    // Players
-   "player": "Anonymous",
+   "player": {
+      "name":"Anonymous",
+      "crew":undefined
+   },
    "gameUiData": {
       "phaseChange": true,
       "phase": 0,
@@ -87,8 +90,8 @@ export const data = {
             "targetRuleText": "Roll a 1, 2, and 3",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlTwoOver",
-            "failCheck": "failLvlTwo"
+            "successCheck": "lvlThreeNum",
+            "failCheck": "failLvlOne"
          },
          "medicalBay": {
             "isSelected": false,
@@ -100,8 +103,8 @@ export const data = {
             "targetRuleText": "Roll a 4, and 5",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlTwoUnder",
-            "failCheck": "failLvlTwo"
+            "successCheck": "lvlTwoNum",
+            "failCheck": "failLvlOne"
          },
          "engineRoom": {
             "isSelected": false,
@@ -113,8 +116,8 @@ export const data = {
             "targetRuleText": "Roll a 6",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlTwoNum",
-            "failCheck": "failLvlTwo"
+            "successCheck": "lvlOneNum",
+            "failCheck": "failLvlOne"
          }
       },
       "lvlThree": {
@@ -124,12 +127,12 @@ export const data = {
             "imgBkgrd": "bridge",
             "imgLayerFrame": "rule-less-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 4,
-            "targetRuleText": "Roll total less than 4",
+            "targetNumber": 6,
+            "targetRuleText": "Roll total less than 6",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlTwoOver",
-            "failCheck": "failLvlTwo"
+            "successCheck": "lvlThreeUnder",
+            "failCheck": "failLvlOne"
          },
          "messHall": {
             "isSelected": false,
@@ -138,11 +141,11 @@ export const data = {
             "imgBkgrd": "mess-hall",
             "imgLayerFrame": "rule-less-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 7,
-            "targetRuleText": "Roll total less than 7",
+            "targetNumber": 8,
+            "targetRuleText": "Roll total less than 8",
             "imgBack": "die-roll-two-same",
             "successCheck": "lvlTwoUnder",
-            "failCheck": "failLvlTwo"
+            "failCheck": "failLvlOne"
          },
          "dormitory": {
             "isSelected": false,
@@ -150,12 +153,12 @@ export const data = {
             "imgBkgrd": "dormitory",
             "imgLayerFrame": "rule-less-than",
             "imgLayerTarget": undefined,
-            "targetNumber": 10,
-            "targetRuleText": "Roll total less than 10",
+            "targetNumber": 12,
+            "targetRuleText": "Roll total less than 12",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlTwoNum",
-            "failCheck": "failLvlTwo"
+            "successCheck": "lvlOneUnder",
+            "failCheck": "failLvlOne"
          },
       }
    },
@@ -169,7 +172,8 @@ export const data = {
          "isActive": true,
          "abilityText": "Reroll any one die",
          "ability": "rerollOne",
-         "drivesThemCrazy": [],
+         "triggers": [],
+         "revealedTriggers": [],
          "img": "mrs-roboto",
          "traits": [
             "negative",
@@ -185,7 +189,8 @@ export const data = {
          "isActive": true,
          "abilityText": "Reroll any two die",
          "ability": "rerollTwo",
-         "drivesThemCrazy": [],
+         "triggers": [],
+         "revealedTriggers": [],
          "img": "ambassador-alden",
          "traits": [
             "screams",
@@ -201,7 +206,8 @@ export const data = {
          "isActive": true,
          "abilityText": "Add one to a die",
          "ability": "addOne",
-         "drivesThemCrazy": [],
+         "triggers": [],
+         "revealedTriggers": [],
          "img": "lari-luckybeard",
          "traits": [
             "space diva",
@@ -217,7 +223,8 @@ export const data = {
          "isActive": true,
          "abilityText": "Add two to a die",
          "ability": "addTwo",
-         "drivesThemCrazy": [],
+         "triggers": [],
+         "revealedTriggers": [],
          "img": "dr-john-johnson",
          "traits": [
             "nerd bully",
@@ -233,7 +240,8 @@ export const data = {
          "isActive": true,
          "abilityText": "Subtract one from a die",
          "ability": "subtractOne",
-         "drivesThemCrazy": [],
+         "triggers": [],
+         "revealedTriggers": [],
          "img": "sub-ensign-hammer",
          "traits": [
             "lazy",
@@ -249,7 +257,8 @@ export const data = {
          "isActive": true,
          "abilityText": "Subtract two from a die",
          "ability": "subtractTwo",
-         "drivesThemCrazy": [],
+         "triggers": [],
+         "revealedTriggers": [],
          "img": "eli-the-stowaway",
          "traits": [
             "humms loudly",
@@ -265,7 +274,8 @@ export const data = {
          "isActive": true,
          "abilityText": "Flip a die over",
          "ability": "flip",
-         "drivesThemCrazy": [],
+         "triggers": [],
+         "revealedTriggers": [],
          "img": "moxy-goodwhistle",
          "traits": [
             "condescending",
@@ -281,7 +291,8 @@ export const data = {
          "isActive": true,
          "abilityText": "Use another crew members ability",
          "ability": "chooseAbility",
-         "drivesThemCrazy": [],
+         "triggers": [],
+         "revealedTriggers": [],
          "img": "mojo",
          "traits": [
             "space fetishist",

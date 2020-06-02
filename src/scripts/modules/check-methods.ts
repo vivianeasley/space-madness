@@ -4,8 +4,8 @@ export namespace checkMethods {
     export function lvlOneOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 5};
     export function lvlTwoOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 11};
     export function lvlThreeOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 17};
-    export function lvlOneUnder (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) < 18};
-    export function lvlTwoUnder (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) < 12};
+    export function lvlOneUnder (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) < 12};
+    export function lvlTwoUnder (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) < 8};
     export function lvlThreeUnder (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) < 6};
     export function lvlOneNum (allRolls) {return allRolls.includes(6)};
     export function lvlTwoNum (allRolls) {return allRolls.includes(4) && allRolls.includes(5)};

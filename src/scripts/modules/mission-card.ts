@@ -9,7 +9,7 @@ interface StateDataInterface {
         lvlThree:any,
     },
     gameUiData:any,
-    player:string
+    player:any
  };
 
 export function missionCard (cardData:StateDataInterface, missionId:string, level:string) {
@@ -19,12 +19,24 @@ export function missionCard (cardData:StateDataInterface, missionId:string, leve
     const cardKeysArr =  Object.keys(missions[level]);
 
     function select () {
-        if (gameUiData.phase === 0 && cardKeysArr[cardKeysArr.length - 1] === missionId) {
+        isTopCard();
+        if (gameUiData.phase === 0 && isTopCard()) {
             updateState((data:any)=>{
                 data.gameUiData.selectedMissionLvl = level;
                 data.gameUiData.selectedMissionId = missionId;
             })
         }
+    }
+
+    function isTopCard () {
+        for (let i = cardKeysArr.length-1; i > -1 ; i--) {
+            if (missions[level][cardKeysArr[i]].succeeded === false) {
+                if (cardKeysArr[i] === missionId) return true
+                return false;
+            }
+
+        }
+
     }
 
     function getTarget () {
@@ -44,14 +56,14 @@ export function missionCard (cardData:StateDataInterface, missionId:string, leve
                 <div class="mission-front">
                     ${getSelectedBanner()}
                     <div class="mission-target-rule-text">Mission: ${missionData.targetRuleText}</div>
-                    <img class=${ cardKeysArr[cardKeysArr.length - 1] === missionId ? "mission-bkgrd" : ""} src="./images/missions/bkgrd/${missionData.imgBkgrd}.jpg" alt="">
+                    <img class=${ isTopCard () ? "mission-bkgrd" : ""} src="./images/missions/bkgrd/${missionData.imgBkgrd}.jpg" alt="">
                     <img class="layer-target-box" src="./images/missions/layer/${missionData.imgLayerFrame}.png" alt="">
                     ${getTarget()}
                 </div>
                 <div class="mission-back">
                     ${getSelectedBanner()}
                     <div class="mission-target-rule-text">Salvage: Roll two of a kind</div>
-                    <img class=${ cardKeysArr[cardKeysArr.length - 1] === missionId ? "mission-bkgrd" : ""} src="./images/missions/bkgrd/${missionData.imgBkgrd}.jpg" alt="">
+                    <img class=${ isTopCard () ? "mission-bkgrd" : ""} src="./images/missions/bkgrd/${missionData.imgBkgrd}.jpg" alt="">
                     <img class="layer-target-box" src="./images/missions/layer/rule-roll-exactly.png" alt="">
                     <img class="mission-target-img" src="./images/missions/layer/die-roll-two-same.png" alt="">
                 </div>
