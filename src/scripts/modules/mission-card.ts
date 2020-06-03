@@ -15,12 +15,13 @@ interface StateDataInterface {
 export function missionCard (cardData:StateDataInterface, missionId:string, level:string) {
 
     const { missions, gameUiData } = cardData;
+    const { phase, selectedMissionId } = gameUiData;
     const missionData = missions[level][missionId];
     const cardKeysArr =  Object.keys(missions[level]);
 
     function select () {
         isTopCard();
-        if (gameUiData.phase === 0 && isTopCard()) {
+        if (phase === 0 && isTopCard()) {
             updateState((data:any)=>{
                 data.gameUiData.selectedMissionLvl = level;
                 data.gameUiData.selectedMissionId = missionId;
@@ -45,7 +46,7 @@ export function missionCard (cardData:StateDataInterface, missionId:string, leve
     }
 
     function getSelectedBanner () {
-        if (missionId === gameUiData.selectedMissionId) {
+        if (missionId === selectedMissionId) {
             return html`<div class="card-selected">SELECTED</div>`;
         }
     }

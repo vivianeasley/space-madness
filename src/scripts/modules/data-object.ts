@@ -167,138 +167,146 @@ export const data = {
       "mrsRoboto": {
          "die": 1,
          "rolling": false,
+         "animations": 2,
          "name": "Mrs. Roboto",
          "isSelected": false,
          "isActive": true,
          "abilityText": "Reroll any one die",
          "ability": "rerollOne",
-         "triggers": [],
-         "revealedTriggers": [],
+         "triggers": {},
+         // "revealedTriggers": [],
          "img": "mrs-roboto",
-         "traits": [
-            "negative",
-            "self-centered",
-            "fidgety"
-         ]
+         "traits": {
+            "negative": true,
+            "self-centered": true,
+            "fidgety": true
+         }
       },
       "ambassadorAldren": {
          "die": 1,
          "rolling": false,
+         "animations": 4,
          "name": "Ambassador Aldren",
          "isSelected": false,
          "isActive": true,
          "abilityText": "Reroll any two die",
          "ability": "rerollTwo",
-         "triggers": [],
-         "revealedTriggers": [],
+         "triggers": {},
+         // "revealedTriggers": [],
          "img": "ambassador-alden",
-         "traits": [
-            "screams",
-            "micromanager",
-            "stubborn"
-         ]
+         "traits": {
+            "screams": true,
+            "micromanager": true,
+            "stubborn": true
+         }
       },
       "lariLuckybeard": {
          "die": 1,
          "rolling": false,
+         "animations": 3,
          "name": "Lari Luckybeard",
          "isSelected": false,
          "isActive": true,
          "abilityText": "Add one to a die",
          "ability": "addOne",
-         "triggers": [],
-         "revealedTriggers": [],
+         "triggers": {},
+         // "revealedTriggers": [],
          "img": "lari-luckybeard",
-         "traits": [
-            "space diva",
-            "mummbles",
-            "braggart"
-         ]
+         "traits": {
+            "space diva": true,
+            "mummbles": true,
+            "braggart": true
+         }
       },
       "drJohnJohnson": {
          "die": 1,
          "rolling": false,
+         "animations": 1,
          "name": "Dr. John Johnson",
          "isSelected": false,
          "isActive": true,
          "abilityText": "Add two to a die",
          "ability": "addTwo",
-         "triggers": [],
-         "revealedTriggers": [],
+         "triggers": {},
+         // "revealedTriggers": [],
          "img": "dr-john-johnson",
-         "traits": [
-            "nerd bully",
-            "bad puns",
-            "space nudist"
-         ]
+         "traits": {
+            "nerd bully": true,
+            "bad puns": true,
+            "space nudist": true
+         }
       },
       "subEnsignHammer": {
          "die": 1,
          "rolling": false,
+         "animations": 2,
          "name": "Sub-ensign Hammer",
          "isSelected": false,
          "isActive": true,
          "abilityText": "Subtract one from a die",
          "ability": "subtractOne",
-         "triggers": [],
-         "revealedTriggers": [],
+         "triggers": {},
+         // "revealedTriggers": [],
          "img": "sub-ensign-hammer",
-         "traits": [
-            "lazy",
-            "rude",
-            "lecherous"
-         ]
+         "traits": {
+            "lazy": true,
+            "rude": true,
+            "lecherous": true
+         }
       },
       "eliTheStowaway": {
          "die": 1,
          "rolling": false,
+         "animations": 4,
          "name": "Eli the Stowaway",
          "isSelected": false,
          "isActive": true,
          "abilityText": "Subtract two from a die",
          "ability": "subtractTwo",
-         "triggers": [],
-         "revealedTriggers": [],
+         "triggers": {},
+         // "revealedTriggers": [],
          "img": "eli-the-stowaway",
-         "traits": [
-            "humms loudly",
-            "irrational",
-            "ignores rules"
-         ]
+         "traits": {
+            "humms loudly": true,
+            "irrational": true,
+            "ignores rules": true
+         }
       },
       "pilotMoxyGoodwhistle": {
          "die": 1,
          "rolling": false,
+         "animations": 1,
          "name": "Pilot Moxy Goodwhistle",
          "isSelected": false,
          "isActive": true,
          "abilityText": "Flip a die over",
          "ability": "flip",
-         "triggers": [],
-         "revealedTriggers": [],
+         "triggers": {},
+         // "revealedTriggers": [],
          "img": "moxy-goodwhistle",
-         "traits": [
-            "condescending",
-            "space cultist",
-            "compulsive liar"
-         ]
+         "traits": {
+            "condescending": true,
+            "space cultist": true,
+            "compulsive liar": true
+         }
       },
       "ltMojo": {
          "die": 1,
          "rolling": false,
+         "animations": 3,
          "name": "Lt. Mojo",
          "isSelected": false,
          "isActive": true,
          "abilityText": "Use another crew members ability",
          "ability": "chooseAbility",
-         "triggers": [],
-         "revealedTriggers": [],
+         "triggers": {},
+         // "revealedTriggers": [],
          "img": "mojo",
-         "traits": [
-            "space fetishist",
-            "pretentious",
-            "entitled"
-         ]
+         "traits": {
+            "space fetishist": true,
+            "pretentious": true,
+            "entitled": true
+         }
       }
    }
 }

@@ -13,3 +13,11 @@ export function updateState (updateFucnt:any, skipRender?:boolean) {
     lastState.push(nextState);
     return true;
 }
+
+export function getCurrentState () {
+    return lastState[lastState.length - 1];
+}
+
+export function getStateHistory() {
+    return lastState;
+}

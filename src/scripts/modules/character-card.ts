@@ -15,14 +15,15 @@ interface StateDataInterface {
 
 export function characterCard (cardData:StateDataInterface, crewId:string) { //dataObject:object
     const { crew, gameUiData, player } = cardData;
+    const { phase, selectedDice, selectedCrew, currentCrewAbilityIndex, mojoAbility } = gameUiData;
     const crewData = crew[crewId];
-    const iterations = Math.floor(Math.random() * (3 - 1)) + 1;
+    const iterations = crewData.animations;
     const isDieSelected = gameUiData.selectedDice.includes(crewId);
 
 
     function select () {
 
-        if (gameUiData.phase === 1) {
+        if (phase === 1) {
             updateState((data:any)=>{
                 if (data.crew[crewId].isSelected === true) {
                     data.gameUiData.selectedCrew.splice(data.gameUiData.selectedCrew.indexOf(crewId), 1);
@@ -33,25 +34,18 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
                 }
 
             })
-        } else if (gameUiData.phase === 3) {
-
-            if (gameUiData.selectedDice.includes(crewId)) {
-                updateState((data:any)=>{
-                    data.gameUiData.selectedDice.splice(data.gameUiData.selectedDice.indexOf(crewId), 1);
-                })
+        } else if (phase === 3) {
+            if (selectedDice.includes(crewId)) {
+                updateState((data:any)=>{data.gameUiData.selectedDice.splice(data.gameUiData.selectedDice.indexOf(crewId), 1);})
             } else {
-                if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ambassadorAldren" &&
-                gameUiData.selectedCrew.length < 2) {
-                    console.log("aldren")
+                if (selectedCrew[currentCrewAbilityIndex] === "ambassadorAldren" &&
+                    selectedCrew.length < 2) {
                     updateState((data:any)=>{data.gameUiData.selectedDice.push(crewId);})
-                } else if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ltMojo") {
-                    console.log("mojo")
-                    updateState((data:any)=>{
-                        data.gameUiData.mojoAbility = crewId;
-                    })
+
+                } else if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
+                    updateState((data:any)=>{data.gameUiData.mojoAbility = crewId;})
 
                 } else {
-                    console.log("all other")
                     updateState((data:any)=>{data.gameUiData.selectedDice.push(crewId);})
                 }
             }
@@ -66,47 +60,41 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
 
     function setAbilityLayer () {
         let abilityImg = crewData.img;
-        if (crewId === "ltMojo" && gameUiData.mojoAbility) {
-            abilityImg = crew[gameUiData.mojoAbility].img;
+        if (crewId === "ltMojo" && mojoAbility) {
+            abilityImg = crew[mojoAbility].img;
         }
         return html`<img class="layer-ability-box" src="./images/crew/layer/ability-${abilityImg}.png" alt="">`;
 
     }
 
     function setTraits () {
-        if (crewId === player.crew) {
-            return html`${crewData.triggers.map((trigger, i) => {
-                return html`
-                    <div class="trigger partially-known-trigger" data-i=${i}>${getTriggerOwner(trigger)}</div>
-                `})
-            }`
-        }
-        return html`${crewData.triggers.map((trigger, i) => {
-                if (crewData.revealedTriggers.includes(trigger)) {
+
+        return html`${Object.keys(crewData.triggers).map((trigger, i) => {
+                if (crewData.triggers[trigger] === false) {
                     return html`
                         <div class="trigger known-trigger" data-i=${i}>${trigger} - ${getTriggerOwner(trigger)}</div>
                     `
+                } else if (crewId === player.crew) {
+                    return html`
+                        <div class="trigger partially-known-trigger" data-i=${i}>${getTriggerOwner(trigger)}</div>
+                    `
+                } else {
+                    return html`
+                        <div class="trigger unknown-trigger" data-i=${i}><img src="./images/icons/sight-disabled-black.png" alt="Hidden madness trigger icon"></div>
+                    `
                 }
-                return html`
-                    <div class="trigger unknown-trigger" data-i=${i}><img src="./images/icons/sight-disabled-black.png" alt="Hidden madness trigger icon"></div>
-                `
             })
         }`
 
         function getTriggerOwner (triggerTrait) {
             for (const prop in crew) {
-                if (crew[prop].traits.includes(triggerTrait)) {
+                if (crew[prop].traits[triggerTrait]) {
                     return crew[prop].name;
                 }
             }
         }
 
     }
-
-    // <div class="trigger unknown-trigger"><img src="./images/icons/sight-disabled-black.png" alt="Hidden madness trigger icon"></div>
-    // <div class="trigger known-trigger">Compulsive Liar - Moxy Goodwistle</div>
-    // <div class="trigger partially-known-trigger">Moxy Goodwistle</div>
-
 
     return html`
         ${ crewData.rolling ? die(crewData.die, iterations, isDieSelected) : '' }
@@ -120,17 +108,17 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
                         <div class="crew-name re-text-center">${crewData.name}</div>
                         <ul class="traits-list">
                             ${
-                            crewData.traits.map((trait:string, i:number) => html`
+                            Object.keys(crewData.traits).map((trait:string, i:number) => html`
                                 <li data-i=${i}> ${trait} </li>`)
                             }
                         </ul>
                     </div>
                     <div class="crew-ability">
                         <div class="re-text-center re-text-bold">Ability</div>
-                        <div class="ability-text" style=${crewId === "ltMojo" && !gameUiData.mojoAbility ? "margin-left: 0px" : "margin-left: 50px"}>
+                        <div class="ability-text" style=${crewId === "ltMojo" && !mojoAbility ? "margin-left: 0px" : "margin-left: 50px"}>
                             ${()=>{
-                                if (crewId === "ltMojo" && gameUiData.mojoAbility) {
-                                    return crew[gameUiData.mojoAbility].abilityText;
+                                if (crewId === "ltMojo" && mojoAbility) {
+                                    return crew[mojoAbility].abilityText;
                                 } else {
                                     return crewData.abilityText;
                                 }
@@ -145,7 +133,7 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
                         <div class="crew-name re-text-center">${crewData.name}</div>
                         <ul class="traits-list">
                             ${
-                            crewData.traits.map((trait:string, i:number) => html`
+                            Object.keys(crewData.traits).map((trait:string, i:number) => html`
                                 <li data-i=${i}> ${trait} </li>`)
                             }
                         </ul>

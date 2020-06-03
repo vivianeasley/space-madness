@@ -16,27 +16,18 @@ interface StateDataInterface {
 
 
 export function phasesUi (stateData:StateDataInterface) {
-    const { gameUiData, crew, missions } = stateData;
+    const { gameUiData, crew, missions, player } = stateData;
     const { phase,
         helpText,
         selectedCrew,
         currentCrewAbilityIndex,
         selectedMissionLvl,
-        selectedMissionId } = gameUiData;
-
-
-
-    // set up selecting
-    // remove disabled
-    // prevent double click
-
-    // on crew submit generate chosen crew array & crew ability array under gameUI dat
-
-    // start main game logic
-    // add rules modal
-    // fix mission selection bugs
-    // show random story element
-    // random not you turn you'll have to wait
+        selectedMissionId,
+        mojoAbility,
+        selectedDice,
+        turnOrder,
+        activeTurn,
+        directions } = gameUiData;
 
     function submitButtons () {
         if (phase === 0) {
@@ -59,8 +50,6 @@ export function phasesUi (stateData:StateDataInterface) {
                 <button onclick=${useAbility}>Apply</button>
             </div>
             `
-        } else {
-            console.log("too many phases")
         }
 
     }
@@ -69,6 +58,7 @@ export function phasesUi (stateData:StateDataInterface) {
         if (selectedMissionLvl && selectedMissionId) {
             updateState((data:any)=>{
                 data.gameUiData.phase++;
+                data.gameUiData.phaseChange = true;
             });
         } else {
             alert("You must choose a least 1 mission card");
@@ -80,43 +70,48 @@ export function phasesUi (stateData:StateDataInterface) {
             // must do a wait while rolling and then isMissionSucceeded() then move up a phase
             updateState((data:any)=>{
                 data.gameUiData.phase++;
+                data.gameUiData.phaseChange = true;
                 for (let i = 0; i < data.gameUiData.selectedCrew.length; i++) {
                     data.crew[data.gameUiData.selectedCrew[i]].rolling = true;
                     data.crew[data.gameUiData.selectedCrew[i]].die = (Math.floor(Math.random() * (6 - 1)) + 1);
                 }
             });
 
+            let rollingWait = 1;
+            for (let n = 0; n < selectedCrew.length; n++) {
+                if (crew[selectedCrew[n]].animations > rollingWait) {
+                    rollingWait = crew[selectedCrew[n]].animations;
+                }
+            }
+            console.log(rollingWait)
             setTimeout(() => {
                 if (isMissionSucceeded()) {
                     beginCleanUpPhase();
                 } else {
                     updateState((data:any)=>{
                         data.gameUiData.phase++;
+                        data.gameUiData.phaseChange = true;
                     });
                 }
 
-            }, 3000);
+            }, rollingWait*1600);
         } else {
             alert("You must choose a least 3 crew to complete a mission");
         }
     }
 
     function useAbility () {
-        // if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex]) {
-        //     console.log("Error")
-        //     return
-        // }
 
-        if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ltMojo") {
-            if (!gameUiData.mojoAbility) {
+        if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
+            if (!mojoAbility) {
                 alert("You must choose another crew member for mojo's ability");
             } else {
-                if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex + 1]) {
+                if (!selectedCrew[currentCrewAbilityIndex + 1]) {
                     console.log("cleanup phase")
                     beginCleanUpPhase();
                 } else {
                     updateState((data:any)=>{
-                        data.gameUiData.selectedCrew.push(gameUiData.mojoAbility);
+                        data.gameUiData.selectedCrew.push(mojoAbility);
                         data.gameUiData.currentCrewAbilityIndex++;
                         data.gameUiData.selectedDice = [];
                     });
@@ -125,8 +120,8 @@ export function phasesUi (stateData:StateDataInterface) {
             return;
         }
 
-        if (gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex] === "ambassadorAldren") {
-            if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex + 1]) {
+        if (selectedCrew[currentCrewAbilityIndex] === "ambassadorAldren") {
+            if (!selectedCrew[currentCrewAbilityIndex + 1]) {
                 console.log("cleanup phase")
                 beginCleanUpPhase();
             } else {
@@ -141,11 +136,11 @@ export function phasesUi (stateData:StateDataInterface) {
             return;
         }
 
-        if (gameUiData.selectedDice.length > 0) {
-            let newRoll = abilityMethods[crew[gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex]].ability](crew[gameUiData.selectedDice[0]].die);
+        if (selectedDice.length > 0) {
+            let newRoll = abilityMethods[crew[selectedCrew[currentCrewAbilityIndex]].ability](crew[selectedDice[0]].die);
             if (newRoll > 6) newRoll = 6;
             if (newRoll < 1) newRoll = 1;
-            if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex + 1]) {
+            if (!selectedCrew[currentCrewAbilityIndex + 1]) {
                 console.log("cleanup phase")
                 beginCleanUpPhase();
             } else {
@@ -162,7 +157,7 @@ export function phasesUi (stateData:StateDataInterface) {
     }
 
     function skipAbilityTarget () {
-        if (!gameUiData.selectedCrew[gameUiData.currentCrewAbilityIndex + 1]) {
+        if (!selectedCrew[currentCrewAbilityIndex + 1]) {
             console.log("cleanup phase")
             beginCleanUpPhase();
         } else {
@@ -199,18 +194,25 @@ export function phasesUi (stateData:StateDataInterface) {
                 data.gameUiData.mojoAbility = undefined;
 
                 // resetCrew
+                let breakOut = false;
                 for (let k = 0; k < selectedCrew.length; k++) {
-                    // work out this mess
-                    for (let l = 0; l < data.crew[selectedCrew[k]].triggers.length; l++) {
+                    for (const trigger in data.crew[selectedCrew[k]].triggers) {
+                        if (breakOut) {
+                            breakOut = false;
+                            break;
+                        }
                         for (let m = 0; m < selectedCrew.length; m++) {
                             if (selectedCrew[k] !== selectedCrew[m]) {
-                                if (data.crew[selectedCrew[k]].traits.includes(data.crew[selectedCrew[k]].triggers[l])) {
-                                    console.log(data.crew[selectedCrew[k]].triggers[l])
-                                    data.crew[selectedCrew[k]].revealedTriggers.push(data.crew[selectedCrew[k]].triggers[l])
+                                if (data.crew[selectedCrew[m]].traits[trigger]) {
+                                    data.crew[selectedCrew[k]].triggers[trigger] = false;
+                                    breakOut = true;
+                                    break;
                                 }
                             }
                         }
+
                     }
+
                     data.crew[selectedCrew[k]].die = 1;
                     data.crew[selectedCrew[k]].rolling = false;
                     data.crew[selectedCrew[k]].isSelected = false;
@@ -237,11 +239,29 @@ export function phasesUi (stateData:StateDataInterface) {
                 data.gameUiData.mojoAbility = undefined;
 
                 // resetCrew
+                let breakOut = false;
                 for (let k = 0; k < selectedCrew.length; k++) {
+                    for (const trigger in data.crew[selectedCrew[k]].triggers) {
+                        if (breakOut) {
+                            breakOut = false;
+                            break;
+                        }
+                        for (let m = 0; m < selectedCrew.length; m++) {
+                            if (selectedCrew[k] !== selectedCrew[m]) {
+                                if (data.crew[selectedCrew[m]].traits[trigger]) {
+                                    data.crew[selectedCrew[k]].triggers[trigger] = false;
+                                    breakOut = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+
                     data.crew[selectedCrew[k]].die = 1;
                     data.crew[selectedCrew[k]].rolling = false;
                     data.crew[selectedCrew[k]].isSelected = false;
-                    data.crew[selectedCrew[k]].isActive = false;
+                    data.crew[selectedCrew[k]].isActive = true;
 
                 }
             });
@@ -254,8 +274,9 @@ export function phasesUi (stateData:StateDataInterface) {
         setTimeout(() => {
             updateState((data:any)=>{
                 data.gameUiData.phase = 0;
+                data.gameUiData.phaseChange = true;
             });
-        }, 3000);
+        }, 2000);
     }
 
     function isMissionSucceeded () {
@@ -280,12 +301,25 @@ export function phasesUi (stateData:StateDataInterface) {
         return missionSuccess;
     }
 
+    function getDirectionsText () {
+    // if mojo have special
+        let directionsText = "Not currently your turn. Relax. Sit a spell.";
+        if (turnOrder[activeTurn] === player.name) {
+            directionsText = directions[phase];
+        }
+        if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
+            directionsText = "Choose a crew for Mojo to copy their ability";
+        }
+        return directionsText.replace("%%", selectedCrew[currentCrewAbilityIndex]);
+
+    }
+
     return html`
         <div class="phases-tooltip-wrapper">
             <div class="tooltips">${helpIcon()}<span>${helpText[phase].replace("%%", selectedCrew[currentCrewAbilityIndex])} Need more help? Read the rules</span></div>
         </div>
         <div class="phases-direction-text">
-
+            ${getDirectionsText()}
         </div>
         ${submitButtons()}
     `;

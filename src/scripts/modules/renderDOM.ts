@@ -2,6 +2,7 @@ import { characterCard } from './character-card';
 import { missionCard } from './mission-card';
 import { phasesUi } from './phases-ui';
 import { render, html } from 'lighterhtml';
+import { updateState } from './state-manager'
 import Typewriter from 'typewriter-effect/dist/core';
 
 
@@ -46,26 +47,29 @@ export function renderDOM (state:any) {
 
     render(phases, html`${phasesUi(state)}`);
 
-    // if (phaseChange) {
+    // if (phaseChange || phase === 3) {
+    //     console.log(phaseChange)
+    // // if mojo have special
+    //     let directionsText = "Not currently your turn. Relax. Sit a spell.";
+    //     if (turnOrder[activeTurn] === player.name) {
+    //         directionsText = directions[phase];
+    //     }
+    //     if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
+    //         directionsText = "Choose a crew for Mojo to copy their ability";
+    //     }
 
-    // if mojo have special
-        let directionsText = "Not currently your turn. Relax. Sit a spell.";
-        if (turnOrder[activeTurn] === player.name) {
-            directionsText = directions[phase];
-        }
-        if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
-            directionsText = "Choose a crew for Mojo to copy their ability";
-        }
+    //     setTimeout(() => {
+    //         new Typewriter(".phases-direction-text" , {
+    //             strings: directionsText.replace("%%", selectedCrew[currentCrewAbilityIndex]),
+    //             delay: 20,
+    //             autoStart: true,
+    //             });
+    //     }, 1000);
 
-        setTimeout(() => {
-            new Typewriter(".phases-direction-text" , {
-                strings: directionsText.replace("%%", selectedCrew[currentCrewAbilityIndex]),
-                delay: 20,
-                autoStart: true,
-                });
-        }, 1000);
+    //     setTimeout(() => {
+    //         updateState((state:any)=>{state.gameUiData.phaseChange = false}, false)
+    //     }, 1000);
 
-    //     updateState((state:any)=>{state.gameUiData.phaseChange = false}, false)
     // }
 
     function isColumnEmptyCheck (lvlData:any) {
