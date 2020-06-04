@@ -39,14 +39,19 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
                 updateState((data:any)=>{data.gameUiData.selectedDice.splice(data.gameUiData.selectedDice.indexOf(crewId), 1);})
             } else {
                 if (selectedCrew[currentCrewAbilityIndex] === "ambassadorAldren" &&
-                    selectedCrew.length < 2) {
+                    selectedDice.length < 2) {
+                        console.log("selected aldren")
                     updateState((data:any)=>{data.gameUiData.selectedDice.push(crewId);})
 
                 } else if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
-                    updateState((data:any)=>{data.gameUiData.mojoAbility = crewId;})
+                    if (!mojoAbility) {
+                        updateState((data:any)=>{data.gameUiData.mojoAbility = crewId;})
+                    } else {
+                        updateState((data:any)=>{data.gameUiData.selectedDice = [crewId];})
+                    }
 
                 } else {
-                    updateState((data:any)=>{data.gameUiData.selectedDice.push(crewId);})
+                    updateState((data:any)=>{data.gameUiData.selectedDice = [crewId];})
                 }
             }
         }

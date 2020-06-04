@@ -1,5 +1,5 @@
 import { html, svg } from 'lighterhtml';
-import { updateState } from './state-manager';
+import { updateState, getCurrentState } from './state-manager';
 import { abilityMethods } from './ability-methods';
 import { checkMethods } from './check-methods';
 
@@ -67,7 +67,6 @@ export function phasesUi (stateData:StateDataInterface) {
 
     function getCrewSubmit () {
         if (selectedCrew.length > 2) {
-            // must do a wait while rolling and then isMissionSucceeded() then move up a phase
             updateState((data:any)=>{
                 data.gameUiData.phase++;
                 data.gameUiData.phaseChange = true;
@@ -83,7 +82,7 @@ export function phasesUi (stateData:StateDataInterface) {
                     rollingWait = crew[selectedCrew[n]].animations;
                 }
             }
-            console.log(rollingWait)
+
             setTimeout(() => {
                 if (isMissionSucceeded()) {
                     beginCleanUpPhase();
@@ -100,30 +99,24 @@ export function phasesUi (stateData:StateDataInterface) {
         }
     }
 
-    function useAbility () {
+    function useAbility () { // TODO: Clean this up
 
-        if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
-            if (!mojoAbility) {
-                alert("You must choose another crew member for mojo's ability");
-            } else {
-                if (!selectedCrew[currentCrewAbilityIndex + 1]) {
-                    console.log("cleanup phase")
-                    beginCleanUpPhase();
-                } else {
-                    updateState((data:any)=>{
-                        data.gameUiData.selectedCrew.push(mojoAbility);
-                        data.gameUiData.currentCrewAbilityIndex++;
-                        data.gameUiData.selectedDice = [];
-                    });
-                }
-            }
-            return;
+        if (selectedCrew[currentCrewAbilityIndex] === "ltMojo" && !mojoAbility) {
+            alert("You must choose another crew member for mojo's ability");
         }
 
         if (selectedCrew[currentCrewAbilityIndex] === "ambassadorAldren") {
             if (!selectedCrew[currentCrewAbilityIndex + 1]) {
-                console.log("cleanup phase")
-                beginCleanUpPhase();
+                updateState((data:any)=>{
+                    for (let j = 0; j < data.gameUiData.selectedDice.length; j++) {
+                        data.crew[data.gameUiData.selectedDice[j]].die = Math.floor(Math.random() * (6 - 1 + 1) + 1);
+                    }
+                });
+
+                setTimeout(() => {
+                    beginCleanUpPhase();
+                }, 1000);
+
             } else {
                 updateState((data:any)=>{
                     for (let j = 0; j < data.gameUiData.selectedDice.length; j++) {
@@ -137,18 +130,30 @@ export function phasesUi (stateData:StateDataInterface) {
         }
 
         if (selectedDice.length > 0) {
-            let newRoll = abilityMethods[crew[selectedCrew[currentCrewAbilityIndex]].ability](crew[selectedDice[0]].die);
+            let newRoll = 1;
+            if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
+                newRoll = abilityMethods[crew[mojoAbility].ability](crew[selectedDice[0]].die);
+            } else {
+                newRoll = abilityMethods[crew[selectedCrew[currentCrewAbilityIndex]].ability](crew[selectedDice[0]].die);
+            }
             if (newRoll > 6) newRoll = 6;
             if (newRoll < 1) newRoll = 1;
             if (!selectedCrew[currentCrewAbilityIndex + 1]) {
-                console.log("cleanup phase")
-                beginCleanUpPhase();
+                updateState((data:any)=>{
+                    data.crew[data.gameUiData.selectedDice[0]].die = newRoll;
+                });
+
+                setTimeout(() => {
+                    beginCleanUpPhase();
+                }, 1000);
+
             } else {
                 updateState((data:any)=>{
                     data.crew[data.gameUiData.selectedDice[0]].die = newRoll;
                     data.gameUiData.currentCrewAbilityIndex++;
                     data.gameUiData.selectedDice = [];
                 });
+
             }
 
         } else {
@@ -178,7 +183,7 @@ export function phasesUi (stateData:StateDataInterface) {
 
                 // reset missions
                 if (data.missions[selectedMissionLvl][selectedMissionId].failed === true) {
-                    data.missions[selectedMissionLvl][selectedMissionId].falsed = false;
+                    data.missions[selectedMissionLvl][selectedMissionId].failed = false;
                 } else {
                     data.missions[selectedMissionLvl][selectedMissionId].succeeded = true;
                 }
@@ -276,17 +281,19 @@ export function phasesUi (stateData:StateDataInterface) {
                 data.gameUiData.phase = 0;
                 data.gameUiData.phaseChange = true;
             });
-        }, 2000);
+        }, 1000);
     }
 
     function isMissionSucceeded () {
         let rollsArr = [];
         let missionSuccess = false;
-        for (const prop in crew) {
-            if (crew[prop].die) rollsArr.push(crew[prop].die);
+        const currentState = getCurrentState(); // TODO: Figure out why crew does not reflect current state at this point
+        for (const prop in currentState.crew) {
+            // only if selected crew
+            if (currentState.crew[prop].die) rollsArr.push(currentState.crew[prop].die);
         }
         if (missions[selectedMissionLvl][selectedMissionId].failed && phase === 3) {
-            if (checkMethods[missions[selectedMissionLvl][selectedMissionId].failCheck](rollsArr)) {
+            if (checkMethods["recoverFail"](rollsArr, 2)) {
                 console.log("you recovered from a fail!")
                 missionSuccess = true;
                 return missionSuccess;
