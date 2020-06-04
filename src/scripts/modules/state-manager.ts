@@ -5,12 +5,11 @@ import { renderDOM } from "./renderDOM"
 export let lastState = [];
 lastState.push(data);
 
-export function updateState (updateFucnt:any, skipRender?:boolean) {
+export function updateState (updateFucnt:any) {
     const nextState = produce(lastState[lastState.length - 1], updateFucnt);
-    if (!skipRender) {
-        renderDOM(nextState);
-    }
+    renderDOM(nextState);
     lastState.push(nextState);
+    console.log(lastState[lastState.length - 1])
     return true;
 }
 

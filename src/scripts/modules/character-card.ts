@@ -15,7 +15,7 @@ interface StateDataInterface {
 
 export function characterCard (cardData:StateDataInterface, crewId:string) { //dataObject:object
     const { crew, gameUiData, player } = cardData;
-    const { phase, selectedDice, selectedCrew, currentCrewAbilityIndex, mojoAbility } = gameUiData;
+    const { phase, selectedDice, crewOnMission, currentCrewAbility, mojoAbility } = gameUiData;
     const crewData = crew[crewId];
     const iterations = crewData.animations;
     const isDieSelected = gameUiData.selectedDice.includes(crewId);
@@ -25,12 +25,10 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
 
         if (phase === 1) {
             updateState((data:any)=>{
-                if (data.crew[crewId].isSelected === true) {
-                    data.gameUiData.selectedCrew.splice(data.gameUiData.selectedCrew.indexOf(crewId), 1);
-                    data.crew[crewId].isSelected = false;
+                if (data.gameUiData.crewOnMission[crewId]) {
+                    delete data.gameUiData.crewOnMission[crewId];
                 } else {
-                    data.gameUiData.selectedCrew.push(crewId);
-                    data.crew[crewId].isSelected = true;
+                    data.gameUiData.crewOnMission[crewId] = crewData.isActive;
                 }
 
             })
@@ -38,12 +36,13 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
             if (selectedDice.includes(crewId)) {
                 updateState((data:any)=>{data.gameUiData.selectedDice.splice(data.gameUiData.selectedDice.indexOf(crewId), 1);})
             } else {
-                if (selectedCrew[currentCrewAbilityIndex] === "ambassadorAldren" &&
+                if (currentCrewAbility === "ambassadorAldren" &&
+                    crewOnMission["ambassadorAldren"] === "active" &&
                     selectedDice.length < 2) {
-                        console.log("selected aldren")
                     updateState((data:any)=>{data.gameUiData.selectedDice.push(crewId);})
 
-                } else if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
+                } else if (currentCrewAbility === "ltMojo" &&
+                    crewOnMission["ltMojo"] === "active") {
                     if (!mojoAbility) {
                         updateState((data:any)=>{data.gameUiData.mojoAbility = crewId;})
                     } else {
@@ -58,7 +57,7 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
     }
 
     function getSelectedBanner () {
-        if (crewData.isSelected) {
+        if (crewOnMission[crewId]) {
             return html`<div class="card-selected">SELECTED</div>`;
         }
     }
@@ -104,7 +103,7 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
     return html`
         ${ crewData.rolling ? die(crewData.die, iterations, isDieSelected) : '' }
         <div class="crew-wrapper" onclick=${select}>
-            <div class=${crewData.isActive ? "crew-wrapper-inner" : "crew-wrapper-inner crew-inactive"}>
+            <div class=${crewData.isActive === "active" ? "crew-wrapper-inner" : "crew-wrapper-inner crew-inactive"}>
                 <div class="crew-front">
                     ${getSelectedBanner()}
                     <img src="./images/crew/bkgrd/${crewData.img}.jpg" alt="">

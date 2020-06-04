@@ -2,8 +2,7 @@ import { characterCard } from './character-card';
 import { missionCard } from './mission-card';
 import { phasesUi } from './phases-ui';
 import { render, html } from 'lighterhtml';
-import { updateState } from './state-manager'
-import Typewriter from 'typewriter-effect/dist/core';
+// import Typewriter from 'typewriter-effect/dist/core';
 
 
 
@@ -12,9 +11,8 @@ const missionCards = document.querySelector(".mission-cards-wrapper");
 const phases = document.querySelector(".phases-wrapper");
 
 export function renderDOM (state:any) {
-    const { crew, missions, gameUiData, player } = state;
+    const { crew, missions } = state;
     const { lvlOne, lvlTwo, lvlThree } = missions;
-    const { phase, activeTurn, turnOrder, directions, phaseChange, selectedCrew, currentCrewAbilityIndex } = gameUiData;
 
     render(missionCards, html`
         <div class=${ !isColumnEmptyCheck(lvlOne) ? "level-column" : "re-display-none"}>
@@ -46,31 +44,6 @@ export function renderDOM (state:any) {
 
 
     render(phases, html`${phasesUi(state)}`);
-
-    // if (phaseChange || phase === 3) {
-    //     console.log(phaseChange)
-    // // if mojo have special
-    //     let directionsText = "Not currently your turn. Relax. Sit a spell.";
-    //     if (turnOrder[activeTurn] === player.name) {
-    //         directionsText = directions[phase];
-    //     }
-    //     if (selectedCrew[currentCrewAbilityIndex] === "ltMojo") {
-    //         directionsText = "Choose a crew for Mojo to copy their ability";
-    //     }
-
-    //     setTimeout(() => {
-    //         new Typewriter(".phases-direction-text" , {
-    //             strings: directionsText.replace("%%", selectedCrew[currentCrewAbilityIndex]),
-    //             delay: 20,
-    //             autoStart: true,
-    //             });
-    //     }, 1000);
-
-    //     setTimeout(() => {
-    //         updateState((state:any)=>{state.gameUiData.phaseChange = false}, false)
-    //     }, 1000);
-
-    // }
 
     function isColumnEmptyCheck (lvlData:any) {
         for (const prop in lvlData) {
