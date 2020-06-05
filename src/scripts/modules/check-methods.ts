@@ -11,12 +11,12 @@ export namespace checkMethods {
     export function lvlTwoNum (allRolls) {return allRolls.includes(4) && allRolls.includes(5)};
     export function lvlThreeNum (allRolls) {return allRolls.includes(1) && allRolls.includes(2) && allRolls.includes(3)};
 
-    export function recoverFail (allRolls, num) {
+    export function recoverFail (allRolls, targetNum) {
         let counts = {}
         for (let i = 0; i < allRolls.length; i++) {
             counts[allRolls[i]] = (counts[allRolls[i]] || 0)+1;
             console.log(counts[allRolls[i]])
-            if (counts[allRolls[i]] >= num) return true;
+            if (counts[allRolls[i]] >= targetNum) return true;
         }
         return false
     };

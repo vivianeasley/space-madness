@@ -1,6 +1,7 @@
 import { html } from 'lighterhtml';
 import { updateState } from './state-manager'
 import { die } from './die'
+import { mrsRobotoDie } from './mrsRobotoDie'
 
 interface StateDataInterface {
     crew: any,
@@ -13,9 +14,9 @@ interface StateDataInterface {
     player:any
  };
 
-export function characterCard (cardData:StateDataInterface, crewId:string) { //dataObject:object
-    const { crew, gameUiData, player } = cardData;
-    const { phase, selectedDice, crewOnMission, currentCrewAbility, mojoAbility } = gameUiData;
+export function characterCard (stateData:StateDataInterface, crewId:string) {
+    const { crew, gameUiData, player } = stateData;
+    const { phase, selectedDice, crewOnMission, currentCrewAbility, mojoAbility, lastAbilityUsed, lastDiceSelected } = gameUiData;
     const crewData = crew[crewId];
     const iterations = crewData.animations;
     const isDieSelected = gameUiData.selectedDice.includes(crewId);
@@ -44,6 +45,10 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
                 } else if (currentCrewAbility === "ltMojo" &&
                     crewOnMission["ltMojo"] === "active") {
                     if (!mojoAbility) {
+                        if (crewId === "ltMojo") {
+                            alert("Mojo copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability... Monkey explodes.")
+                            return;
+                        }
                         updateState((data:any)=>{data.gameUiData.mojoAbility = crewId;})
                     } else {
                         updateState((data:any)=>{data.gameUiData.selectedDice = [crewId];})
@@ -100,8 +105,33 @@ export function characterCard (cardData:StateDataInterface, crewId:string) { //d
 
     }
 
+    function setSpecialDie () {
+        if (crewData.rolling &&
+            phase === 3 &&
+            lastAbilityUsed === "ambassadorAldren") {
+            return html`${die(crewData.die, iterations, isDieSelected)}`
+
+        } else if (crewData.rolling &&
+            phase === 3 &&
+            lastAbilityUsed ===  "mrsRoboto" &&
+            lastDiceSelected.includes(crewId)) {
+                console.log("robotoed")
+            return html`${mrsRobotoDie(crewData.die, iterations, isDieSelected)}`
+
+        } else if (crewData.rolling && phase === 3) {
+            return html`${die(crewData.die, 0, isDieSelected)}`
+        }
+    }
+
+    function setNormalDie () {
+        if (crewData.rolling && phase === 2) {
+            return html`${die(crewData.die, iterations, isDieSelected)}`
+        }
+    }
+
     return html`
-        ${ crewData.rolling ? die(crewData.die, iterations, isDieSelected) : '' }
+        ${setSpecialDie()}
+        ${setNormalDie()}
         <div class="crew-wrapper" onclick=${select}>
             <div class=${crewData.isActive === "active" ? "crew-wrapper-inner" : "crew-wrapper-inner crew-inactive"}>
                 <div class="crew-front">

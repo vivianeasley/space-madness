@@ -2,6 +2,7 @@ import { html, svg } from 'lighterhtml';
 import { updateState, getCurrentState } from './state-manager';
 import { abilityMethods } from './ability-methods';
 import { checkMethods } from './check-methods';
+import { dropDown } from './dropDown';
 
 interface StateDataInterface {
     crew: any,
@@ -29,6 +30,16 @@ export function phasesUi (stateData:StateDataInterface) {
         activeTurn,
         directions } = gameUiData;
     const crewOnMissionKeys = Object.keys(crewOnMission);
+
+    if (crewMemberMad()) {
+        alert("Crew member went insane. You lost");
+        return;
+    }
+
+    if (isLastMission()) {
+        alert("You won space madness");
+        return;
+    }
 
     function submitButtons () {
         if (phase === 0) {
@@ -87,6 +98,8 @@ export function phasesUi (stateData:StateDataInterface) {
             setTimeout(() => {
                 if (isMissionSucceeded()) {
                     beginCleanUpPhase();
+                } else if (noActiveCrew()) {
+                    beginCleanUpPhase();
                 } else {
                     updateState((data:any)=>{
                         data.gameUiData.phase++;
@@ -106,6 +119,15 @@ export function phasesUi (stateData:StateDataInterface) {
         }
     }
 
+    function noActiveCrew () {
+        for (const prop in crewOnMission) {
+            if (crewOnMission[prop] === "active") {
+                return false;
+            }
+        }
+        return true;
+    }
+
     function useAbility () { // TODO: Clean this up
 
         if (currentCrewAbility === "ltMojo" &&
@@ -118,6 +140,8 @@ export function phasesUi (stateData:StateDataInterface) {
             crewOnMission["ambassadorAldren"] === "active") {
             if (allAbilitiesUsed()) {
                 updateState((data:any)=>{
+                    data.gameUiData.lastAbilityUsed = currentCrewAbility;
+                    data.gameUiData.lastDiceSelected = selectedDice;
                     data.gameUiData.crewOnMission[currentCrewAbility] = "inactive";
                     for (let j = 0; j < data.gameUiData.selectedDice.length; j++) {
                         data.crew[data.gameUiData.selectedDice[j]].die = Math.floor(Math.random() * (6 - 1 + 1) + 1);
@@ -136,6 +160,8 @@ export function phasesUi (stateData:StateDataInterface) {
 
             } else {
                 updateState((data:any)=>{
+                    data.gameUiData.lastAbilityUsed = currentCrewAbility;
+                    data.gameUiData.lastDiceSelected = selectedDice;
                     data.gameUiData.crewOnMission[currentCrewAbility] = "inactive";
                     for (let j = 0; j < data.gameUiData.selectedDice.length; j++) {
                         data.crew[data.gameUiData.selectedDice[j]].die = Math.floor(Math.random() * (6 - 1 + 1) + 1);
@@ -163,6 +189,8 @@ export function phasesUi (stateData:StateDataInterface) {
             if (newRoll < 1) newRoll = 1;
             if (allAbilitiesUsed()) {
                 updateState((data:any)=>{
+                    data.gameUiData.lastAbilityUsed = currentCrewAbility;
+                    data.gameUiData.lastDiceSelected = selectedDice;
                     data.crew[data.gameUiData.selectedDice[0]].die = newRoll;
                 });
 
@@ -172,6 +200,8 @@ export function phasesUi (stateData:StateDataInterface) {
 
             } else {
                 updateState((data:any)=>{
+                    data.gameUiData.lastAbilityUsed = currentCrewAbility;
+                    data.gameUiData.lastDiceSelected = selectedDice;
                     data.crew[data.gameUiData.selectedDice[0]].die = newRoll;
                     data.gameUiData.crewOnMission[currentCrewAbility] = "inactive";
                     for (const prop in crewOnMission) {
@@ -220,10 +250,39 @@ export function phasesUi (stateData:StateDataInterface) {
 
     }
 
+    function isLastMission () { // TODO: Refactor remove levels
+        let count = 0;
+        for (const lvlOneProp in missions.lvlOne) {
+            if (!missions.lvlOne[lvlOneProp].succeeded) count++;
+        }
+        for (const lvlTwoProp in missions.lvlTwo) {
+            if (!missions.lvlTwo[lvlTwoProp].succeeded) count++;
+        }
+        for (const lvlThreeProp in missions.lvlThree) {
+            if (!missions.lvlThree[lvlThreeProp].succeeded) count++;
+        }
+
+        if (count > 0) return false;
+        return true;
+    }
+
+    function crewMemberMad () {
+        for (const prop in crew) {
+            if(isFullyTriggered(crew[prop].triggers)) return true;
+        }
+        return false;
+        function isFullyTriggered (triggersObj:any) {
+            let count = 0;
+            for (const triggerProp in triggersObj) {
+                if (triggersObj[triggerProp] === false) count++;
+            }
+            if (count > 2) return true;
+            return false;
+        }
+    }
+
     function beginCleanUpPhase () {
         if (isMissionSucceeded()) {
-           // check if last mission and failed == false
-           // then win!
             updateState((data:any)=>{
                 gameUiData.phase = 4;
 
@@ -239,6 +298,8 @@ export function phasesUi (stateData:StateDataInterface) {
                 data.gameUiData.selectedDice = [];
                 data.gameUiData.crewOnMission = {};
                 data.gameUiData.currentCrewAbility = undefined;
+                data.gameUiData.lastAbilityUsed = undefined;
+                data.gameUiData.lastDiceSelected = undefined;
                 data.gameUiData.selectedMissionLvl = undefined;
                 data.gameUiData.selectedMissionId = undefined;
                 data.gameUiData.mojoAbility = undefined;
@@ -253,7 +314,8 @@ export function phasesUi (stateData:StateDataInterface) {
                         }
                         for (let m = 0; m < crewOnMissionKeys.length; m++) {
                             if (crewOnMissionKeys[k] !== crewOnMissionKeys[m]) {
-                                if (data.crew[crewOnMissionKeys[m]].traits[trigger]) {
+                                if (data.crew[crewOnMissionKeys[m]].traits[trigger] &&
+                                    data.crew[crewOnMissionKeys[k]].triggers[trigger] !== false) {
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] = false;
                                     breakOut = true;
                                     break;
@@ -283,6 +345,8 @@ export function phasesUi (stateData:StateDataInterface) {
                 data.gameUiData.selectedDice = [];
                 data.gameUiData.crewOnMission = {};
                 data.gameUiData.currentCrewAbility = undefined;
+                data.gameUiData.lastAbilityUsed = undefined;
+                data.gameUiData.lastDiceSelected = undefined;
                 data.gameUiData.selectedMissionLvl = undefined;
                 data.gameUiData.selectedMissionId = undefined;
                 data.gameUiData.mojoAbility = undefined;
@@ -297,7 +361,8 @@ export function phasesUi (stateData:StateDataInterface) {
                         }
                         for (let m = 0; m < crewOnMissionKeys.length; m++) {
                             if (crewOnMissionKeys[k] !== crewOnMissionKeys[m]) {
-                                if (data.crew[crewOnMissionKeys[m]].traits[trigger]) {
+                                if (data.crew[crewOnMissionKeys[m]].traits[trigger] &&
+                                    data.crew[crewOnMissionKeys[k]].triggers[trigger] !== false) {
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] = false;
                                     breakOut = true;
                                     break;
@@ -317,7 +382,7 @@ export function phasesUi (stateData:StateDataInterface) {
             console.log("you failed the mission")
         } else {
             // if failed game loss!
-            console.log("You lost the game!")
+            alert("You lost the game do to mission failure :-(!")
         }
 
         setTimeout(() => {
@@ -336,7 +401,9 @@ export function phasesUi (stateData:StateDataInterface) {
             // only if selected crew
             if (currentState.crew[prop].die) rollsArr.push(currentState.crew[prop].die);
         }
-        if (missions[selectedMissionLvl][selectedMissionId].failed && phase === 3) {
+        console.log(missions[selectedMissionLvl][selectedMissionId].failed, phase);
+        console.log(rollsArr)
+        if (missions[selectedMissionLvl][selectedMissionId].failed) {
             if (checkMethods["recoverFail"](rollsArr, 2)) {
                 console.log("you recovered from a fail!")
                 missionSuccess = true;
@@ -367,17 +434,25 @@ export function phasesUi (stateData:StateDataInterface) {
             }
 
         }
-        return directionsText.replace("%%", currentCrewAbility);
 
+        if (phase === 3) {
+            return html`
+            <div class="phases-direction-text">
+                ${dropDown(stateData)} ${directionsText}
+            </div>`
+        } else {
+            return html`
+            <div class="phases-direction-text">
+                ${directionsText}
+            </div>`
+        }
     }
 
     return html`
         <div class="phases-tooltip-wrapper">
             <div class="tooltips">${helpIcon()}<span>${helpText[phase].replace("%%", currentCrewAbility)} Need more help? Read the rules</span></div>
         </div>
-        <div class="phases-direction-text">
-            ${getDirectionsText()}
-        </div>
+        ${getDirectionsText()}
         ${submitButtons()}
     `;
 }
