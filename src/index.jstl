@@ -4,3 +4,4 @@
 <div class="section-title">Crew:</div>
 <div class="crew-cards-wrapper"></div>
 <div class="phases-wrapper"></div>
+<div class="modal-wrapper"></div>

@@ -1,14 +1,14 @@
 import { html } from 'lighterhtml';
 
-export function mrsRobotoDie (roll:number, iterations:number, selected:boolean) {
+export function ambassadorAldrenDie (roll:number, iterations:number, selected:boolean) {
 
     const sideDict = {
-        1:"mr-dice-front-view",
-        2:"mr-dice-right-view",
-        3:"mr-dice-back-view",
-        4:"mr-dice-left-view",
-        5:"mr-dice-top-view",
-        6:"mr-dice-bottom-view"
+        1:"aa-dice-front-view",
+        2:"aa-dice-right-view",
+        3:"aa-dice-back-view",
+        4:"aa-dice-left-view",
+        5:"aa-dice-top-view",
+        6:"aa-dice-bottom-view"
     }
 
     function rollLength () {

@@ -19,7 +19,6 @@ interface StateDataInterface {
 export function phasesUi (stateData:StateDataInterface) {
     const { gameUiData, crew, missions, player } = stateData;
     const { phase,
-        helpText,
         crewOnMission,
         currentCrewAbility,
         selectedMissionLvl,
@@ -27,8 +26,7 @@ export function phasesUi (stateData:StateDataInterface) {
         mojoAbility,
         selectedDice,
         turnOrder,
-        activeTurn,
-        directions } = gameUiData;
+        activeTurn } = gameUiData;
     const crewOnMissionKeys = Object.keys(crewOnMission);
 
     if (crewMemberMad()) {
@@ -233,7 +231,6 @@ export function phasesUi (stateData:StateDataInterface) {
 
     function skipAbilityTarget () {
         if (allAbilitiesUsed()) {
-            console.log("cleanup phase")
             beginCleanUpPhase();
         } else {
             updateState((data:any)=>{
@@ -419,8 +416,22 @@ export function phasesUi (stateData:StateDataInterface) {
         return missionSuccess;
     }
 
+    const helpText =  [
+        "Click on a mission card at the top of the page and then click the submit button in the bottom right.",
+        "Click on a crew card and then click the submit button in the bottom right.",
+        "Wait a second, dice are rolling",
+        "Apply ability to a dice roll, click the die you would like to change and then click submit. You may also skip using this ability by clicking the skip button",
+        "Wait for game to manage prep for next round"
+     ];
+    const directions = [
+        "",
+        "",
+        "Rolling...",
+        "apply ability to a crew's die",
+        "Clean up phase..."
+     ];
+
     function getDirectionsText () {
-    // if mojo have special
         let directionsText = "Not currently your turn. Relax. Sit a spell.";
         if (turnOrder[activeTurn] === player.name) {
             directionsText = directions[phase];
@@ -438,13 +449,19 @@ export function phasesUi (stateData:StateDataInterface) {
         if (phase === 3) {
             return html`
             <div class="phases-direction-text">
-                ${dropDown(stateData)} ${directionsText}
+                ${dropDown(stateData)} apply ability to a crew's die
             </div>`
-        } else {
+        } else if (phase === 0) {
             return html`
             <div class="phases-direction-text">
-                ${directionsText}
+                Choose a <span class=\"re-green\">mission</span> to attempt
             </div>`
+        } else if (phase === 1) {
+            return html`<div class="phases-direction-text">
+                Choose <span class=\"re-blue\">crew</span> to attempt the mission
+            </div>`
+        } else {
+            return html`${directionsText}`
         }
     }
 

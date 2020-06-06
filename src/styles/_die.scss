@@ -24,31 +24,43 @@
     animation-iteration-count: 2;
 }
 
+.aa-dice-front-view,
+.mr-dice-front-view,
 .dice-front-view {
     animation: spin 1.6s linear;
     transform:rotateY(360deg);
 }
 
+.aa-dice-right-view,
+.mr-dice-right-view,
 .dice-right-view {
     animation: spin 1.6s linear;
     transform:rotateY(-90deg);
 }
 
+.aa-dice-back-view,
+.mr-dice-back-view,
 .dice-back-view {
     animation: spin 1.6s linear;
     transform:rotateY(180deg);
 }
 
+.aa-dice-left-view,
+.mr-dice-left-view,
 .dice-left-view {
     animation: spin 1.6s linear;
     transform:rotateY(90deg);
 }
 
+.aa-dice-top-view,
+.mr-dice-top-view,
 .dice-top-view {
     animation: spin 1.6s linear;
     transform:rotateX(-90deg);
 }
 
+.aa-dice-bottom-view,
+.mr-dice-bottom-view,
 .dice-bottom-view {
     animation: spin 1.6s linear;
     transform:rotateX(90deg);

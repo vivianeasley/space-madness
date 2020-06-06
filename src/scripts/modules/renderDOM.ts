@@ -2,6 +2,7 @@ import { characterCard } from './character-card';
 import { missionCard } from './mission-card';
 import { phasesUi } from './phases-ui';
 import { render, html } from 'lighterhtml';
+import { modalWrapper } from './modal';
 // import Typewriter from 'typewriter-effect/dist/core';
 
 
@@ -9,6 +10,7 @@ import { render, html } from 'lighterhtml';
 const crewCards = document.querySelector(".crew-cards-wrapper");
 const missionCards = document.querySelector(".mission-cards-wrapper");
 const phases = document.querySelector(".phases-wrapper");
+const modals = document.querySelector(".modal-wrapper");
 
 export function renderDOM (state:any) {
     const { crew, missions } = state;
@@ -44,6 +46,8 @@ export function renderDOM (state:any) {
 
 
     render(phases, html`${phasesUi(state)}`);
+
+    render(modals, html`${modalWrapper(state)}`);
 
     function isColumnEmptyCheck (lvlData:any) {
         for (const prop in lvlData) {

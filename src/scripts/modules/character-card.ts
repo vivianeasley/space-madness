@@ -2,6 +2,7 @@ import { html } from 'lighterhtml';
 import { updateState } from './state-manager'
 import { die } from './die'
 import { mrsRobotoDie } from './mrsRobotoDie'
+import { ambassadorAldrenDie } from './ambassadorAldrenDie'
 
 interface StateDataInterface {
     crew: any,
@@ -108,18 +109,24 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
     function setSpecialDie () {
         if (crewData.rolling &&
             phase === 3 &&
-            lastAbilityUsed === "ambassadorAldren") {
-            return html`${die(crewData.die, iterations, isDieSelected)}`
+            lastAbilityUsed === "ambassadorAldren" &&
+            lastDiceSelected.includes(crewId)) {
+            return html`${ambassadorAldrenDie(crewData.die, iterations, isDieSelected)}`
 
-        } else if (crewData.rolling &&
+        } else
+        if (crewData.rolling &&
             phase === 3 &&
             lastAbilityUsed ===  "mrsRoboto" &&
             lastDiceSelected.includes(crewId)) {
-                console.log("robotoed")
+                console.log("roboto")
             return html`${mrsRobotoDie(crewData.die, iterations, isDieSelected)}`
 
         } else if (crewData.rolling && phase === 3) {
+            console.log("static")
             return html`${die(crewData.die, 0, isDieSelected)}`
+        } else {
+            console.log("nothing")
+            return html`<span style="display:none"></span>`;
         }
     }
 

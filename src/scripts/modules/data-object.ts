@@ -5,6 +5,9 @@ export const data = {
       "crew":undefined
    },
    "gameUiData": {
+      "modalOpen": true,
+      "modalId": "rules",
+      "modalButtonText": "Start Game",
       "phaseChange": true,
       "phase": 0,
       "activeTurn": 0,
@@ -18,20 +21,6 @@ export const data = {
       "currentCrewAbility": undefined,
       "lastAbilityUsed": undefined,
       "mojoAbility": undefined,
-      "helpText": [
-         "Click on a mission card at the top of the page and then click the submit button in the bottom right.",
-         "Click on a crew card and then click the submit button in the bottom right.",
-         "Wait a second, dice are rolling",
-         "Apply ability to a dice roll, click the die you would like to change and then click submit. You may also skip using this ability by clicking the skip button",
-         "Wait for game to manage prep for next round"
-      ],
-      "directions": [
-         "Choose a mission to attempt",
-         "Choose crew to attempt the mission",
-         "Rolling...",
-         "apply ability to a crew's die",
-         "Clean up phase..."
-      ],
       "players": {
          "Anonymous": "mrsroboto"
       }
