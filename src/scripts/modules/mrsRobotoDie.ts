@@ -16,8 +16,8 @@ export function mrsRobotoDie (roll:number, iterations:number, selected:boolean) 
     }
 
     return html`
-        <div class=${selected ? "view selected-die" : "view"}>
-            <div class="dice ${sideDict[roll]}" style=${rollLength()}>
+        <div class=${selected ? "mr-view selected-die" : "mr-view"}>
+            <div class="mr-dice ${sideDict[roll]}" style=${rollLength()}>
                 <div class="diceFace front"></div>
                 <div class="diceFace right"></div>
                 <div class="diceFace back"></div>

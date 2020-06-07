@@ -29,28 +29,39 @@ export function phasesUi (stateData:StateDataInterface) {
         activeTurn } = gameUiData;
     const crewOnMissionKeys = Object.keys(crewOnMission);
 
-    if (crewMemberMad()) {
-        alert("Crew member went insane. You lost");
+    if (gameUiData.modalId === "madnessLose" || gameUiData.modalId === "win") return;
+
+    if (crewMemberMad() && gameUiData.modalId !== "madnessLose") {
+        console.log("madness")
+        updateState((data:any)=>{
+            data.gameUiData.modalOpen = true;
+            data.gameUiData.modalId = "madnessLose";
+            data.gameUiData.modalButtonText = undefined;
+        });
         return;
     }
 
-    if (isLastMission()) {
-        alert("You won space madness");
+    if (missionsCompleted() && gameUiData.modalId !== "win") {
+        updateState((data:any)=>{
+            data.gameUiData.modalOpen = true;
+            data.gameUiData.modalId = "win";
+            data.gameUiData.modalButtonText = undefined;
+        });
         return;
+
     }
 
     function submitButtons () {
         if (phase === 0) {
-            // if undefined
             return html`
             <div class="phases-ui">
-                <button onclick=${getMissionSubmit} >Submit Mission</button>
+                <button disabled=${!selectedMissionId ? true : false} onclick=${getMissionSubmit} >Submit Mission</button>
             </div>
             `
         } else if (phase === 1) {
             return html`
             <div class="phases-ui">
-                <button onclick=${getCrewSubmit}>Submit Crew</button>
+                <button disabled=${crewOnMissionKeys.length < 3 ? true : false} onclick=${getCrewSubmit}>Submit Crew</button>
             </div>
             `
         } else if (phase === 3) {
@@ -247,7 +258,7 @@ export function phasesUi (stateData:StateDataInterface) {
 
     }
 
-    function isLastMission () { // TODO: Refactor remove levels
+    function missionsCompleted () { // TODO: Refactor remove levels
         let count = 0;
         for (const lvlOneProp in missions.lvlOne) {
             if (!missions.lvlOne[lvlOneProp].succeeded) count++;
@@ -283,6 +294,11 @@ export function phasesUi (stateData:StateDataInterface) {
             updateState((data:any)=>{
                 gameUiData.phase = 4;
 
+                // Modal
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "suceededMission";
+                data.gameUiData.modalButtonText = "Start Next Round";
+
                 // reset missions
                 if (data.missions[selectedMissionLvl][selectedMissionId].failed === true) {
                     data.missions[selectedMissionLvl][selectedMissionId].failed = false;
@@ -314,6 +330,7 @@ export function phasesUi (stateData:StateDataInterface) {
                                 if (data.crew[crewOnMissionKeys[m]].traits[trigger] &&
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] !== false) {
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] = false;
+                                    data.gameUiData.gameHistory.push(`In the ${missions[selectedMissionLvl][selectedMissionId].name} section of the ship ${crew[crewOnMissionKeys[m]].name} drove ${crew[crewOnMissionKeys[k]].name} more mad with their ${trigger} trait.`);
                                     breakOut = true;
                                     break;
                                 }
@@ -333,6 +350,11 @@ export function phasesUi (stateData:StateDataInterface) {
         } else if (!missions[selectedMissionLvl][selectedMissionId].failed) {
             updateState((data:any)=>{
                 gameUiData.phase = 4;
+
+                // Modal
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "failedMission";
+                data.gameUiData.modalButtonText = "Start Next Round";
 
                 // reset missions
                 data.missions[selectedMissionLvl][selectedMissionId].failed = true;
@@ -361,6 +383,7 @@ export function phasesUi (stateData:StateDataInterface) {
                                 if (data.crew[crewOnMissionKeys[m]].traits[trigger] &&
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] !== false) {
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] = false;
+                                    data.gameUiData.gameHistory.push(`In the ${missions[selectedMissionLvl][selectedMissionId].name} section of the ship ${crew[crewOnMissionKeys[m]].name} drove ${crew[crewOnMissionKeys[k]].name} more mad with their ${trigger} trait.`);
                                     breakOut = true;
                                     break;
                                 }
@@ -376,10 +399,13 @@ export function phasesUi (stateData:StateDataInterface) {
 
                 }
             });
-            console.log("you failed the mission")
         } else {
-            // if failed game loss!
-            alert("You lost the game do to mission failure :-(!")
+            updateState((data:any)=>{
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "missionLose";
+                data.gameUiData.modalButtonText = undefined;
+            });
+
         }
 
         setTimeout(() => {
@@ -431,6 +457,14 @@ export function phasesUi (stateData:StateDataInterface) {
         "Clean up phase..."
      ];
 
+    function openInstructions () {
+        updateState((data:any)=>{
+            data.gameUiData.modalOpen = true;
+            data.gameUiData.modalId = "rules";
+            data.gameUiData.modalButtonText = "Return to Game";
+        });
+    }
+
     function getDirectionsText () {
         let directionsText = "Not currently your turn. Relax. Sit a spell.";
         if (turnOrder[activeTurn] === player.name) {
@@ -467,7 +501,7 @@ export function phasesUi (stateData:StateDataInterface) {
 
     return html`
         <div class="phases-tooltip-wrapper">
-            <div class="tooltips">${helpIcon()}<span>${helpText[phase].replace("%%", currentCrewAbility)} Need more help? Read the rules</span></div>
+            <div class="tooltips">${helpIcon()}<span>${helpText[phase].replace("%%", currentCrewAbility)} <div class="re-pointer" onclick=${openInstructions}>Click here to read the rules</div></span></div>
         </div>
         ${getDirectionsText()}
         ${submitButtons()}

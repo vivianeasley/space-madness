@@ -52,7 +52,7 @@ export function missionCard (cardData:StateDataInterface, missionId:string, leve
     }
 
     return html`
-        <div class="mission-wrapper" onclick=${select}>
+        <div class="mission-wrapper ${phase === 0 ? "re-pointer" : "no-pointer" }" onclick=${select}>
             <div class=${!missionData.failed ? "mission-wrapper-inner" : "mission-wrapper-inner mission-failed"}>
                 <div class="mission-front">
                     ${getSelectedBanner()}

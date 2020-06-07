@@ -1,6 +1,6 @@
 import { html } from 'lighterhtml';
 
-export function die (roll:number, iterations:number, selected:boolean) {
+export function die (roll:number, iterations:number, selected:boolean, id:string) {
 
     const sideDict = {
         1:"dice-front-view",
@@ -15,16 +15,40 @@ export function die (roll:number, iterations:number, selected:boolean) {
         return `animation-iteration-count: ${iterations};`;
     }
 
-    return html`
-        <div class=${selected ? "view selected-die" : "view"}>
-            <div class="dice ${sideDict[roll]}" style=${rollLength()}>
+    function getInner () {
+        if (id === "ambassadorAldren") {
+            return html`<div class="dice relayout-aldren-die ${sideDict[roll]}" style=${rollLength()}>
                 <div class="diceFace front"></div>
                 <div class="diceFace right"></div>
                 <div class="diceFace back"></div>
                 <div class="diceFace left"></div>
                 <div class="diceFace top"></div>
                 <div class="diceFace bottom"></div>
-            </div>
+            </div>`
+        } else if (id === "mrsRoboto") {
+            return html`<div class="dice relayout-roboto-die ${sideDict[roll]}" style=${rollLength()}>
+                <div class="diceFace front"></div>
+                <div class="diceFace right"></div>
+                <div class="diceFace back"></div>
+                <div class="diceFace left"></div>
+                <div class="diceFace top"></div>
+                <div class="diceFace bottom"></div>
+            </div>`
+        } else {
+            return html`<div class="dice ${sideDict[roll]}" style=${rollLength()}>
+                <div class="diceFace front"></div>
+                <div class="diceFace right"></div>
+                <div class="diceFace back"></div>
+                <div class="diceFace left"></div>
+                <div class="diceFace top"></div>
+                <div class="diceFace bottom"></div>
+            </div>`
+        }
+    }
+
+    return html`
+        <div class=${selected ? "view selected-die" : "view"}>
+            ${getInner()}
         </div>
     `;
 }

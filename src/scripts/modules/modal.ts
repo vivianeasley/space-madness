@@ -15,9 +15,11 @@ export function modalWrapper (stateData:any) {
     return html`
         <div class=${modalOpen ? "modal-background" : "re-display-none"}>
             <div class="modal-content">
-                <div onclick=${closeModal}>X</div>
+                <div class="modal-close-icon" onclick=${closeModal}>X</div>
                 ${modalContentMethods[modalId]()}
-                <button  onclick=${closeModal}>${modalButtonText}</button>
+                <div class=${modalButtonText ? "modal-buttons-wrapper" : "re-display-none"}>
+                    <button  onclick=${closeModal}>${modalButtonText}</button>
+                </div>
             </div>
         </div>
 

@@ -23,8 +23,8 @@ export const data = {
       "mojoAbility": undefined,
       "players": {
          "Anonymous": "mrsroboto"
-      }
-
+      },
+      "gameHistory": []
    },
     // Missions for different parts of the ship
    "missions": {
@@ -39,7 +39,8 @@ export const data = {
             "targetRuleText": "Roll total greater than 15",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlThreeOver"
+            "successCheck": "lvlThreeOver",
+            "name": "Weapons"
          },
          "powerCore": {
             "isSelected": false,
@@ -51,7 +52,8 @@ export const data = {
             "targetRuleText": "Roll total greater than 10",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlTwoOver"
+            "successCheck": "lvlTwoOver",
+            "name": "Power Core"
          },
          "dockingBay": {
             "isSelected": false,
@@ -63,7 +65,8 @@ export const data = {
             "targetRuleText": "Roll total greater than 5",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlOneOver"
+            "successCheck": "lvlOneOver",
+            "name": "Docking Bay"
          },
       },
       "lvlTwo": {
@@ -77,7 +80,8 @@ export const data = {
             "targetRuleText": "Roll a 1, 2, and 3",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlThreeNum"
+            "successCheck": "lvlThreeNum",
+            "name": "Science Bay"
          },
          "medicalBay": {
             "isSelected": false,
@@ -89,7 +93,8 @@ export const data = {
             "targetRuleText": "Roll a 4, and 5",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlTwoNum"
+            "successCheck": "lvlTwoNum",
+            "name": "Medical Bay"
          },
          "engineRoom": {
             "isSelected": false,
@@ -101,7 +106,8 @@ export const data = {
             "targetRuleText": "Roll a 6",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlOneNum"
+            "successCheck": "lvlOneNum",
+            "name": "Engine Room"
          }
       },
       "lvlThree": {
@@ -115,7 +121,8 @@ export const data = {
             "targetRuleText": "Roll total less than 6",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlThreeUnder"
+            "successCheck": "lvlThreeUnder",
+            "name": "Bridge"
          },
          "messHall": {
             "isSelected": false,
@@ -127,7 +134,8 @@ export const data = {
             "targetNumber": 8,
             "targetRuleText": "Roll total less than 8",
             "imgBack": "die-roll-two-same",
-            "successCheck": "lvlTwoUnder"
+            "successCheck": "lvlTwoUnder",
+            "name": "Mess Hall"
          },
          "dormitory": {
             "isSelected": false,
@@ -139,7 +147,8 @@ export const data = {
             "targetRuleText": "Roll total less than 12",
             "imgBack": "die-roll-two-same",
             "failed": false,
-            "successCheck": "lvlOneUnder"
+            "successCheck": "lvlOneUnder",
+            "name": "Dormitory"
          },
       }
    },

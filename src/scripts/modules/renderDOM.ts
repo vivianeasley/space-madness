@@ -11,9 +11,11 @@ const crewCards = document.querySelector(".crew-cards-wrapper");
 const missionCards = document.querySelector(".mission-cards-wrapper");
 const phases = document.querySelector(".phases-wrapper");
 const modals = document.querySelector(".modal-wrapper");
+const history = document.querySelector(".history-wrapper");
 
 export function renderDOM (state:any) {
-    const { crew, missions } = state;
+    const { crew, missions, gameUiData } = state;
+    const { gameHistory } = gameUiData;
     const { lvlOne, lvlTwo, lvlThree } = missions;
 
     render(missionCards, html`
@@ -46,6 +48,18 @@ export function renderDOM (state:any) {
 
 
     render(phases, html`${phasesUi(state)}`);
+
+    render(history, html`
+        <div class="game-history">
+            <h2 class="re-white">Game History</h2>
+            <ul>
+                ${gameHistory.map((event, i) => {
+                return html`
+                    <li class="re-white" data-i=${i}>${event}</li>
+                `})}
+                </ul>
+        </div>
+        `)
 
     render(modals, html`${modalWrapper(state)}`);
 

@@ -107,39 +107,28 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
     }
 
     function setSpecialDie () {
-        if (crewData.rolling &&
+        if (crewData.rolling && phase === 2) {
+            return html`${die(crewData.die, iterations, isDieSelected, "normal")}`
+        } else if (crewData.rolling &&
             phase === 3 &&
-            lastAbilityUsed === "ambassadorAldren" &&
+            (lastAbilityUsed === "ambassadorAldren" || lastAbilityUsed ===  "mrsRoboto") &&
             lastDiceSelected.includes(crewId)) {
-            return html`${ambassadorAldrenDie(crewData.die, iterations, isDieSelected)}`
-
-        } else
-        if (crewData.rolling &&
-            phase === 3 &&
-            lastAbilityUsed ===  "mrsRoboto" &&
-            lastDiceSelected.includes(crewId)) {
-                console.log("roboto")
-            return html`${mrsRobotoDie(crewData.die, iterations, isDieSelected)}`
+            return html`${die(crewData.die, iterations, isDieSelected, crewId)}`
 
         } else if (crewData.rolling && phase === 3) {
             console.log("static")
-            return html`${die(crewData.die, 0, isDieSelected)}`
+            return html`${die(crewData.die, 0, isDieSelected, "normal")}`
         } else {
             console.log("nothing")
             return html`<span style="display:none"></span>`;
         }
     }
 
-    function setNormalDie () {
-        if (crewData.rolling && phase === 2) {
-            return html`${die(crewData.die, iterations, isDieSelected)}`
-        }
-    }
+
 
     return html`
         ${setSpecialDie()}
-        ${setNormalDie()}
-        <div class="crew-wrapper" onclick=${select}>
+        <div class="crew-wrapper ${phase > 0 ? "re-pointer" : "no-pointer" }" onclick=${select}>
             <div class=${crewData.isActive === "active" ? "crew-wrapper-inner" : "crew-wrapper-inner crew-inactive"}>
                 <div class="crew-front">
                     ${getSelectedBanner()}
