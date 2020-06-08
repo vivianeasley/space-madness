@@ -29,27 +29,6 @@ export function phasesUi (stateData:StateDataInterface) {
         activeTurn } = gameUiData;
     const crewOnMissionKeys = Object.keys(crewOnMission);
 
-    // if (gameUiData.modalId === "madnessLose" || gameUiData.modalId === "win") return;
-
-    // if (crewMemberMad() && gameUiData.modalId !== "madnessLose") { // BUG: Not triggering
-    //     updateState((data:any)=>{
-    //         data.gameUiData.modalOpen = true;
-    //         data.gameUiData.modalId = "madnessLose";
-    //         data.gameUiData.modalButtonText = undefined;
-    //     });
-    //     return;
-    // }
-
-    // if (missionsCompleted() && gameUiData.modalId !== "win") {
-    //     updateState((data:any)=>{
-    //         data.gameUiData.modalOpen = true;
-    //         data.gameUiData.modalId = "win";
-    //         data.gameUiData.modalButtonText = undefined;
-    //     });
-    //     return;
-
-    // }
-
     function submitButtons () {
         if (phase === 0) {
             return html`
@@ -257,37 +236,6 @@ export function phasesUi (stateData:StateDataInterface) {
 
     }
 
-    // function missionsCompleted () { // TODO: Refactor remove levels
-    //     let count = 0;
-    //     for (const lvlOneProp in missions.lvlOne) {
-    //         if (!missions.lvlOne[lvlOneProp].succeeded) count++;
-    //     }
-    //     for (const lvlTwoProp in missions.lvlTwo) {
-    //         if (!missions.lvlTwo[lvlTwoProp].succeeded) count++;
-    //     }
-    //     for (const lvlThreeProp in missions.lvlThree) {
-    //         if (!missions.lvlThree[lvlThreeProp].succeeded) count++;
-    //     }
-
-    //     if (count > 0) return false;
-    //     return true;
-    // }
-
-    // function crewMemberMad () {
-    //     for (const prop in crew) {
-    //         if(isFullyTriggered(crew[prop].triggers)) return true;
-    //     }
-    //     return false;
-    //     function isFullyTriggered (triggersObj:any) {
-    //         let count = 0;
-    //         for (const triggerProp in triggersObj) {
-    //             if (triggersObj[triggerProp] === false) count++;
-    //         }
-    //         if (count > 2) return true;
-    //         return false;
-    //     }
-    // }
-
     function beginCleanUpPhase () {
         if (isMissionSucceeded()) {
             updateState((data:any)=>{
@@ -437,8 +385,8 @@ export function phasesUi (stateData:StateDataInterface) {
     }
 
     const helpText =  [
-        "Click on a mission card at the top of the page and then click the submit button in the bottom right.",
-        "Click on a crew card and then click the submit button in the bottom right.",
+        "Click on a mission card at the top of the page and then click the submit button in the top right of the page.",
+        "Click on a crew card and then click the submit button in the top right of the page.",
         "Wait a second, dice are rolling",
         "Apply ability to a dice roll, click the die you would like to change and then click submit. You may also skip using this ability by clicking the skip button",
         "Wait for game to manage prep for next round"
@@ -495,7 +443,7 @@ export function phasesUi (stateData:StateDataInterface) {
 
     return html`
         <div class="phases-tooltip-wrapper">
-            <div class="tooltips">${helpIcon()}<span>${helpText[phase].replace("%%", currentCrewAbility)} <div class="re-pointer" onclick=${openInstructions}>Click here to read the rules</div></span></div>
+            <div class="tooltips">${helpIcon()}<span>${helpText[phase].replace("%%", currentCrewAbility)} <div class="re-pointer re-blue" onclick=${openInstructions}>Click here to read the rules</div></span></div>
         </div>
         ${getDirectionsText()}
         ${submitButtons()}

@@ -18,6 +18,7 @@
     overflow-x: hidden;
     position: relative;
     line-height: 1.5rem;
+    max-height: calc(100vh - 200px);
 }
 
 .modal-close-icon {
@@ -30,19 +31,27 @@
 }
 
 .modal-buttons-wrapper {
-    margin-top: 15px;
+    margin: 15px 0 20px 0;
     text-align: right;
 }
 
 .modal-paragraph {
     margin: 8px 0;
+    padding: 0 4px;
+    overflow:hidden;
+    font-family: 'Roboto', sans-serif;
 }
 
 .modal-aldren-image {
-    max-width: 200px;
+    max-width: 100px;
     margin: 0 auto;
 }
 
 .modal-h2-spacing {
+    margin-bottom: 10px;
+}
+
+.modal-glossary-section {
+    overflow: hidden;
     margin-bottom: 10px;
 }

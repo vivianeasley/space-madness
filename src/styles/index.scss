@@ -18,7 +18,7 @@ body {
   font-weight: 600;
   margin: 5px 15px;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: 60px auto 0 auto;
 }
 
 .seperator {
@@ -31,7 +31,7 @@ body {
   vertical-align: top;
   position: relative;
   width: 350px;
-  height: 279px;
+  height: 258px;
 }
 
 .card-selected {
@@ -52,3 +52,7 @@ body {
   max-width: 800px;
   margin: 0 auto 100px auto;
 }
+
+.game-history ul {
+  font-family: 'Roboto', sans-serif;
+ }

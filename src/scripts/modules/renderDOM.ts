@@ -23,21 +23,21 @@ export function renderDOM (state:any) {
             ${Object.keys(lvlOne).map((missionId, i) => {
                 if (lvlOne[missionId].succeeded) return html`<span></span>`;
                 return html`
-                    <div class="mission-grid-cell" style="top:${i*20}px;" data-i=${i}>${missionCard(state, missionId, "lvlOne")}</div>
+                    <div class="mission-grid-cell" style="top:${i*8}px;" data-i=${i}>${missionCard(state, missionId, "lvlOne")}</div>
                 `})}
         </div>
         <div class="level-column">
             ${Object.keys(lvlTwo).map((missionId, i) => {
                 if (lvlTwo[missionId].succeeded) return html`<span></span>`;
                 return html`
-                    <div class="mission-grid-cell" style="top:${i*20}px;" data-i=${i}>${missionCard(state, missionId, "lvlTwo")}</div>
+                    <div class="mission-grid-cell" style="top:${i*8}px;" data-i=${i}>${missionCard(state, missionId, "lvlTwo")}</div>
                 `})}
         </div>
         <div class="level-column">
             ${Object.keys(lvlThree).map((missionId, i) => {
                 if (lvlThree[missionId].succeeded) return html`<span></span>`;
                 return html`
-                    <div class="mission-grid-cell" style="top:${i*20}px;" data-i=${i}>${missionCard(state, missionId, "lvlThree")}</div>
+                    <div class="mission-grid-cell" style="top:${i*8}px;" data-i=${i}>${missionCard(state, missionId, "lvlThree")}</div>
                 `})}
         </div>
     `);
