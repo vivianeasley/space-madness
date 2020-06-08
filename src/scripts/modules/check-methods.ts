@@ -1,9 +1,9 @@
 // These methods just check and return a bool depending on of the rols pass some criteria
 export namespace checkMethods {
     // Public methods
-    export function lvlOneOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 5};
-    export function lvlTwoOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 11};
-    export function lvlThreeOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 17};
+    export function lvlOneOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 7};
+    export function lvlTwoOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 13};
+    export function lvlThreeOver (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) > 18};
     export function lvlOneUnder (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) < 12};
     export function lvlTwoUnder (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) < 8};
     export function lvlThreeUnder (allRolls) {return allRolls.reduce((total:number, value:number) => total + value) < 6};

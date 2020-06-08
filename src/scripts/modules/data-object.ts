@@ -5,6 +5,7 @@ export const data = {
       "crew":undefined
    },
    "gameUiData": {
+      "lost": false,
       "modalOpen": true,
       "modalId": "rules",
       "modalButtonText": "Start Game",

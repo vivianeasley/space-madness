@@ -116,10 +116,8 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
             return html`${die(crewData.die, iterations, isDieSelected, crewId)}`
 
         } else if (crewData.rolling && phase === 3) {
-            console.log("static")
             return html`${die(crewData.die, 0, isDieSelected, "normal")}`
         } else {
-            console.log("nothing")
             return html`<span style="display:none"></span>`;
         }
     }

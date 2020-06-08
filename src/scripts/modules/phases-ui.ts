@@ -29,27 +29,26 @@ export function phasesUi (stateData:StateDataInterface) {
         activeTurn } = gameUiData;
     const crewOnMissionKeys = Object.keys(crewOnMission);
 
-    if (gameUiData.modalId === "madnessLose" || gameUiData.modalId === "win") return;
+    // if (gameUiData.modalId === "madnessLose" || gameUiData.modalId === "win") return;
 
-    if (crewMemberMad() && gameUiData.modalId !== "madnessLose") {
-        console.log("madness")
-        updateState((data:any)=>{
-            data.gameUiData.modalOpen = true;
-            data.gameUiData.modalId = "madnessLose";
-            data.gameUiData.modalButtonText = undefined;
-        });
-        return;
-    }
+    // if (crewMemberMad() && gameUiData.modalId !== "madnessLose") { // BUG: Not triggering
+    //     updateState((data:any)=>{
+    //         data.gameUiData.modalOpen = true;
+    //         data.gameUiData.modalId = "madnessLose";
+    //         data.gameUiData.modalButtonText = undefined;
+    //     });
+    //     return;
+    // }
 
-    if (missionsCompleted() && gameUiData.modalId !== "win") {
-        updateState((data:any)=>{
-            data.gameUiData.modalOpen = true;
-            data.gameUiData.modalId = "win";
-            data.gameUiData.modalButtonText = undefined;
-        });
-        return;
+    // if (missionsCompleted() && gameUiData.modalId !== "win") {
+    //     updateState((data:any)=>{
+    //         data.gameUiData.modalOpen = true;
+    //         data.gameUiData.modalId = "win";
+    //         data.gameUiData.modalButtonText = undefined;
+    //     });
+    //     return;
 
-    }
+    // }
 
     function submitButtons () {
         if (phase === 0) {
@@ -258,36 +257,36 @@ export function phasesUi (stateData:StateDataInterface) {
 
     }
 
-    function missionsCompleted () { // TODO: Refactor remove levels
-        let count = 0;
-        for (const lvlOneProp in missions.lvlOne) {
-            if (!missions.lvlOne[lvlOneProp].succeeded) count++;
-        }
-        for (const lvlTwoProp in missions.lvlTwo) {
-            if (!missions.lvlTwo[lvlTwoProp].succeeded) count++;
-        }
-        for (const lvlThreeProp in missions.lvlThree) {
-            if (!missions.lvlThree[lvlThreeProp].succeeded) count++;
-        }
+    // function missionsCompleted () { // TODO: Refactor remove levels
+    //     let count = 0;
+    //     for (const lvlOneProp in missions.lvlOne) {
+    //         if (!missions.lvlOne[lvlOneProp].succeeded) count++;
+    //     }
+    //     for (const lvlTwoProp in missions.lvlTwo) {
+    //         if (!missions.lvlTwo[lvlTwoProp].succeeded) count++;
+    //     }
+    //     for (const lvlThreeProp in missions.lvlThree) {
+    //         if (!missions.lvlThree[lvlThreeProp].succeeded) count++;
+    //     }
 
-        if (count > 0) return false;
-        return true;
-    }
+    //     if (count > 0) return false;
+    //     return true;
+    // }
 
-    function crewMemberMad () {
-        for (const prop in crew) {
-            if(isFullyTriggered(crew[prop].triggers)) return true;
-        }
-        return false;
-        function isFullyTriggered (triggersObj:any) {
-            let count = 0;
-            for (const triggerProp in triggersObj) {
-                if (triggersObj[triggerProp] === false) count++;
-            }
-            if (count > 2) return true;
-            return false;
-        }
-    }
+    // function crewMemberMad () {
+    //     for (const prop in crew) {
+    //         if(isFullyTriggered(crew[prop].triggers)) return true;
+    //     }
+    //     return false;
+    //     function isFullyTriggered (triggersObj:any) {
+    //         let count = 0;
+    //         for (const triggerProp in triggersObj) {
+    //             if (triggersObj[triggerProp] === false) count++;
+    //         }
+    //         if (count > 2) return true;
+    //         return false;
+    //     }
+    // }
 
     function beginCleanUpPhase () {
         if (isMissionSucceeded()) {
@@ -420,21 +419,16 @@ export function phasesUi (stateData:StateDataInterface) {
         let rollsArr = [];
         let missionSuccess = false;
         const currentState = getCurrentState(); // TODO: Figure out why crew does not reflect current state at this point
-        for (const prop in currentState.crew) {
-            // only if selected crew
-            if (currentState.crew[prop].die) rollsArr.push(currentState.crew[prop].die);
+        for (const prop in currentState.gameUiData.crewOnMission) {
+            rollsArr.push(currentState.crew[prop].die);
         }
-        console.log(missions[selectedMissionLvl][selectedMissionId].failed, phase);
-        console.log(rollsArr)
         if (missions[selectedMissionLvl][selectedMissionId].failed) {
             if (checkMethods["recoverFail"](rollsArr, 2)) {
-                console.log("you recovered from a fail!")
                 missionSuccess = true;
                 return missionSuccess;
             }
         } else {
             if (checkMethods[missions[selectedMissionLvl][selectedMissionId].successCheck](rollsArr)) {
-                console.log("you succeeded!")
                 missionSuccess = true;
                 return missionSuccess;
             }
