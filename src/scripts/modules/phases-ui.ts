@@ -26,7 +26,8 @@ export function phasesUi (stateData:StateDataInterface) {
         mojoAbility,
         selectedDice,
         turnOrder,
-        activeTurn } = gameUiData;
+        activeTurn,
+        isSimpleGame } = gameUiData;
     const crewOnMissionKeys = Object.keys(crewOnMission);
 
     function submitButtons () {
@@ -36,10 +37,16 @@ export function phasesUi (stateData:StateDataInterface) {
                 <button disabled=${!selectedMissionId ? true : false} onclick=${getMissionSubmit} >Submit Mission</button>
             </div>
             `
-        } else if (phase === 1) {
+        } else if (phase === 1 && isSimpleGame === false) {
             return html`
             <div class="phases-ui">
                 <button disabled=${crewOnMissionKeys.length < 3 ? true : false} onclick=${getCrewSubmit}>Submit Crew</button>
+            </div>
+            `
+        } else if (phase === 1 && isSimpleGame) {
+            return html`
+            <div class="phases-ui">
+                <button disabled=${crewOnMissionKeys.length < missions[selectedMissionLvl][selectedMissionId].simpleMissionTarget ? true : false} onclick=${getCrewSubmit}>Submit Crew</button>
             </div>
             `
         } else if (phase === 3) {
@@ -65,6 +72,15 @@ export function phasesUi (stateData:StateDataInterface) {
     }
 
     function getCrewSubmit () {
+        if (isSimpleGame) {
+            if (missions[selectedMissionLvl][selectedMissionId].simpleMissionTarget <= crewOnMissionKeys.length) {
+                beginCleanUpPhase();
+            } else {
+                alert(`You must choose at least ${missions[selectedMissionLvl][selectedMissionId].simpleMissionTarget} crew to complete this mission`)
+            }
+            return;
+        }
+
         if (crewOnMissionKeys.length > 2) {
             updateState((data:any)=>{
                 data.gameUiData.phase++;
@@ -237,7 +253,7 @@ export function phasesUi (stateData:StateDataInterface) {
     }
 
     function beginCleanUpPhase () {
-        if (isMissionSucceeded()) {
+        if (isMissionSucceeded() || isSimpleGame) {
             updateState((data:any)=>{
                 gameUiData.phase = 4;
 

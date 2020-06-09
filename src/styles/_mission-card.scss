@@ -105,3 +105,16 @@
 .mission-bkgrd:hover {
     opacity: 1;
 }
+
+.mission-simple-game-info {
+    background-color: #fff;
+    position: absolute;
+    top: 50px;
+    left: 30px;
+    right: 30px;
+    bottom: 50px;
+    border-radius: 4px;
+    padding: 4px 8px;
+    text-align: left;
+    border: 2px solid grey;
+}

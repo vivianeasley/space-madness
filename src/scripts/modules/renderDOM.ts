@@ -15,7 +15,7 @@ const history = document.querySelector(".history-wrapper");
 
 export function renderDOM (state:any) {
     const { crew, missions, gameUiData } = state;
-    const { gameHistory } = gameUiData;
+    const { gameHistory, isSimpleGame } = gameUiData;
     const { lvlOne, lvlTwo, lvlThree } = missions;
 
     render(missionCards, html`

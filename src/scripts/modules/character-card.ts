@@ -17,7 +17,14 @@ interface StateDataInterface {
 
 export function characterCard (stateData:StateDataInterface, crewId:string) {
     const { crew, gameUiData, player } = stateData;
-    const { phase, selectedDice, crewOnMission, currentCrewAbility, mojoAbility, lastAbilityUsed, lastDiceSelected } = gameUiData;
+    const { phase,
+        selectedDice,
+        crewOnMission,
+        currentCrewAbility,
+        mojoAbility,
+        lastAbilityUsed,
+        lastDiceSelected,
+        isSimpleGame } = gameUiData;
     const crewData = crew[crewId];
     const iterations = crewData.animations;
     const isDieSelected = gameUiData.selectedDice.includes(crewId);
@@ -131,7 +138,7 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
                 <div class="crew-front">
                     ${getSelectedBanner()}
                     <img src="./images/crew/bkgrd/${crewData.img}.jpg" alt="">
-                    ${setAbilityLayer()}
+                    ${isSimpleGame ? " " : setAbilityLayer()}
                     <div class="crew-info">
                         <div class="crew-name re-text-center">${crewData.name}</div>
                         <ul class="traits-list">
@@ -141,7 +148,7 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
                             }
                         </ul>
                     </div>
-                    <div class="crew-ability">
+                    <div class=${isSimpleGame ? "re-display-none" : "crew-ability"}>
                         <div class="re-text-center re-text-bold">Ability</div>
                         <div class="ability-text" style=${crewId === "ltMojo" && !mojoAbility ? "margin-left: 0px" : "margin-left: 50px"}>
                             ${()=>{

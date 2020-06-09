@@ -5,6 +5,7 @@ export const data = {
       "crew":undefined
    },
    "gameUiData": {
+      "isSimpleGame": false,
       "lost": false,
       "modalOpen": true,
       "modalId": "rules",
@@ -31,6 +32,7 @@ export const data = {
    "missions": {
       "lvlOne": {
          "weapons": {
+            "simpleMissionTarget": 5,
             "isSelected": false,
             "succeeded": false,
             "imgBkgrd": "weapons",
@@ -41,9 +43,11 @@ export const data = {
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlThreeOver",
-            "name": "Weapons"
+            "name": "Weapons",
+            "story": ""
          },
          "powerCore": {
+            "simpleMissionTarget": 4,
             "isSelected": false,
             "succeeded": false,
             "imgBkgrd": "power-core",
@@ -54,9 +58,11 @@ export const data = {
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlTwoOver",
-            "name": "Power Core"
+            "name": "Power Core",
+            "story": ""
          },
          "dockingBay": {
+            "simpleMissionTarget": 3,
             "isSelected": false,
             "succeeded": false,
             "imgBkgrd": "docking-bay",
@@ -67,11 +73,13 @@ export const data = {
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlOneOver",
-            "name": "Docking Bay"
+            "name": "Docking Bay",
+            "story": ""
          },
       },
       "lvlTwo": {
          "scienceBay": {
+            "simpleMissionTarget": 5,
             "isSelected": false,
             "succeeded": false,
             "imgBkgrd": "science-bay",
@@ -82,9 +90,11 @@ export const data = {
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlThreeNum",
-            "name": "Science Bay"
+            "name": "Science Bay",
+            "story": ""
          },
          "medicalBay": {
+            "simpleMissionTarget": 4,
             "isSelected": false,
             "succeeded": false,
             "imgBkgrd": "medical-bay",
@@ -95,9 +105,11 @@ export const data = {
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlTwoNum",
-            "name": "Medical Bay"
+            "name": "Medical Bay",
+            "story": ""
          },
          "engineRoom": {
+            "simpleMissionTarget": 3,
             "isSelected": false,
             "succeeded": false,
             "imgBkgrd": "engine-room",
@@ -108,11 +120,13 @@ export const data = {
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlOneNum",
-            "name": "Engine Room"
+            "name": "Engine Room",
+            "story": ""
          }
       },
       "lvlThree": {
          "bridge": {
+            "simpleMissionTarget": 5,
             "isSelected": false,
             "succeeded": false,
             "imgBkgrd": "bridge",
@@ -123,9 +137,11 @@ export const data = {
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlThreeUnder",
-            "name": "Bridge"
+            "name": "Bridge",
+            "story": ""
          },
          "messHall": {
+            "simpleMissionTarget": 4,
             "isSelected": false,
             "succeeded": false,
             "failed": false,
@@ -136,9 +152,11 @@ export const data = {
             "targetRuleText": "Roll total less than 8",
             "imgBack": "die-roll-two-same",
             "successCheck": "lvlTwoUnder",
-            "name": "Mess Hall"
+            "name": "Mess Hall",
+            "story": ""
          },
          "dormitory": {
+            "simpleMissionTarget": 3,
             "isSelected": false,
             "succeeded": false,
             "imgBkgrd": "dormitory",
@@ -149,7 +167,8 @@ export const data = {
             "imgBack": "die-roll-two-same",
             "failed": false,
             "successCheck": "lvlOneUnder",
-            "name": "Dormitory"
+            "name": "Dormitory",
+            "story": ""
          },
       }
    },
@@ -165,7 +184,6 @@ export const data = {
          "abilityText": "Reroll any one die",
          "ability": "rerollOne",
          "triggers": {},
-         // "revealedTriggers": [],
          "img": "mrs-roboto",
          "traits": {
             "negative": true,
@@ -183,7 +201,6 @@ export const data = {
          "abilityText": "Reroll any two die",
          "ability": "rerollTwo",
          "triggers": {},
-         // "revealedTriggers": [],
          "img": "ambassador-alden",
          "traits": {
             "screams": true,
@@ -201,7 +218,6 @@ export const data = {
          "abilityText": "Add one to a die",
          "ability": "addOne",
          "triggers": {},
-         // "revealedTriggers": [],
          "img": "lari-luckybeard",
          "traits": {
             "space diva": true,
@@ -219,7 +235,6 @@ export const data = {
          "abilityText": "Add two to a die",
          "ability": "addTwo",
          "triggers": {},
-         // "revealedTriggers": [],
          "img": "dr-john-johnson",
          "traits": {
             "nerd bully": true,
@@ -237,7 +252,6 @@ export const data = {
          "abilityText": "Subtract one from a die",
          "ability": "subtractOne",
          "triggers": {},
-         // "revealedTriggers": [],
          "img": "sub-ensign-hammer",
          "traits": {
             "lazy": true,
@@ -255,7 +269,6 @@ export const data = {
          "abilityText": "Subtract two from a die",
          "ability": "subtractTwo",
          "triggers": {},
-         // "revealedTriggers": [],
          "img": "eli-the-stowaway",
          "traits": {
             "humms loudly": true,
@@ -273,7 +286,6 @@ export const data = {
          "abilityText": "Flip a die over",
          "ability": "flip",
          "triggers": {},
-         // "revealedTriggers": [],
          "img": "moxy-goodwhistle",
          "traits": {
             "condescending": true,
@@ -291,7 +303,6 @@ export const data = {
          "abilityText": "Use another crew members ability",
          "ability": "chooseAbility",
          "triggers": {},
-         // "revealedTriggers": [],
          "img": "mojo",
          "traits": {
             "space fetishist": true,
@@ -301,3 +312,37 @@ export const data = {
       }
    }
 }
+
+export const storyElements = [
+   "Frayed wire",
+   "Hull breach",
+   "Exploding console",
+   "Trampoline",
+   "Laser show",
+   "Escaped experiment",
+   "Space werewolves",
+   "Space aliens",
+   "Space ghosts",
+   "Space vampires",
+   "Time bomb",
+   "Space leprechaun",
+   "Creepy murder child",
+   "Giant space ant",
+   "Space cultist",
+   "Space dragon",
+   "Space policeman",
+   "Alien sport hunter",
+   "Fire",
+   "Carnivorous plants",
+   "Cthulhu",
+   "Velociraptors",
+   "Bounty hunters",
+   "Metal eating robots",
+   "Evil Santa",
+   "Overflowing toilet",
+   "Shape shifter",
+   "Robots!",
+   "Samurai duel",
+   "30 kindergardeners",
+   "Plethora of puppies",
+]
