@@ -56,3 +56,37 @@ body {
 .game-history ul {
   font-family: 'Roboto', sans-serif;
  }
+
+.desktop-inline {
+  display: inline-block;
+}
+
+.desktop-block {
+  display: block;
+}
+
+.mobile-inline {
+  display: none;
+}
+
+.mobile-block {
+  display: none;
+}
+
+ @media only screen and (max-width: 568px) {
+  .desktop-inline {
+    display: none;
+  }
+
+  .desktop-block {
+    display: none;
+  }
+
+  .mobile-inline {
+    display: inline-block;
+  }
+
+  .mobile-block {
+    display: block;
+  }
+}

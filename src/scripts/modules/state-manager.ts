@@ -9,7 +9,6 @@ export function updateState (updateFucnt:any) {
     const nextState = produce(lastState[lastState.length - 1], updateFucnt);
     renderDOM(nextState);
     lastState.push(nextState);
-    console.log(lastState[lastState.length - 1])
     return true;
 }
 

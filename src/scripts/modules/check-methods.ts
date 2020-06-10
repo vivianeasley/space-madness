@@ -15,7 +15,6 @@ export namespace checkMethods {
         let counts = {}
         for (let i = 0; i < allRolls.length; i++) {
             counts[allRolls[i]] = (counts[allRolls[i]] || 0)+1;
-            console.log(counts[allRolls[i]])
             if (counts[allRolls[i]] >= targetNum) return true;
         }
         return false

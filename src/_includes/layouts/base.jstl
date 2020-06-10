@@ -19,6 +19,14 @@
     };
   </script>
 </head>
+<audio src="./images/audio/Lobo_Loco_-_03_-_Way_out_of_Hades_ID_1151.mp3"></audio>
+<script>
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  window.audioContext = new AudioContext();
+  window.audioElement = document.querySelector('audio');
+  window.musicTrack = audioContext.createMediaElementSource(audioElement);
+  musicTrack.connect(audioContext.destination);
+</script>
 <body id="top" itemscope itemtype="http://schema.org/WebPage">
   ${content}
   <script src="/scripts/index.js"></script>

@@ -5,11 +5,12 @@ export const data = {
       "crew":undefined
    },
    "gameUiData": {
+      "isMusicPlaying": false,
       "isSimpleGame": false,
       "lost": false,
       "modalOpen": true,
-      "modalId": "rules",
-      "modalButtonText": "Start Game",
+      "modalId": "chooseGameType",
+      "modalButtonText": undefined,
       "phaseChange": true,
       "phase": 0,
       "activeTurn": 0,

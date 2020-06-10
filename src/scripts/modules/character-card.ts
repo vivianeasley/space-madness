@@ -54,7 +54,11 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
                     crewOnMission["ltMojo"] === "active") {
                     if (!mojoAbility) {
                         if (crewId === "ltMojo") {
-                            alert("Mojo copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability... Monkey explodes.")
+                            updateState((data:any)=>{
+                                data.gameUiData.modalOpen = true;
+                                data.gameUiData.modalId = "mojoRecursion";
+                                data.gameUiData.modalButtonText = "Continue";
+                            });
                             return;
                         }
                         updateState((data:any)=>{data.gameUiData.mojoAbility = crewId;})

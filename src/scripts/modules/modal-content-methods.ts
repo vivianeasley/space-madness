@@ -1,4 +1,6 @@
 import { html } from 'lighterhtml';
+import { music } from './sounds'
+import { updateState } from './state-manager'
 
 // These methods that return various modal content
 export namespace modalContentMethods {
@@ -6,54 +8,88 @@ export namespace modalContentMethods {
     export function win () {
         return html`
         <h2 class="modal-h2-spacing">You won Space Madness the game!</h2>
-        <p class="modal-paragraph"><img src="./images/modal-content/game-cover.jpg" alt="Space Madness title image">After your ship returns to space port, you recieve a comunicae from command. The message simply says "Do better next next time". You might expect more after so much hard work but space managment is a thankless profession. If you want the riches and glory try space trucking or possibly a side hustle as an alien host. As you look out upon the stars you can't help but worry about what could have been. Moments later your Space Nacho's arrive!</p>
+        <p class="modal-paragraph"><img src="./images/modal-content/game-cover.jpg" alt="Space Madness title image">After your ship returns to space port, you receive a communique from command. The message simply says "Do better next next time". You might expect more after so much hard work but space management is a thankless profession. If you want riches and glory try space trucking or possibly a side hustle as an alien host. As you look out upon the stars you can't help but worry about what could have been. Moments later your Space Nacho's arrive!</p>
         `
     };
 
     export function madnessLose () {
         return html`
             <h2 class="modal-h2-spacing">Sorry, you lost due to SPACE MADNESS!</h2>
-            <p class="modal-paragraph"><img class="modal-crew-image modal-img-right" src="./images/modal-content/aldren-image.jpg" alt="Mrs. Roboto going mad and attacking Ambassador Aldren">After the Orpheus never arrived at space port a search was launched for the missing vessel. After 3 weeks combing it's last known position in a poorly mapped sector it was discovered adrift. The bodies of seven crew members were found. After a brief investigation it was concluded SPACE MADNESS had taken a crew member!</p>
+            <p class="modal-paragraph"><img class="modal-crew-image modal-img-right" src="./images/modal-content/aldren-image.jpg" alt="Mrs. Roboto going mad and attacking Ambassador Aldren">After your ship (The Orpheus) didn’t arrive at space port, a search was launched for the missing vessel. After three weeks combing its last known position in a poorly mapped sector, it was discovered adrift. The bodies of seven crew members were found. After a brief investigation it was concluded SPACE MADNESS had taken a crew member!</p>
             `
     };
 
     export function missionLose () {
         return html`
         <h2 class="modal-h2-spacing">Sorry, you lost due to mission failure!</h2>
-        <p class="modal-paragraph"><img src="./images/modal-content/ship-explode.jpg" alt="Space ship exploding image">The ships hull moans and the power flickers repeatedly. Your team has failed. Was it Space Vampires? Maybe it was too many Christmas lights in the medical bay. Sadly, you'll never know for sure. The one thing you do know is your crew really bungled things up. Bungled them all the way to bungle town, population a whole lot of bungles. Bungle.</p>
+        <p class="modal-paragraph"><img src="./images/modal-content/ship-explode.jpg" alt="Space ship exploding image">The ship’s hull moans and the power flickers repeatedly. Your team has failed. Was it Space Vampires? Maybe there were too many Christmas lights in the medical bay? Sadly, you'll never know for sure. The one thing you do know is your crew really bungled things up. Bungled them all the way to bungle town, population a whole lot of bungles. Bungle. The ship explodes.</p>
         `
     };
 
     export function failedMission () {
         return html`
             <h2 class="modal-h2-spacing">You failed the mission! Tensions rise!</h2>
-            <p class="modal-paragraph"><img class="modal-crew-image modal-img-right" src="./images/modal-content/hammer-image.jpg" alt="Space Madness title image">The crew you chose to complete the most recent mission bursts through the doorway. One has a small head wound and another looks to have had their eyebrows singed off. You don't even have to ask what happend. The frazzled looks tell you everything you need to know. You'll have to be careful after this. If your crew can't recover this failed mission with a success, it could spell doom for the ship and everyone aboard.</p>
+            <p class="modal-paragraph"><img class="modal-crew-image modal-img-right" src="./images/modal-content/hammer-image.jpg" alt="Space Madness title image">The crew you chose to complete this mission bursts through the doorway. One has a small head wound and another looks to have had their eyebrows singed off. You don't even have to ask what happened. The frazzled looks tell you everything you need to know. You'll have to be careful after this. If your crew can't recover this failed mission with a success, it could spell doom for the ship and everyone aboard.</p>
         `
     };
 
     export function suceededMission () {
         return html`
             <h2 class="modal-h2-spacing">Success! Your crew was up to the challenge!</h2>
-            <p class="modal-paragraph"><img class="modal-crew-image modal-img-right" src="./images/modal-content/moxy-image.jpg" alt="Pilot moxy saluting">The crew you chose to complete the mission walks through the doorway in a manner that can only be described as "cocky". Honestly you don't care if they take some pride in their work as long as they get the job done and don't drive each other insane while doing it. That said, you can't help but notice the tension in the air. Was that a nervous tick from one of the crew? Your brow furrows as you contemplate the terrible implications of space madness aboeard your ship.</p>
+            <p class="modal-paragraph"><img class="modal-crew-image modal-img-right" src="./images/modal-content/moxy-image.jpg" alt="Pilot moxy saluting">The crew you chose to complete this mission walks through the doorway in a manner that can only be described as "cocky.” Honestly you don't care if they take some pride in their work as long as they get the job done and don't drive each other insane while doing it. That said, you can't help but notice the tension in the air. Was that a nervous tick from one of the crew? Your brow furrows as you contemplate the terrible implications of space madness aboard your ship.</p>
             `
     };
 
-    export function rules (simpleRules) {
-        if (simpleRules) {
+    export function chooseGameType (isSimpleGame:boolean, isMusicPlaying:boolean) {
+        function setComplex () {
+            updateState((data:any)=>{
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "rules";
+                data.gameUiData.modalButtonText = "Start Game";
+
+            })
+        }
+
+        function setSimple () {
+            updateState((data:any)=>{
+                data.gameUiData.isSimpleGame = true;
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "rules";
+                data.gameUiData.modalButtonText = "Start Game";
+
+            })
+        }
+
+        return html`
+            <h2 class="modal-h2-spacing">Choose Game Type:</h2>
+            <div>Click to toggle music <div class="modal-audio-in-text">${music(isMusicPlaying)}</div> (You may turn this off at any time in the rules modal)</div>
+            <div class="seperator"></div>
+            <h3>Simplified</h3>
+            <p class="modal-paragraph">A simple version of the game. Good for beginners.</p>
+            <button onclick=${setSimple}>Simple Version</button>
+            <div class="seperator"></div>
+            <h3>Complex</h3>
+            <p class="modal-paragraph">Jump right in to the more complex version of Space Madness</p>
+            <button onClick=${setComplex}>Complex Version</button>
+            `
+    };
+
+    export function rules (isSimpleGame:boolean, isMusicPlaying:boolean) {
+        if (isSimpleGame) {
             return html`
+                ${music(isMusicPlaying)}
                 <img src="./images/modal-content/title.jpg" alt="Space Madness title image">
                 <h2 class="modal-h2-spacing">Introduction:</h2>
-                <p class="modal-paragraph">You are the captain of the Orpheus a standard class exploration ship mapping unknown sectors. In a bizarre turn of events your ship has been plagued by problems that defy imagination. It's up to and your crew to go on a series of missions to clear the ship of these challenging situations.</p>
+                <p class="modal-paragraph">You are the captain of the Orpheus, a standard class exploration ship mapping unknown sectors. In a bizarre turn of events your ship has been plagued by problems that defy imagination. It's up to you and your (mostly) faithful crew to go on a series of missions to clear the ship of these challenging situations.</p>
                 <h2 class="modal-h2-spacing">Objective:</h2>
-                <p class="modal-paragraph">Have your crew complete all the missions without driving each other insane with their annoying traits.</p>
+                <p class="modal-paragraph">Have your crew complete all the missions without the ship exploding or the crew driving each other space mad.</p>
                 <h2 class="modal-h2-spacing">How to Play:</h2>
-                <p class="modal-paragraph">Choose a mission card for your crew to attempt. Then choose the number of crew need to complete the mission.</p>
-                <p class="modal-paragraph modal-bkgrd-lght-grey">After each mission attempt crews triggers will be revealed if they worked with another crew member who had those traits. When a crew member has all 3 of their triggers revealed they go space mad, murder everone on the ship, and you lose the game. Only one trigger can be revealed per crew member each round.</p>
-                <p class="modal-paragraph">You have some information about one crew member chosen at random each game. You know who drives them crazy but you don't know which traits are triggers.</p>
-                <p class="modal-paragraph modal-bkgrd-lght-grey">When all missions are completed, the ship hasn't exploded, and none of the crew are space mad, you win the game.</p>
+                <p class="modal-paragraph">Choose a mission card for your crew to attempt. Then choose the required number of crew members to send on that mission. The required number of crew changes as the missions get harder.</p>
+                <p class="modal-paragraph modal-bkgrd-lght-grey">The more crew members that are sent on missions together, the more they’ll begin to annoy each other...which can lead one of them to go space mad. After each mission the crew members you sent will reveal what annoyed them about the crewmates they just worked with. Only one annoying trait can be revealed per crew member each round. When a crew member has been annoyed three times by their crewmates, they go space mad, murder everyone on the ship, and you lose the game, so plan the combination of crew to send on missions carefully.</p>
+                <p class="modal-paragraph">Some key information is revealed for one crew member, chosen at random, at the start of each game.</p>
                 <h2 class="modal-h2-spacing" style="display: block;text-align: center;">Visual Glossary:</h2>
                 <div class="modal-glossary-section">
-                <h3>UI Bar:</h3> <p class="modal-paragraph">This is the area at the top of teh page that will instruct you on what to do each phase of the game. There will usually be a button on the right, which will be disabled until you have completed the requested task. If you are unsure what do do you should look to thos bar. The question mark icon also show you more detailed instructions and links to these rules.
+                <h3>Header Bar:</h3> <p class="modal-paragraph">This is the area at the top of teh page that will instruct you on what to do each phase of the game. There will usually be a button on the right, which will be disabled until you have completed the requested task. If you are unsure what do do you should look to thos bar. The question mark icon also show you more detailed instructions and links to these rules.
                 <img style="width:500px" src="./images/modal-content/glossary/ui-bar.jpg" alt="Space Madness title image"></p>
                 </div>
                 <div class="seperator"></div>
@@ -84,21 +120,20 @@ export namespace modalContentMethods {
             `;
         }
         return html`
+            ${music(isMusicPlaying)}
             <img src="./images/modal-content/title.jpg" alt="Space Madness title image">
             <h2 class="modal-h2-spacing">Introduction:</h2>
-            <p class="modal-paragraph">You are the captain of the Orpheus a standard class exploration ship mapping unknown sectors. In a bizarre turn of events your ship has been plagued by problems that defy imagination. It's up to and your crew to go on a series of missions to clear the ship of these challenging situations.</p>
+            <p class="modal-paragraph">You are the captain of the Orpheus, a standard class exploration ship mapping unknown sectors. In a bizarre turn of events your ship has been plagued by problems that defy imagination. It's up to you and your (mostly) faithful crew to go on a series of missions to clear the ship of these challenging situations.</p>
             <h2 class="modal-h2-spacing">Objective:</h2>
-            <p class="modal-paragraph">Have your crew complete all the missions without driving each other insane with their annoying traits.</p>
+            <p class="modal-paragraph">Have your crew complete all the missions without the ship exploding or the crew driving each other space mad.</p>
             <h2 class="modal-h2-spacing">How to Play:</h2>
-            <p class="modal-paragraph">Choose a mission card for your crew to attempt. Then choose 3-8 crew to send on that mission.</p>
-            <p class="modal-paragraph modal-bkgrd-lght-grey">Each crew has a special ability that can be applied to any crew's die to meet the missions requirements.</p>
-            <p class="modal-paragraph">If you fail a mission it turns face down along with the crew that were on that mission. Crew that are face down can't use their abilities. If you succeed at a face down mission card it flips back over. If you fail a face down mission you lose the game. Face down crew on any successful mission flip face up and can use their abilities again.</p>
-            <p class="modal-paragraph modal-bkgrd-lght-grey">After each mission attempt crews triggers will be revealed if they worked with another crew member who had those traits. When a crew memeber has all 3 of their triggers revealed they go space mad, murder everone on the ship, and you lose the game. Only one trigger can be revealed per crew member each round.</p>
-            <p class="modal-paragraph">You have some information about one crew member chosen at random each game. You know who drives them crazy but you don't know which traits are triggers.</p>
-            <p class="modal-paragraph modal-bkgrd-lght-grey">When all missions are completed, the ship hasn't exploded, and none of the crew are space mad, you win the game.</p>
+            <p class="modal-paragraph">Choose a mission card for your crew to attempt. Then choose 3-8 crew members to send on that mission. Each crew member brings a die to roll and a special ability that can help them succeed with the mission.</p>
+            <p class="modal-paragraph modal-bkgrd-lght-grey">But the more crew members that are sent on missions together, the more they’ll begin to annoy each other...which can lead one of them to go space mad. After each mission the crew members you sent will reveal what annoyed them about the crewmates they just worked with. Only one annoying trait can be revealed per crew member each round. When a crew member has been annoyed three times by their crewmates, they go space mad, murder everyone on the ship, and you lose the game, so plan the combination of crew to send on missions carefully.</p>
+            <p class="modal-paragraph">Some key information is revealed for one crew member, chosen at random, at the start of each game.</p>
+            <p class="modal-paragraph modal-bkgrd-lght-grey">If the crew you sent fails a mission, the mission card turns face down and any crew on that mission lose their special abilities. You can try the mission a second time, and if you succeed the mission card flips back over and the crew’s special abilities are returned. But if you fail a second time, the ship explodes and you lose the game.</p>
             <h2 class="modal-h2-spacing" style="display: block;text-align: center;">Visual Glossary:</h2>
             <div class="modal-glossary-section">
-            <h3>UI Bar:</h3> <p class="modal-paragraph">This is the area at the top of teh page that will instruct you on what to do each phase of the game. There will usually be a button on the right, which will be disabled until you have completed the requested task. If you are unsure what do do you should look to thos bar. The question mark icon also show you more detailed instructions and links to these rules.
+            <h3>Header Bar:</h3> <p class="modal-paragraph">This is the area at the top of teh page that will instruct you on what to do each phase of the game. There will usually be a button on the right, which will be disabled until you have completed the requested task. If you are unsure what do do you should look to header bar at the top of the page. The question mark icon also show you more detailed instructions and links to these rules.
             <img style="width:500px" src="./images/modal-content/glossary/ui-bar.jpg" alt="Space Madness title image"></p>
             </div>
             <div class="seperator"></div>
@@ -132,6 +167,36 @@ export namespace modalContentMethods {
             <h3>Crew traits:</h3><p class="modal-paragraph"> These are annoying/frustrating traits that crew members exibit. They will drive other crew space mad who have them as triggers.</p>
             </div>
 
+        `
+    };
+
+    export function minimumMission () {
+        return html`
+        <h2 class="modal-h2-spacing">You must choose a least 1 mission card</h2>
+        `
+    };
+
+    export function minimumCrew () {
+        return html`
+        <h2 class="modal-h2-spacing">Not enough crew to complete mission. Choose more crew</h2>
+        `
+    };
+
+    export function chooseAnotherCrew () {
+        return html`
+        <h2 class="modal-h2-spacing">You must choose another crew member for Mojo's ability</h2>
+        `
+    };
+
+    export function chooseADie () {
+        return html`
+        <h2 class="modal-h2-spacing">You must select a die to continue or click the "Skip" button</h2>
+        `
+    };
+
+    export function mojoRecursion () {
+        return html`
+        <h2 class="modal-h2-spacing">Mojo copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability, copies mojo's ability... monkey explodes. You monster.</h2>
         `
     };
 

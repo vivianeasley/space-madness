@@ -27,33 +27,34 @@ export function phasesUi (stateData:StateDataInterface) {
         selectedDice,
         turnOrder,
         activeTurn,
-        isSimpleGame } = gameUiData;
+        isSimpleGame,
+        isMusicPlaying } = gameUiData;
     const crewOnMissionKeys = Object.keys(crewOnMission);
 
     function submitButtons () {
         if (phase === 0) {
             return html`
             <div class="phases-ui">
-                <button disabled=${!selectedMissionId ? true : false} onclick=${getMissionSubmit} >Submit Mission</button>
+                <button disabled=${!selectedMissionId ? true : false} onclick=${getMissionSubmit} ><span class="desktop-inline">Submit Mission</span><span class="mobile-inline">&#9654</span></button>
             </div>
             `
         } else if (phase === 1 && isSimpleGame === false) {
             return html`
             <div class="phases-ui">
-                <button disabled=${crewOnMissionKeys.length < 3 ? true : false} onclick=${getCrewSubmit}>Submit Crew</button>
+                <button disabled=${crewOnMissionKeys.length < 3 ? true : false} onclick=${getCrewSubmit}><span class="desktop-inline">Submit Crew</span><span class="mobile-inline">&#9654</span></button>
             </div>
             `
         } else if (phase === 1 && isSimpleGame) {
             return html`
             <div class="phases-ui">
-                <button disabled=${crewOnMissionKeys.length < missions[selectedMissionLvl][selectedMissionId].simpleMissionTarget ? true : false} onclick=${getCrewSubmit}>Submit Crew</button>
+                <button disabled=${crewOnMissionKeys.length < missions[selectedMissionLvl][selectedMissionId].simpleMissionTarget ? true : false} onclick=${getCrewSubmit}><span class="desktop-inline">Submit Crew</span><span class="mobile-inline">&#9654</span></button>
             </div>
             `
         } else if (phase === 3) {
             return html`
             <div class="phases-ui">
                 <button onclick=${skipAbilityTarget}>Skip</button>
-                <button onclick=${useAbility}>Apply</button>
+                <button onclick=${useAbility}><span class="desktop-inline">Apply</span><span class="mobile-inline">&#9654</span></button>
             </div>
             `
         }
@@ -67,7 +68,11 @@ export function phasesUi (stateData:StateDataInterface) {
                 data.gameUiData.phaseChange = true;
             });
         } else {
-            alert("You must choose a least 1 mission card");
+            updateState((data:any)=>{
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "minimumMission";
+                data.gameUiData.modalButtonText = "Continue";
+            });
         }
     }
 
@@ -76,7 +81,11 @@ export function phasesUi (stateData:StateDataInterface) {
             if (missions[selectedMissionLvl][selectedMissionId].simpleMissionTarget <= crewOnMissionKeys.length) {
                 beginCleanUpPhase();
             } else {
-                alert(`You must choose at least ${missions[selectedMissionLvl][selectedMissionId].simpleMissionTarget} crew to complete this mission`)
+                updateState((data:any)=>{
+                    data.gameUiData.modalOpen = true;
+                    data.gameUiData.modalId = "minimumCrew";
+                    data.gameUiData.modalButtonText = "Continue";
+                });
             }
             return;
         }
@@ -118,7 +127,11 @@ export function phasesUi (stateData:StateDataInterface) {
 
             }, rollingWait*1600);
         } else {
-            alert("You must choose a least 3 crew to complete a mission");
+            updateState((data:any)=>{
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "minimumCrew";
+                data.gameUiData.modalButtonText = "Continue";
+            });
         }
     }
 
@@ -136,7 +149,11 @@ export function phasesUi (stateData:StateDataInterface) {
         if (currentCrewAbility === "ltMojo" &&
             crewOnMission["ltMojo"] === "active" &&
             !mojoAbility) {
-            alert("You must choose another crew member for mojo's ability");
+                updateState((data:any)=>{
+                    data.gameUiData.modalOpen = true;
+                    data.gameUiData.modalId = "chooseAnotherCrew";
+                    data.gameUiData.modalButtonText = "Continue";
+                });
         }
 
         if (currentCrewAbility === "ambassadorAldren" &&
@@ -219,7 +236,11 @@ export function phasesUi (stateData:StateDataInterface) {
             }
 
         } else {
-            alert("You must select a die")
+            updateState((data:any)=>{
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "chooseADie";
+                data.gameUiData.modalButtonText = "Continue";
+            });
         }
 
     }
@@ -400,13 +421,6 @@ export function phasesUi (stateData:StateDataInterface) {
         return missionSuccess;
     }
 
-    const helpText =  [
-        "Click on a mission card at the top of the page and then click the submit button in the top right of the page.",
-        "Click on a crew card and then click the submit button in the top right of the page.",
-        "Wait a second, dice are rolling",
-        "Apply ability to a dice roll, click the die you would like to change and then click submit. You may also skip using this ability by clicking the skip button",
-        "Wait for game to manage prep for next round"
-     ];
     const directions = [
         "",
         "",
@@ -441,7 +455,7 @@ export function phasesUi (stateData:StateDataInterface) {
         if (phase === 3) {
             return html`
             <div class="phases-direction-text">
-                ${dropDown(stateData)} apply ability to a crew's die
+                ${dropDown(stateData)} <span class="desktop-inline">apply ability to a crew's die</span>
             </div>`
         } else if (phase === 0) {
             return html`
@@ -450,7 +464,7 @@ export function phasesUi (stateData:StateDataInterface) {
             </div>`
         } else if (phase === 1) {
             return html`<div class="phases-direction-text">
-                Choose <span class=\"re-blue\">crew</span> to attempt the mission
+                Choose <span class=\"re-blue\">crew</span> for the mission
             </div>`
         } else {
             return html`${directionsText}`
@@ -459,7 +473,7 @@ export function phasesUi (stateData:StateDataInterface) {
 
     return html`
         <div class="phases-tooltip-wrapper">
-            <div class="tooltips">${helpIcon()}<span>${helpText[phase].replace("%%", currentCrewAbility)} <div class="re-pointer re-blue" onclick=${openInstructions}>Click here to read the rules</div></span></div>
+            <div class="phases-help-button" onclick=${openInstructions}>${helpIcon()}</div>
         </div>
         ${getDirectionsText()}
         ${submitButtons()}

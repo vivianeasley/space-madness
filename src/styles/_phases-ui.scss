@@ -27,30 +27,8 @@
     margin-right: 5px;
 }
 
-.tooltips {
+.phases-help-button {
     position: relative;
     display: inline-block;
-}
-
-.tooltips span {
-    position: absolute;
-    width: 400px;
-    color: #000000;
-    background: #FFFFFF;
-    visibility: hidden;
-    border-radius: 6px;
-    padding: 10px 15px;
-    opacity: 0;
-    transition: opacity 150ms ease-in-out;
-    line-height: 1.5rem;
-    font-family: 'Roboto', sans-serif;
-}
-
-.tooltips:hover span {
-    visibility: visible;
-    top: 30px;
-    margin-left: -30px;
-    z-index: 20;
-    opacity: 1;
-    border: 1px solid #000
+    cursor: pointer;
 }
