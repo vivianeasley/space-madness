@@ -26,7 +26,11 @@ export function dropDown (stateData:StateDataInterface) {
     function setCrewAbility (event:any) {
         if (event) {
             const id = event.target.getAttribute("data-id");
-            updateState((data:any)=>{data.gameUiData.currentCrewAbility = id;})
+            console.log(id)
+            updateState((data:any)=>{
+                data.gameUiData.currentCrewAbility = id;
+                data.gameUiData.selectedDice = [];
+            })
         }
     }
 

@@ -27,8 +27,7 @@ export function phasesUi (stateData:StateDataInterface) {
         selectedDice,
         turnOrder,
         activeTurn,
-        isSimpleGame,
-        isMusicPlaying } = gameUiData;
+        isSimpleGame } = gameUiData;
     const crewOnMissionKeys = Object.keys(crewOnMission);
 
     function submitButtons () {
@@ -166,9 +165,9 @@ export function phasesUi (stateData:StateDataInterface) {
                     for (let j = 0; j < data.gameUiData.selectedDice.length; j++) {
                         data.crew[data.gameUiData.selectedDice[j]].die = Math.floor(Math.random() * (6 - 1 + 1) + 1);
                     }
-                    for (const prop in crewOnMission) {
-                        if (currentCrewAbility !== prop && crewOnMission[prop] === "active") {
-                            data.gameUiData.currentCrewAbility = prop;
+                    for (const crewIdKey in crewOnMission) {
+                        if (currentCrewAbility !== crewIdKey && crewOnMission[crewIdKey] === "active") {
+                            data.gameUiData.currentCrewAbility = crewIdKey;
                             break;
                         }
                     }
@@ -186,9 +185,9 @@ export function phasesUi (stateData:StateDataInterface) {
                     for (let j = 0; j < data.gameUiData.selectedDice.length; j++) {
                         data.crew[data.gameUiData.selectedDice[j]].die = Math.floor(Math.random() * (6 - 1 + 1) + 1);
                     }
-                    for (const prop in crewOnMission) {
-                        if (currentCrewAbility !== prop && crewOnMission[prop] === "active") {
-                            data.gameUiData.currentCrewAbility = prop;
+                    for (const crewIdKey in crewOnMission) {
+                        if (currentCrewAbility !== crewIdKey && crewOnMission[crewIdKey] === "active") {
+                            data.gameUiData.currentCrewAbility = crewIdKey;
                             break;
                         }
                     }

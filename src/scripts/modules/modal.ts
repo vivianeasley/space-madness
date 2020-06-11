@@ -4,7 +4,7 @@ import { updateState } from './state-manager'
 
 export function modalWrapper (stateData:any) {
     const { gameUiData, missions, crew } = stateData;
-    let { modalOpen, modalId, modalButtonText, isSimpleGame, isMusicPlaying} = gameUiData;
+    let { modalOpen, modalId, modalButtonText, isSimpleGame} = gameUiData;
 
     if (crewMemberMad() && gameUiData.modalId !== "madnessLose") {
         modalOpen = true;
@@ -65,7 +65,7 @@ export function modalWrapper (stateData:any) {
                     "re-display-none" :
                     "modal-close-icon"
                 } onclick=${closeModal}>X</div>
-                ${modalContentMethods[modalId](isSimpleGame, isMusicPlaying)}
+                ${modalContentMethods[modalId](isSimpleGame)}
                 <div class=${modalButtonText ? "modal-buttons-wrapper" : "re-display-none"}>
                     <button  onclick=${closeModal}>${modalButtonText}</button>
                 </div>

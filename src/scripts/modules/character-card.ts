@@ -117,14 +117,14 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
 
     }
 
-    function setSpecialDie () {
+    function setDie () {
         if (crewData.rolling && phase === 2) {
             return html`${die(crewData.die, iterations, isDieSelected, "normal")}`
         } else if (crewData.rolling &&
             phase === 3 &&
             (lastAbilityUsed === "ambassadorAldren" || lastAbilityUsed ===  "mrsRoboto") &&
             lastDiceSelected.includes(crewId)) {
-            return html`${die(crewData.die, iterations, isDieSelected, crewId)}`
+            return html`${die(crewData.die, iterations, isDieSelected, lastAbilityUsed)}`
 
         } else if (crewData.rolling && phase === 3) {
             return html`${die(crewData.die, 0, isDieSelected, "normal")}`
@@ -136,7 +136,7 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
 
 
     return html`
-        ${setSpecialDie()}
+        ${setDie()}
         <div class="crew-wrapper ${phase > 0 ? "re-pointer" : "no-pointer" }" onclick=${select}>
             <div class=${crewData.isActive === "active" ? "crew-wrapper-inner" : "crew-wrapper-inner crew-inactive"}>
                 <div class="crew-front">

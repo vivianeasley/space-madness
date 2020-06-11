@@ -1,5 +1,4 @@
 import { html } from 'lighterhtml';
-import { music } from './sounds'
 import { updateState } from './state-manager'
 
 // These methods that return various modal content
@@ -40,7 +39,7 @@ export namespace modalContentMethods {
             `
     };
 
-    export function chooseGameType (isSimpleGame:boolean, isMusicPlaying:boolean) {
+    export function chooseGameType (isSimpleGame:boolean) {
         function setComplex () {
             updateState((data:any)=>{
                 data.gameUiData.modalOpen = true;
@@ -62,8 +61,6 @@ export namespace modalContentMethods {
 
         return html`
             <h2 class="modal-h2-spacing">Choose Game Type:</h2>
-            <div>Click to toggle music <div class="modal-audio-in-text">${music(isMusicPlaying)}</div> (You may turn this off at any time in the rules modal)</div>
-            <div class="seperator"></div>
             <h3>Simplified</h3>
             <p class="modal-paragraph">A simple version of the game. Good for beginners.</p>
             <button onclick=${setSimple}>Simple Version</button>
@@ -74,10 +71,9 @@ export namespace modalContentMethods {
             `
     };
 
-    export function rules (isSimpleGame:boolean, isMusicPlaying:boolean) {
+    export function rules (isSimpleGame:boolean) {
         if (isSimpleGame) {
             return html`
-                ${music(isMusicPlaying)}
                 <img src="./images/modal-content/title.jpg" alt="Space Madness title image">
                 <h2 class="modal-h2-spacing">Introduction:</h2>
                 <p class="modal-paragraph">You are the captain of the Orpheus, a standard class exploration ship mapping unknown sectors. In a bizarre turn of events your ship has been plagued by problems that defy imagination. It's up to you and your (mostly) faithful crew to go on a series of missions to clear the ship of these challenging situations.</p>
@@ -120,7 +116,6 @@ export namespace modalContentMethods {
             `;
         }
         return html`
-            ${music(isMusicPlaying)}
             <img src="./images/modal-content/title.jpg" alt="Space Madness title image">
             <h2 class="modal-h2-spacing">Introduction:</h2>
             <p class="modal-paragraph">You are the captain of the Orpheus, a standard class exploration ship mapping unknown sectors. In a bizarre turn of events your ship has been plagued by problems that defy imagination. It's up to you and your (mostly) faithful crew to go on a series of missions to clear the ship of these challenging situations.</p>

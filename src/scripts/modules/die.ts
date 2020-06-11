@@ -15,9 +15,14 @@ export function die (roll:number, iterations:number, selected:boolean, id:string
         return `animation-iteration-count: ${iterations};`;
     }
 
+    function relayoutClass () {
+        const randNum = Math.floor(Math.random() * (100 - 1 + 1) + 1);
+        return "relayout-aldren-die-" + randNum;
+    }
+
     function getInner () {
         if (id === "ambassadorAldren") {
-            return html`<div class="dice relayout-aldren-die ${sideDict[roll]}" style=${rollLength()}>
+            return html`<div class="dice ${relayoutClass()} ${sideDict[roll]}" style=${rollLength()}>
                 <div class="diceFace front"></div>
                 <div class="diceFace right"></div>
                 <div class="diceFace back"></div>
@@ -26,7 +31,7 @@ export function die (roll:number, iterations:number, selected:boolean, id:string
                 <div class="diceFace bottom"></div>
             </div>`
         } else if (id === "mrsRoboto") {
-            return html`<div class="dice relayout-roboto-die ${sideDict[roll]}" style=${rollLength()}>
+            return html`<div class="dice ${relayoutClass()} ${sideDict[roll]}" style=${rollLength()}>
                 <div class="diceFace front"></div>
                 <div class="diceFace right"></div>
                 <div class="diceFace back"></div>
