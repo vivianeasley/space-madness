@@ -7,7 +7,8 @@
     background-color: grey;
     padding: 10px 15px;
     transition: transform 150ms ease-in;
-    border-bottom: 2px solid #FFFFFF
+    border-bottom: 2px solid #FFFFFF;
+    z-index: 5;
 }
 
 .phases-direction-text {

@@ -313,7 +313,8 @@ export function phasesUi (stateData:StateDataInterface) {
                                 if (data.crew[crewOnMissionKeys[m]].traits[trigger] &&
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] !== false) {
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] = false;
-                                    data.gameUiData.gameHistory.push(`In the ${missions[selectedMissionLvl][selectedMissionId].name} section of the ship ${crew[crewOnMissionKeys[m]].name} drove ${crew[crewOnMissionKeys[k]].name} more mad with their ${trigger} trait.`);
+                                    data.crew[crewOnMissionKeys[k]].madnessLevel++;
+
                                     breakOut = true;
                                     break;
                                 }
@@ -366,7 +367,7 @@ export function phasesUi (stateData:StateDataInterface) {
                                 if (data.crew[crewOnMissionKeys[m]].traits[trigger] &&
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] !== false) {
                                     data.crew[crewOnMissionKeys[k]].triggers[trigger] = false;
-                                    data.gameUiData.gameHistory.push(`In the ${missions[selectedMissionLvl][selectedMissionId].name} section of the ship ${crew[crewOnMissionKeys[m]].name} drove ${crew[crewOnMissionKeys[k]].name} more mad with their ${trigger} trait.`);
+                                    data.crew[crewOnMissionKeys[k]].madnessLevel++;
                                     breakOut = true;
                                     break;
                                 }

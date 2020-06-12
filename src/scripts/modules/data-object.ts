@@ -25,8 +25,7 @@ export const data = {
       "mojoAbility": undefined,
       "players": {
          "Anonymous": "mrsroboto"
-      },
-      "gameHistory": []
+      }
    },
     // Missions for different parts of the ship
    "missions": {
@@ -185,6 +184,7 @@ export const data = {
          "ability": "rerollOne",
          "triggers": {},
          "img": "mrs-roboto",
+         "madnessLevel": 0,
          "traits": {
             "negative": true,
             "self-centered": true,
@@ -202,6 +202,7 @@ export const data = {
          "ability": "rerollTwo",
          "triggers": {},
          "img": "ambassador-alden",
+         "madnessLevel": 0,
          "traits": {
             "screams": true,
             "micromanager": true,
@@ -219,6 +220,7 @@ export const data = {
          "ability": "addOne",
          "triggers": {},
          "img": "lari-luckybeard",
+         "madnessLevel": 0,
          "traits": {
             "space diva": true,
             "mummbles": true,
@@ -236,6 +238,7 @@ export const data = {
          "ability": "addTwo",
          "triggers": {},
          "img": "dr-john-johnson",
+         "madnessLevel": 0,
          "traits": {
             "nerd bully": true,
             "bad puns": true,
@@ -253,6 +256,7 @@ export const data = {
          "ability": "subtractOne",
          "triggers": {},
          "img": "sub-ensign-hammer",
+         "madnessLevel": 0,
          "traits": {
             "lazy": true,
             "rude": true,
@@ -270,6 +274,7 @@ export const data = {
          "ability": "subtractTwo",
          "triggers": {},
          "img": "eli-the-stowaway",
+         "madnessLevel": 0,
          "traits": {
             "humms loudly": true,
             "irrational": true,
@@ -287,6 +292,7 @@ export const data = {
          "ability": "flip",
          "triggers": {},
          "img": "moxy-goodwhistle",
+         "madnessLevel": 0,
          "traits": {
             "condescending": true,
             "space cultist": true,
@@ -304,6 +310,7 @@ export const data = {
          "ability": "chooseAbility",
          "triggers": {},
          "img": "mojo",
+         "madnessLevel": 0,
          "traits": {
             "space fetishist": true,
             "pretentious": true,

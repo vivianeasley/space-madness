@@ -12,8 +12,7 @@ const history = document.querySelector(".history-wrapper");
 const audio = document.querySelector(".audio-wrapper");
 
 export function renderDOM (state:any) {
-    const { crew, missions, gameUiData } = state;
-    const { gameHistory, isSimpleGame } = gameUiData;
+    const { crew, missions } = state;
     const { lvlOne, lvlTwo, lvlThree } = missions;
 
     render(missionCards, html`

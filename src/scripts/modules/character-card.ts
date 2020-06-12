@@ -118,6 +118,16 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
     }
 
     function setDie () {
+
+        const sideDict = {
+            1:"dice-front-view",
+            2:"dice-right-view",
+            3:"dice-back-view",
+            4:"dice-left-view",
+            5:"dice-top-view",
+            6:"dice-bottom-view"
+        }
+
         if (crewData.rolling && phase === 2) {
             return html`${die(crewData.die, iterations, isDieSelected, "normal")}`
         } else if (crewData.rolling &&
@@ -127,12 +137,45 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
             return html`${die(crewData.die, iterations, isDieSelected, lastAbilityUsed)}`
 
         } else if (crewData.rolling && phase === 3) {
-            return html`${die(crewData.die, 0, isDieSelected, "normal")}`
+            return html`
+            <div class=${isDieSelected ? "view selected-die" : "view"}>
+                <div class="dice dice-front-view ${sideDict[crewData.die]}" style="animation-iteration-count: 0;">
+                    <div class="diceFace front"></div>
+                    <div class="diceFace right"></div>
+                    <div class="diceFace back"></div>
+                    <div class="diceFace left"></div>
+                    <div class="diceFace top"></div>
+                    <div class="diceFace bottom"></div>
+                </div>
+            </div>
+            `
         } else {
-            return html`<span style="display:none"></span>`;
+            return html`
+            <div class="view">
+                <div class="dice dice-front-view re-display-none" style="animation-iteration-count: 0;">
+                    <div class="diceFace front"></div>
+                    <div class="diceFace right"></div>
+                    <div class="diceFace back"></div>
+                    <div class="diceFace left"></div>
+                    <div class="diceFace top"></div>
+                    <div class="diceFace bottom"></div>
+                </div>
+            </div>
+            `
         }
     }
 
+    function getMadnessOpacity () {
+        if (crewData.madnessLevel === 0) {
+            return "opacity:0"
+        } else if (crewData.madnessLevel === 1) {
+            return "opacity:0.3"
+        } else if (crewData.madnessLevel === 1) {
+            return "opacity:0.5"
+        } else {
+            return "opacity:0.8"
+        }
+    }
 
 
     return html`
@@ -141,7 +184,8 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
             <div class=${crewData.isActive === "active" ? "crew-wrapper-inner" : "crew-wrapper-inner crew-inactive"}>
                 <div class="crew-front">
                     ${getSelectedBanner()}
-                    <img src="./images/crew/bkgrd/${crewData.img}.jpg" alt="">
+                    <img src="./images/crew/bkgrd/${crewData.img}.jpg" alt="Crew base image">
+                    <div class="crew-madness-cover" style=${getMadnessOpacity()}></div>
                     ${isSimpleGame ? " " : setAbilityLayer()}
                     <div class="crew-info">
                         <div class="crew-name re-text-center">${crewData.name}</div>
@@ -167,7 +211,8 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
                 </div>
                 <div class="crew-back">
                     ${getSelectedBanner()}
-                    <img src="./images/crew/bkgrd/${crewData.img}.jpg" alt="">
+                    <img src="./images/crew/bkgrd/${crewData.img}.jpg" alt="Crew base image without ability">
+                    <div class="crew-madness-cover" style=${getMadnessOpacity()}></div>
                     <div class="crew-info">
                         <div class="crew-name re-text-center">${crewData.name}</div>
                         <ul class="traits-list">
