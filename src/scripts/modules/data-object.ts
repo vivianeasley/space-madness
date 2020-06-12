@@ -198,7 +198,7 @@ export const data = {
          "name": "Ambassador Aldren",
          "isSelected": false,
          "isActive": "active",
-         "abilityText": "Reroll any two die",
+         "abilityText": "Reroll any two dice",
          "ability": "rerollTwo",
          "triggers": {},
          "img": "ambassador-alden",

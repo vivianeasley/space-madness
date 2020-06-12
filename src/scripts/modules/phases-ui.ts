@@ -15,7 +15,7 @@ interface StateDataInterface {
     player:any
  };
 
-
+// TODO: Extract logic from this component
 export function phasesUi (stateData:StateDataInterface) {
     const { gameUiData, crew, missions, player } = stateData;
     const { phase,
@@ -421,14 +421,6 @@ export function phasesUi (stateData:StateDataInterface) {
         return missionSuccess;
     }
 
-    const directions = [
-        "",
-        "",
-        "Rolling...",
-        "apply ability to a crew's die",
-        "Clean up phase..."
-     ];
-
     function openInstructions () {
         updateState((data:any)=>{
             data.gameUiData.modalOpen = true;
@@ -438,6 +430,14 @@ export function phasesUi (stateData:StateDataInterface) {
     }
 
     function getDirectionsText () {
+        const directions = [
+            "",
+            "",
+            "Rolling...",
+            "apply ability to a crew's die",
+            "Clean up phase..."
+         ];
+
         let directionsText = "Not currently your turn. Relax. Sit a spell.";
         if (turnOrder[activeTurn] === player.name) {
             directionsText = directions[phase];
