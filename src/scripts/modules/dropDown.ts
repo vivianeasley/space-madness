@@ -25,7 +25,7 @@ export function dropDown (stateData:StateDataInterface) {
 
     function setCrewAbility (event:any) {
         if (event) {
-            const id = event.target.getAttribute("data-id");
+            const id = event.target.value;
             updateState((data:any)=>{
                 data.gameUiData.currentCrewAbility = id;
                 data.gameUiData.selectedDice = [];
@@ -35,13 +35,13 @@ export function dropDown (stateData:StateDataInterface) {
 
 
     return html`
-        <select>
+        <select onchange=${(e)=>{setCrewAbility(e)}}>
             ${
                 activeCrew.map((crewId:string) => {
                     if (crewId !== currentCrewAbility && crewOnMission[crewId] === "active") {
-                        return html`<option data-id=${crewId} onclick=${(e)=>{setCrewAbility(e)}}>${crew[crewId].name}</option>`;
+                        return html`<option value=${crewId}>${crew[crewId].name}</option>`;
                     } else if (crewId === currentCrewAbility) {
-                        return html`<option data-id=${currentCrewAbility} selected onclick=${(e)=>{setCrewAbility(e)}}>${crew[currentCrewAbility].name}</option>`;
+                        return html`<option value=${currentCrewAbility} selected>${crew[currentCrewAbility].name}</option>`;
                     } else {
                         return null;
                     }
