@@ -34,9 +34,9 @@ body {
   height: 258px;
 }
 
-.card-selected {
+.card-selected-bottom,
+.card-selected-top {
   position: absolute;
-  top: 0;
   left: 0;
   right: 0;
   height: 20px;
@@ -48,14 +48,25 @@ body {
   font-size: 13px;
 }
 
-.game-history {
-  max-width: 800px;
-  margin: 0 auto 100px auto;
+.card-selected-top {
+  top: 0;
 }
 
-.game-history ul {
-  font-family: 'Roboto', sans-serif;
- }
+.card-selected-bottom {
+  bottom: 0;
+}
+
+.notes-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.notes {
+  display: block;
+  width: 100%;
+  height: 300px;
+}
 
 .desktop-inline {
   display: inline-block;

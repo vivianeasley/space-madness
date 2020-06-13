@@ -4,7 +4,7 @@ import { updateState } from './state-manager'
 
 export function modalWrapper (stateData:any) {
     const { gameUiData, missions, crew } = stateData;
-    let { modalOpen, modalId, modalButtonText, isSimpleGame} = gameUiData;
+    let { modalOpen, modalId, modalButtonText, isSimpleGame, isEasy} = gameUiData;
 
     if (crewMemberMad() && gameUiData.modalId !== "madnessLose") {
         modalOpen = true;
@@ -28,6 +28,14 @@ export function modalWrapper (stateData:any) {
         }
         for (const lvlThreeProp in missions.lvlThree) {
             if (!missions.lvlThree[lvlThreeProp].succeeded) count++;
+        }
+
+        if (isEasy) {
+            if (count === 3) {
+                if (missions.lvlOne["weapons"].succeeded === false &&
+                    missions.lvlTwo["scienceBay"].succeeded === false &&
+                    missions.lvlThree["bridge"].succeeded === false) return true;
+            }
         }
 
         if (count > 0) return false;

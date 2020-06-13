@@ -48,7 +48,16 @@ export namespace modalContentMethods {
                 data.gameUiData.modalOpen = true;
                 data.gameUiData.modalId = "rules";
                 data.gameUiData.modalButtonText = "Start Game";
+                data.gameUiData.isEasy = true;
+            })
+        }
 
+        function setComplexAdvanced () {
+            updateState((data:any)=>{
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "rules";
+                data.gameUiData.modalButtonText = "Start Game";
+                data.gameUiData.isEasy = false;
             })
         }
 
@@ -58,19 +67,33 @@ export namespace modalContentMethods {
                 data.gameUiData.modalOpen = true;
                 data.gameUiData.modalId = "rules";
                 data.gameUiData.modalButtonText = "Start Game";
+                data.gameUiData.isEasy = true;
+            })
+        }
 
+        function setSimpleAdvanced () {
+            updateState((data:any)=>{
+                data.gameUiData.isSimpleGame = true;
+                data.gameUiData.modalOpen = true;
+                data.gameUiData.modalId = "rules";
+                data.gameUiData.modalButtonText = "Start Game";
+                data.gameUiData.isEasy = false;
             })
         }
 
         return html`
             <h2 class="modal-h2-spacing">Choose Game Type:</h2>
-            <h3>Simplified</h3>
-            <p class="modal-paragraph">A simple version of the game. Good for beginners.</p>
+            <h3>Simplified Version</h3>
+            <p class="modal-paragraph">A simple and very easy version of the game. Great for first time players.</p>
             <button onclick=${setSimple}>Simple Version</button>
+            <p class="modal-paragraph">A more difficult version of the simple game.</p>
+            <button onclick=${setSimpleAdvanced}>Advanced Simple Version</button>
             <div class="seperator"></div>
-            <h3>Complex</h3>
-            <p class="modal-paragraph">Jump right in to the more complex version of Space Madness</p>
+            <h3>Complex Version</h3>
+            <p class="modal-paragraph">More strategy! dice rolling! Layers!</p>
             <button onClick=${setComplex}>Complex Version</button>
+            <p class="modal-paragraph">The hardest version of the game. No one has beaten it!</p>
+            <button onClick=${setComplexAdvanced}>Advanced Complex Version</button>
             `
     };
 

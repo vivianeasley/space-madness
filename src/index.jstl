@@ -4,4 +4,9 @@
 <div class="seperator"></div>
 <div class="crew-cards-wrapper"></div>
 <div class="modal-wrapper"></div>
+<div class="notes-wrapper">
+    <h2 class="re-white">Notes:</h2>
+    <div  class="re-white">Record who works well with who.</div>
+    <textarea class="notes" cols="200" withd="100%"></textarea>
+</div>
 <div class="copyright-wrapper">&#169; Robert Page Easley 2020</div>

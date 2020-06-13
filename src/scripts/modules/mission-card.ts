@@ -45,9 +45,15 @@ export function missionCard (cardData:StateDataInterface, missionId:string, leve
         return html`<div class="mission-target-num">${missionData.targetNumber}<div>`;
     }
 
-    function getSelectedBanner () {
+    function getSelectedBannerTop () {
         if (missionId === selectedMissionId) {
-            return html`<div class="card-selected">SELECTED</div>`;
+            return html`<div class="card-selected-top">SELECTED</div>`;
+        }
+    }
+
+    function getSelectedBannerBottom () {
+        if (missionId === selectedMissionId) {
+            return html`<div class="card-selected-bottom"></div>`;
         }
     }
 
@@ -69,19 +75,21 @@ export function missionCard (cardData:StateDataInterface, missionId:string, leve
         <div class="mission-wrapper ${phase === 0 ? "re-pointer" : "no-pointer" }" onclick=${select}>
             <div class=${!missionData.failed ? "mission-wrapper-inner" : "mission-wrapper-inner mission-failed"}>
                 <div class="mission-front">
-                    ${getSelectedBanner()}
+                    ${getSelectedBannerTop()}
                     <div class=${isSimpleGame ? "re-display-none" : "mission-target-rule-text"}>Mission: ${missionData.targetRuleText}</div>
                     <img class=${ isTopCard () ? "mission-bkgrd" : ""} src="./images/missions/bkgrd/${missionData.imgBkgrd}.jpg" alt="">
                     <img class=${isSimpleGame ? "re-display-none" : "layer-target-box"} src="./images/missions/layer/${missionData.imgLayerFrame}.png" alt="">
                     ${isSimpleGame ? " " : getTarget()}
                     ${getSimpleGameInfoText()}
+                    ${getSelectedBannerBottom()}
                 </div>
                 <div class="mission-back">
-                    ${getSelectedBanner()}
+                    ${getSelectedBannerTop()}
                     <div class="mission-target-rule-text">Salvage: Roll two of a kind</div>
                     <img class=${ isTopCard () ? "mission-bkgrd" : ""} src="./images/missions/bkgrd/${missionData.imgBkgrd}.jpg" alt="">
                     <img class="layer-target-box" src="./images/missions/layer/rule-roll-exactly.png" alt="">
                     <img class="mission-target-img" src="./images/missions/layer/die-roll-two-same.png" alt="">
+                    ${getSelectedBannerBottom()}
                 </div>
             </div>
         </div>

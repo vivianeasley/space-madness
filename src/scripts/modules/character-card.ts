@@ -73,9 +73,15 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
         }
     }
 
-    function getSelectedBanner () {
+    function getSelectedBannerTop () {
         if (crewOnMission[crewId]) {
-            return html`<div class="card-selected">SELECTED</div>`;
+            return html`<div class="card-selected-top">SELECTED</div>`;
+        }
+    }
+
+    function getSelectedBannerBottom () {
+        if (crewOnMission[crewId]) {
+            return html`<div class="card-selected-bottom"></div>`;
         }
     }
 
@@ -183,7 +189,7 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
         <div class="crew-wrapper ${phase > 0 ? "re-pointer" : "no-pointer" }" onclick=${select}>
             <div class=${crewData.isActive === "active" ? "crew-wrapper-inner" : "crew-wrapper-inner crew-inactive"}>
                 <div class="crew-front">
-                    ${getSelectedBanner()}
+                    ${getSelectedBannerTop()}
                     <img src="./images/crew/bkgrd/${crewData.img}.jpg" alt="Crew base image">
                     <div class="crew-madness-cover" style=${getMadnessOpacity()}></div>
                     ${isSimpleGame ? " " : setAbilityLayer()}
@@ -208,9 +214,10 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
                             }}
                         </div>
                     </div>
+                    ${getSelectedBannerBottom()}
                 </div>
                 <div class="crew-back">
-                    ${getSelectedBanner()}
+                    ${getSelectedBannerTop()}
                     <img src="./images/crew/bkgrd/${crewData.img}.jpg" alt="Crew base image without ability">
                     <div class="crew-madness-cover" style=${getMadnessOpacity()}></div>
                     <div class="crew-info">
@@ -222,6 +229,7 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
                             }
                         </ul>
                     </div>
+                    ${getSelectedBannerBottom()}
                 </div>
             </div>
         </div>

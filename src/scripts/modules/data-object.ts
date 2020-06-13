@@ -5,6 +5,7 @@ export const data = {
       "crew":undefined
    },
    "gameUiData": {
+      "isEasy": true,
       "isSimpleGame": false,
       "lost": false,
       "modalOpen": true,
