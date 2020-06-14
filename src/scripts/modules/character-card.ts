@@ -61,7 +61,12 @@ export function characterCard (stateData:StateDataInterface, crewId:string) {
                             });
                             return;
                         }
-                        updateState((data:any)=>{data.gameUiData.mojoAbility = crewId;})
+                        updateState((data:any)=>{
+                            data.gameUiData.mojoAbility = crewId;
+                            data.gameUiData.modalOpen = true;
+                            data.gameUiData.modalId = "mojoCopiedAbility";
+                            data.gameUiData.modalButtonText = "Continue";
+                        })
                     } else {
                         updateState((data:any)=>{data.gameUiData.selectedDice = [crewId];})
                     }

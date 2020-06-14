@@ -145,6 +145,7 @@ export function phasesUi (stateData:StateDataInterface) {
 
     function useAbility () { // TODO: Clean this up
 
+        console.log(mojoAbility)
         if (currentCrewAbility === "ltMojo" &&
             crewOnMission["ltMojo"] === "active" &&
             !mojoAbility) {
@@ -455,7 +456,7 @@ export function phasesUi (stateData:StateDataInterface) {
         if (phase === 3) {
             return html`
             <div class="phases-direction-text">
-                ${dropDown(stateData)} <span class="desktop-inline">apply ability to a crew's die</span>
+                ${dropDown(stateData)} <span class="desktop-inline">${directionsText}</span>
             </div>`
         } else if (phase === 0) {
             return html`

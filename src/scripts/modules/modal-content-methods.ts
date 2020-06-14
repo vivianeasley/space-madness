@@ -1,5 +1,5 @@
 import { html } from 'lighterhtml';
-import { updateState } from './state-manager'
+import { updateState, getCurrentState } from './state-manager'
 
 // These methods that return various modal content
 export namespace modalContentMethods {
@@ -162,6 +162,14 @@ export namespace modalContentMethods {
     export function chooseAnotherCrew () {
         return html`
         <h2 class="modal-h2-spacing">You must choose another crew member for Mojo's ability</h2>
+        `
+    };
+
+    export function mojoCopiedAbility (isSimpleGame:boolean, mojoAbilityId:string) {
+        const currentState = getCurrentState();
+        const crewName = currentState.crew[mojoAbilityId].name
+        return html`
+        <h2 class="modal-h2-spacing">Mojo just copied the ability of ${crewName}. You may now apply that ability to a die (or dice).</h2>
         `
     };
 
