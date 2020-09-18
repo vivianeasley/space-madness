@@ -9,13 +9,14 @@
     "eleventy:default": "npx eleventy",
     "eleventy:watch": "npx eleventy --watch",
     "styles:prod": "node-sass src/styles/ --output dist/styles/ && postcss ./dist/styles/*.css --replace",
-    "styles:dev": "node-sass src/styles/ --output dist/styles/",
-    "scripts:prod": "esbuild --bundle src/scripts/*.ts --outdir=dist/scripts --minify",
-    "scripts:dev": "esbuild --bundle src/scripts/*.ts --outdir=dist/scripts",
+    "styles:dev": "node-sass src/styles/ --output dist/styles/ --source-map true --source-map-contents true && postcss ./dist/styles/*.css --replace",
+    "scripts:prod": "esbuild --bundle src/scripts/*.*s --outdir=dist/scripts --minify",
+    "scripts:dev": "esbuild --bundle src/scripts/*.*s --outdir=dist/scripts --minify --sourcemap",
     "serve": "light-server -c .lightserverrc",
     "dev": "npm-run-all clean styles:dev scripts:dev eleventy:default --parallel eleventy:watch serve --print-label",
     "dev:debug": "DEBUG=* npm run dev",
-    "build": "run-s clean styles:prod scripts:prod eleventy:default --print-label"
+    "seo:prod": "node site-utils/init-utils.js",
+    "build": "run-s clean styles:prod scripts:prod eleventy:default seo:prod --print-label"
   },
   "repository": {
     "type": "git",
